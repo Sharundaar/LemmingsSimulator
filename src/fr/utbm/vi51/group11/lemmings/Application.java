@@ -2,6 +2,7 @@ package fr.utbm.vi51.group11.lemmings;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -14,6 +15,7 @@ import fr.utbm.vi51.group11.lemmings.controller.ErrorController;
 import fr.utbm.vi51.group11.lemmings.gui.texture.TextureBank;
 import fr.utbm.vi51.group11.lemmings.model.Simulation;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelPropertiesMap;
+import fr.utbm.vi51.group11.lemmings.utils.statics.ConfigurationUtils;
 import fr.utbm.vi51.group11.lemmings.utils.statics.FileUtils1;
 
 public class Application implements WindowListener
@@ -24,8 +26,11 @@ public class Application implements WindowListener
 
 	private Simulation			m_simulation;
 
-	public Application() throws JoranException
+	public Application() throws JoranException, IOException
 	{
+		/* Setup the installation directory */
+		ConfigurationUtils.setupConfigurationDirectory();
+
 		/* Initializes the logger and the logfile */
 		FileUtils1.initLogger();
 

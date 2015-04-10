@@ -29,7 +29,7 @@ public class WorldEntityConfiguration
 	{
 		String disp = "";
 
-		disp += "TextureID='" + m_textureID + "', WorldCoords=(" + m_worldCoords.x() + ","
+		disp += "TextureID='" + m_textureID + "' & WorldCoords=(" + m_worldCoords.x() + ","
 				+ m_worldCoords.y() + ")";
 
 		return disp;

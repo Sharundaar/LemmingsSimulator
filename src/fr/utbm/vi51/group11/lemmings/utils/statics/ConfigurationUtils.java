@@ -4,10 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ConfigurationUtils
 {
+
+	/** Logger of the class */
+	private final static Logger	s_LOGGER	= LoggerFactory.getLogger(ConfigurationUtils.class);
+
 	public static void setupConfigurationDirectory() throws IOException
 	{
 		if (Files.notExists(FileUtils1.USER_CONFIGURATION_DIR))
