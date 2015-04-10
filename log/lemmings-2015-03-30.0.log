@@ -1,0 +1,1004 @@
+2015-03-30-20:08:57.100 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:08:57.103 [main] INFO  Main - Main launched.
+2015-03-30-20:08:57.136 [main] DEBUG Simulation - Creation of the Simulation...
+2015-03-30-20:08:57.144 [main] DEBUG Environment - Creation of the environment...
+2015-03-30-20:08:57.161 [main] DEBUG Grid - Creation of the Grid with '0' rows and '0' columns...
+2015-03-30-20:08:57.162 [main] DEBUG Grid - Grid created.
+2015-03-30-20:08:57.178 [main] DEBUG PhysicsEngine - Creation of the PhysicsEngine...
+2015-03-30-20:08:57.178 [main] DEBUG PhysicsEngine - PhysicsEnngine created.
+2015-03-30-20:08:57.178 [main] DEBUG Environment - Environment created.
+2015-03-30-20:08:57.180 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:08:57.192 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:08:57.193 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:08:57.193 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:08:57.193 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:08:57.193 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:08:57.193 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:08:57.193 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:08:57.193 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:08:57.193 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:08:57.194 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:08:57.194 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:08:57.194 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:08:57.194 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:08:57.194 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:08:57.194 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:08:57.194 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:08:57.194 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:08:57.194 [main] DEBUG Simulation - Simulation instantiated.
+2015-03-30-20:08:58.858 [AWT-EventQueue-0] DEBUG MouseController - Mouse entered in window.
+2015-03-30-20:08:59.272 [AWT-EventQueue-0] DEBUG MouseController - Mouse exited window.
+2015-03-30-20:09:57.754 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:09:57.757 [main] INFO  Main - Main launched.
+2015-03-30-20:09:57.758 [main] DEBUG Simulation - Creation of the Simulation...
+2015-03-30-20:09:57.759 [main] DEBUG Environment - Creation of the environment...
+2015-03-30-20:09:57.759 [main] DEBUG Grid - Creation of the Grid with '0' rows and '0' columns...
+2015-03-30-20:09:57.759 [main] DEBUG Grid - Grid created.
+2015-03-30-20:09:57.760 [main] DEBUG PhysicsEngine - Creation of the PhysicsEngine...
+2015-03-30-20:09:57.761 [main] DEBUG PhysicsEngine - PhysicsEnngine created.
+2015-03-30-20:09:57.761 [main] DEBUG Environment - Environment created.
+2015-03-30-20:09:57.761 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:09:57.762 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:09:57.762 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:09:57.763 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:09:57.763 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:09:57.763 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:09:57.763 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:09:57.763 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:09:57.763 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:09:57.763 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:09:57.763 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:09:57.763 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:09:57.763 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:09:57.763 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:09:57.764 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:09:57.764 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:09:57.764 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:09:57.764 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:09:57.764 [main] DEBUG Simulation - Simulation instantiated.
+2015-03-30-20:10:54.219 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:10:54.221 [main] INFO  Main - Main launched.
+2015-03-30-20:10:54.222 [main] DEBUG Simulation - Creation of the Simulation...
+2015-03-30-20:10:54.223 [main] DEBUG Environment - Creation of the environment...
+2015-03-30-20:10:54.224 [main] DEBUG Grid - Creation of the Grid with '0' rows and '0' columns...
+2015-03-30-20:10:54.225 [main] DEBUG Grid - Grid created.
+2015-03-30-20:10:54.226 [main] DEBUG PhysicsEngine - Creation of the PhysicsEngine...
+2015-03-30-20:10:54.226 [main] DEBUG PhysicsEngine - PhysicsEnngine created.
+2015-03-30-20:10:54.226 [main] DEBUG Environment - Environment created.
+2015-03-30-20:10:54.226 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:10:54.227 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:10:54.228 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:10:54.228 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:10:54.228 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:10:54.228 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:10:54.228 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:10:54.228 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:10:54.228 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:10:54.228 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:10:54.228 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:10:54.228 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:10:54.228 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:10:54.229 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:10:54.229 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:10:54.229 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:10:54.229 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:10:54.229 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:10:54.229 [main] DEBUG Simulation - Simulation instantiated.
+2015-03-30-20:11:47.006 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:11:47.009 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:11:47.219 [main] DEBUG Configuration - null
+2015-03-30-20:11:47.219 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:11:47.219 [main] INFO  Main - Main launched.
+2015-03-30-20:11:47.220 [main] DEBUG Simulation - Creation of the Simulation...
+2015-03-30-20:11:47.221 [main] DEBUG Environment - Creation of the environment...
+2015-03-30-20:11:47.221 [main] DEBUG Grid - Creation of the Grid with '0' rows and '0' columns...
+2015-03-30-20:11:47.222 [main] DEBUG Grid - Grid created.
+2015-03-30-20:11:47.222 [main] DEBUG PhysicsEngine - Creation of the PhysicsEngine...
+2015-03-30-20:11:47.223 [main] DEBUG PhysicsEngine - PhysicsEnngine created.
+2015-03-30-20:11:47.223 [main] DEBUG Environment - Environment created.
+2015-03-30-20:11:47.223 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:11:47.224 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:11:47.224 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:11:47.224 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:11:47.224 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:11:47.224 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:11:47.225 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:11:47.225 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:11:47.225 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:11:47.225 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:11:47.225 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:11:47.225 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:11:47.225 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:11:47.225 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:11:47.225 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:11:47.225 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:11:47.225 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:11:47.225 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:11:47.226 [main] DEBUG Simulation - Simulation instantiated.
+2015-03-30-20:12:17.924 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:12:17.928 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:12:17.951 [main] DEBUG Configuration - null
+2015-03-30-20:12:17.952 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:12:17.952 [main] INFO  Main - Main launched.
+2015-03-30-20:12:17.953 [main] DEBUG Simulation - Creation of the Simulation...
+2015-03-30-20:12:17.953 [main] DEBUG Environment - Creation of the environment...
+2015-03-30-20:12:17.954 [main] DEBUG Grid - Creation of the Grid with '0' rows and '0' columns...
+2015-03-30-20:12:17.954 [main] DEBUG Grid - Grid created.
+2015-03-30-20:12:17.955 [main] DEBUG PhysicsEngine - Creation of the PhysicsEngine...
+2015-03-30-20:12:17.955 [main] DEBUG PhysicsEngine - PhysicsEnngine created.
+2015-03-30-20:12:17.955 [main] DEBUG Environment - Environment created.
+2015-03-30-20:12:17.956 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:12:17.957 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:12:17.957 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:12:17.957 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:12:17.957 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:12:17.957 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:12:17.957 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:12:17.957 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:12:17.957 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:12:17.957 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:12:17.957 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:12:17.957 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:12:17.957 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:12:17.958 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:12:17.958 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:12:17.958 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:12:17.958 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:12:17.958 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:12:17.958 [main] DEBUG Simulation - Simulation instantiated.
+2015-03-30-20:13:10.242 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:13:10.245 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:13:10.272 [main] DEBUG Configuration - null
+2015-03-30-20:13:10.272 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:13:10.272 [main] INFO  Main - Main launched.
+2015-03-30-20:13:10.273 [main] DEBUG Simulation - Creation of the Simulation...
+2015-03-30-20:13:10.273 [main] DEBUG Environment - Creation of the environment...
+2015-03-30-20:13:10.274 [main] DEBUG Grid - Creation of the Grid with '0' rows and '0' columns...
+2015-03-30-20:13:10.274 [main] DEBUG Grid - Grid created.
+2015-03-30-20:13:10.275 [main] DEBUG PhysicsEngine - Creation of the PhysicsEngine...
+2015-03-30-20:13:10.275 [main] DEBUG PhysicsEngine - PhysicsEnngine created.
+2015-03-30-20:13:10.275 [main] DEBUG Environment - Environment created.
+2015-03-30-20:13:10.276 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:13:10.277 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:13:10.277 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:13:10.277 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:13:10.277 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:13:10.277 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:13:10.277 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:13:10.277 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:13:10.277 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:13:10.278 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:13:10.278 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:13:10.278 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:13:10.278 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:13:10.278 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:13:10.278 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:13:10.278 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-20:13:10.278 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-20:13:10.278 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-20:13:10.278 [main] DEBUG Simulation - Simulation instantiated.
+2015-03-30-20:14:53.721 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:14:53.726 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:14:53.754 [main] DEBUG Configuration - null
+2015-03-30-20:14:53.755 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:14:59.962 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:14:59.966 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:14:59.994 [main] DEBUG Configuration - null
+2015-03-30-20:14:59.994 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:16:55.093 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:16:55.096 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:16:55.099 [main] DEBUG Configuration - /home/jnovak/utbm/vi51/project/workspace/LemmingsSimulation/.
+2015-03-30-20:16:55.123 [main] DEBUG Configuration - null
+2015-03-30-20:16:55.123 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:17:10.256 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:17:10.259 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:17:10.262 [main] DEBUG Configuration - ./.project
+2015-03-30-20:17:10.288 [main] DEBUG Configuration - null
+2015-03-30-20:17:10.288 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:18:01.736 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:18:01.740 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:18:01.742 [main] DEBUG Configuration - [./.project, ./log, ./resources, ./src, ./lib, ./.classpath, ./bin]
+2015-03-30-20:18:01.768 [main] DEBUG Configuration - null
+2015-03-30-20:18:01.769 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:18:19.995 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:18:19.999 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:18:20.002 [main] DEBUG Configuration - [./.project, ./log, ./resources, ./src, ./lib, ./.classpath, ./bin]
+2015-03-30-20:18:20.026 [main] DEBUG Configuration - null
+2015-03-30-20:18:20.026 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:19:25.418 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:19:25.444 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:20:28.198 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:20:28.201 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:20:28.227 [main] DEBUG Configuration - null
+2015-03-30-20:20:28.227 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:20:30.927 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:20:30.930 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:20:30.957 [main] DEBUG Configuration - null
+2015-03-30-20:20:30.957 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:21:10.378 [main] DEBUG Configuration - null
+2015-03-30-20:22:52.897 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:22:52.901 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:22:52.927 [main] DEBUG Configuration - 1
+2015-03-30-20:22:52.928 [main] DEBUG Configuration - null
+2015-03-30-20:22:52.928 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:23:33.660 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:23:33.664 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:23:33.689 [main] DEBUG Configuration - 1
+2015-03-30-20:23:33.690 [main] DEBUG Configuration - null
+2015-03-30-20:23:33.690 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:25:07.626 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:25:07.630 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:25:07.658 [main] DEBUG Configuration - 0
+2015-03-30-20:25:07.658 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:26:29.547 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:26:29.550 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:27:44.415 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:27:44.419 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:27:44.446 [main] DEBUG Configuration - 1
+2015-03-30-20:27:44.446 [main] DEBUG Configuration - null
+2015-03-30-20:27:44.446 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:28:21.306 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:28:21.310 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:28:21.337 [main] DEBUG Configuration - 1
+2015-03-30-20:28:21.337 [main] DEBUG Configuration - null
+2015-03-30-20:28:21.338 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:29:36.629 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:29:36.633 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:29:36.673 [main] DEBUG Configuration - <?xml version="1.0" encoding="UTF-8"?>
+<maps>
+	<map id="test">
+
+		<!-- Width of the map along the x axis -->
+		<width value="5" />
+
+		<!-- Height of the map along the y axis -->
+		<height value="5" />
+
+		<!-- List of tiles Texture for the grid -->
+		<gridTile>
+			11111
+			100001
+			100001
+			100001
+			111111
+		</gridTile>
+
+		<!-- Number of Lemming that will look for th exit -->
+		<lemmingNumber value="30" />
+
+		<!-- List of starting cells where the Lemmings will be able to spawn from -->
+		<startingCells>
+
+			<!-- Starting cell defined by an x and a y coordinate -->
+			<startingCell id="1">
+				<x value="1" />
+				<y value="2" />
+			</startingCell>
+
+			<startingCell id="2">
+				<x value="5" />
+				<y value="2" />
+			</startingCell>
+		</startingCells>
+
+		<!-- List of ending cells where the Lemmings will be able to exit the map -->
+		<exitingCells>
+
+			<!-- Starting cell defined by an x and a y coordinate -->
+			<exitingCell id="1">
+				<x value="5" />
+				<y value="3" />
+			</exitingCell>
+		</exitingCells>
+
+	</map>
+</maps> 
+2015-03-30-20:29:36.697 [main] DEBUG Configuration - 1
+2015-03-30-20:29:36.698 [main] DEBUG Configuration - null
+2015-03-30-20:29:36.698 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:30:53.564 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:30:53.568 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:30:53.573 [main] DEBUG Configuration - <?xml version="1.0" encoding="UTF-8"?>
+<maps>
+	<map id="test">
+
+		<!-- Width of the map along the x axis -->
+		<width value="5" />
+
+		<!-- Height of the map along the y axis -->
+		<height value="5" />
+
+		<!-- List of tiles Texture for the grid -->
+		<gridTile>
+			11111
+			100001
+			100001
+			100001
+			111111
+		</gridTile>
+
+		<!-- Number of Lemming that will look for th exit -->
+		<lemmingNumber value="30" />
+
+		<!-- List of starting cells where the Lemmings will be able to spawn from -->
+		<startingCells>
+
+			<!-- Starting cell defined by an x and a y coordinate -->
+			<startingCell id="1">
+				<x value="1" />
+				<y value="2" />
+			</startingCell>
+
+			<startingCell id="2">
+				<x value="5" />
+				<y value="2" />
+			</startingCell>
+		</startingCells>
+
+		<!-- List of ending cells where the Lemmings will be able to exit the map -->
+		<exitingCells>
+
+			<!-- Starting cell defined by an x and a y coordinate -->
+			<exitingCell id="1">
+				<x value="5" />
+				<y value="3" />
+			</exitingCell>
+		</exitingCells>
+
+	</map>
+</maps> 
+2015-03-30-20:30:53.597 [main] DEBUG Configuration - 1
+2015-03-30-20:30:53.598 [main] DEBUG Configuration - null
+2015-03-30-20:30:53.598 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:34:29.573 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:34:29.577 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:34:29.582 [main] DEBUG Configuration - <?xml version="1.0" encoding="UTF-8"?>
+<maps>
+	<map id="test">
+
+		<!-- Width of the map along the x axis -->
+		<width value="5" />
+
+		<!-- Height of the map along the y axis -->
+		<height value="5" />
+
+		<!-- List of tiles Texture for the grid -->
+		<gridTile>
+			11111
+			100001
+			100001
+			100001
+			111111
+		</gridTile>
+
+		<!-- Number of Lemming that will look for th exit -->
+		<lemmingNumber value="30" />
+
+		<!-- List of starting cells where the Lemmings will be able to spawn from -->
+		<startingCells>
+
+			<!-- Starting cell defined by an x and a y coordinate -->
+			<startingCell id="1">
+				<x value="1" />
+				<y value="2" />
+			</startingCell>
+
+			<startingCell id="2">
+				<x value="5" />
+				<y value="2" />
+			</startingCell>
+		</startingCells>
+
+		<!-- List of ending cells where the Lemmings will be able to exit the map -->
+		<exitingCells>
+
+			<!-- Starting cell defined by an x and a y coordinate -->
+			<exitingCell id="1">
+				<x value="5" />
+				<y value="3" />
+			</exitingCell>
+		</exitingCells>
+
+	</map>
+</maps> 
+2015-03-30-20:34:29.608 [main] DEBUG Configuration - 1
+2015-03-30-20:34:29.608 [main] DEBUG Configuration - 
+
+		
+		
+
+		
+		
+
+		
+		
+			11111
+			100001
+			100001
+			100001
+			111111
+		
+
+		
+		
+
+		
+		
+
+			
+			
+				
+				
+			
+
+			
+				
+				
+			
+		
+
+		
+		
+
+			
+			
+				
+				
+			
+		
+
+	
+2015-03-30-20:34:29.608 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:35:08.231 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:35:08.235 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:35:08.240 [main] DEBUG Configuration - <?xml version="1.0" encoding="UTF-8"?>
+<maps>
+	<map id="test">
+
+		<!-- Width of the map along the x axis -->
+		<width value="5" />
+
+		<!-- Height of the map along the y axis -->
+		<height value="5" />
+
+		<!-- List of tiles Texture for the grid -->
+		<gridTile>
+			11111
+			100001
+			100001
+			100001
+			111111
+		</gridTile>
+
+		<!-- Number of Lemming that will look for th exit -->
+		<lemmingNumber value="30" />
+
+		<!-- List of starting cells where the Lemmings will be able to spawn from -->
+		<startingCells>
+
+			<!-- Starting cell defined by an x and a y coordinate -->
+			<startingCell id="1">
+				<x value="1" />
+				<y value="2" />
+			</startingCell>
+
+			<startingCell id="2">
+				<x value="5" />
+				<y value="2" />
+			</startingCell>
+		</startingCells>
+
+		<!-- List of ending cells where the Lemmings will be able to exit the map -->
+		<exitingCells>
+
+			<!-- Starting cell defined by an x and a y coordinate -->
+			<exitingCell id="1">
+				<x value="5" />
+				<y value="3" />
+			</exitingCell>
+		</exitingCells>
+
+	</map>
+</maps> 
+2015-03-30-20:35:08.264 [main] DEBUG Configuration - 0
+2015-03-30-20:35:08.264 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:35:24.276 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:35:24.279 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:35:24.304 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:35:30.896 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:35:30.899 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:35:30.924 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:35:43.677 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:35:43.680 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:35:43.709 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:35:50.417 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:35:50.421 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:35:50.446 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:36:10.520 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:36:10.524 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:36:10.549 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:37:03.899 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:37:03.903 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:37:03.929 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:37:15.063 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:37:15.066 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:37:26.647 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:37:26.650 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:37:37.470 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:37:37.473 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:37:37.499 [main] DEBUG Configuration - height
+2015-03-30-20:37:37.499 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:37:51.544 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:37:51.548 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:37:51.574 [main] DEBUG Configuration - null
+2015-03-30-20:37:51.574 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:39:41.261 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:39:41.264 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:39:41.290 [main] DEBUG Configuration - null
+2015-03-30-20:39:41.291 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:39:56.852 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:39:56.856 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:39:56.881 [main] DEBUG Configuration - 5
+2015-03-30-20:39:56.882 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:40:13.951 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:40:13.954 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:40:13.980 [main] DEBUG Configuration - 
+
+			
+			
+				1
+				2
+			
+
+			
+				5
+				2
+			
+		
+2015-03-30-20:40:13.981 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:42:55.603 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:42:55.606 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-20:42:55.636 [main] DEBUG Configuration - 1
+				2
+			
+
+			
+				5
+				2
+2015-03-30-20:42:55.637 [main] DEBUG Configuration - Configuration created.
+2015-03-30-20:58:46.068 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-20:58:46.071 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:01:20.934 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:01:20.937 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:01:20.964 [main] DEBUG Configuration - 5
+2015-03-30-21:01:20.964 [main] DEBUG Configuration - Configuration created.
+2015-03-30-21:05:45.079 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:05:45.092 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:06:32.855 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:07:46.483 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:08:34.869 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:08:57.339 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:09:30.690 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:09:30.702 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:10:27.686 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:10:42.626 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:12:37.557 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:13:46.164 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:13:46.167 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:13:46.201 [main] DEBUG Configuration - 5
+2015-03-30-21:13:46.202 [main] DEBUG Configuration - Configuration created.
+2015-03-30-21:13:54.798 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:13:54.810 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:14:33.743 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:21:17.194 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:21:17.208 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:24:00.204 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:24:00.215 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:25:24.560 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:26:51.040 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:26:51.044 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:26:51.078 [main] DEBUG Configuration - 
+
+			
+2015-03-30-21:26:51.078 [main] DEBUG Configuration - Configuration created.
+2015-03-30-21:27:07.410 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:27:07.414 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:27:07.448 [main] DEBUG Configuration - 
+
+			
+			
+				1
+				2
+			
+
+			
+				5
+				2
+			
+		
+2015-03-30-21:27:07.448 [main] DEBUG Configuration - Configuration created.
+2015-03-30-21:27:26.602 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:27:26.606 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:27:26.639 [main] DEBUG Configuration - 
+
+			
+2015-03-30-21:27:26.639 [main] DEBUG Configuration - Configuration created.
+2015-03-30-21:27:46.750 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:27:46.754 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:27:46.787 [main] DEBUG Configuration - 
+				
+2015-03-30-21:27:46.787 [main] DEBUG Configuration - 
+				
+2015-03-30-21:27:46.787 [main] DEBUG Configuration - Configuration created.
+2015-03-30-21:28:01.039 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:28:01.043 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:28:01.077 [main] DEBUG Configuration - 
+				1
+				2
+			
+2015-03-30-21:28:01.077 [main] DEBUG Configuration - 
+				5
+				2
+			
+2015-03-30-21:28:01.077 [main] DEBUG Configuration - Configuration created.
+2015-03-30-21:29:34.189 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:29:34.193 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:29:34.237 [main] DEBUG Configuration - 1
+2015-03-30-21:29:34.237 [main] DEBUG Configuration - 5
+2015-03-30-21:29:34.238 [main] DEBUG Configuration - Configuration created.
+2015-03-30-21:29:53.680 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:29:53.684 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:29:53.722 [main] DEBUG Configuration - 1
+2015-03-30-21:29:53.722 [main] DEBUG Configuration - 5
+2015-03-30-21:29:53.722 [main] DEBUG Configuration - Configuration created.
+2015-03-30-21:30:53.824 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:30:53.827 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:30:53.861 [main] DEBUG Configuration - 
+				
+2015-03-30-21:30:53.861 [main] DEBUG Configuration - 
+				
+2015-03-30-21:30:53.861 [main] DEBUG Configuration - Configuration created.
+2015-03-30-21:31:57.613 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:31:57.616 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:31:57.651 [main] DEBUG Configuration - 
+				
+2015-03-30-21:31:57.652 [main] DEBUG Configuration - 
+				
+2015-03-30-21:31:57.652 [main] DEBUG Configuration - Configuration created.
+2015-03-30-21:32:04.223 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:32:04.227 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:32:04.263 [main] DEBUG Configuration - 1
+2015-03-30-21:32:04.263 [main] DEBUG Configuration - 5
+2015-03-30-21:32:04.263 [main] DEBUG Configuration - Configuration created.
+2015-03-30-21:32:18.681 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:32:18.686 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:32:18.723 [main] DEBUG Configuration - 
+				
+2015-03-30-21:32:18.723 [main] DEBUG Configuration - 
+				
+2015-03-30-21:32:18.723 [main] DEBUG Configuration - Configuration created.
+2015-03-30-21:32:32.879 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:32:32.882 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:32:32.917 [main] DEBUG Configuration - 
+				
+2015-03-30-21:32:32.917 [main] DEBUG Configuration - 
+				
+2015-03-30-21:32:32.917 [main] DEBUG Configuration - Configuration created.
+2015-03-30-21:32:37.169 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:32:37.172 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:32:37.207 [main] DEBUG Configuration - 1
+2015-03-30-21:32:37.207 [main] DEBUG Configuration - 5
+2015-03-30-21:32:37.207 [main] DEBUG Configuration - Configuration created.
+2015-03-30-21:32:48.770 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:32:48.774 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:32:48.808 [main] DEBUG Configuration - 2
+2015-03-30-21:32:48.808 [main] DEBUG Configuration - 2
+2015-03-30-21:32:48.808 [main] DEBUG Configuration - Configuration created.
+2015-03-30-21:34:49.821 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:34:49.825 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:35:30.108 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:35:30.112 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:35:30.151 [main] DEBUG Configuration - Configuration created.
+2015-03-30-21:35:37.721 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:35:37.734 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:35:37.782 [main] DEBUG Configuration - Configuration created.
+2015-03-30-21:35:48.266 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:35:48.281 [main] DEBUG Configuration - Creation of the Configuration...
+2015-03-30-21:35:59.535 [main] DEBUG Configuration - Configuration created.
+2015-03-30-21:56:27.812 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:56:27.815 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-21:56:41.876 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:56:41.880 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-21:56:41.904 [main] DEBUG LevelPropertiesMap - MapProperties created.
+2015-03-30-21:56:58.545 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:56:58.549 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-21:56:58.574 [main] DEBUG LevelPropertiesMap - MapProperties created.
+2015-03-30-21:57:26.869 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:57:26.886 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-21:58:28.655 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:58:28.658 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-21:58:28.683 [main] DEBUG LevelPropertiesMap - ---> null
+
+2015-03-30-21:58:56.386 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:58:56.390 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-21:58:56.419 [main] DEBUG LevelPropertiesMap - ---> com.sun.org.apache.xerces.internal.dom.AttributeMap@67ebfb58
+
+2015-03-30-21:59:11.368 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:59:11.372 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-21:59:11.396 [main] DEBUG LevelPropertiesMap - ---> 1
+
+2015-03-30-21:59:25.449 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:59:25.453 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-21:59:25.477 [main] DEBUG LevelPropertiesMap - ---> 1
+
+2015-03-30-21:59:49.115 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-21:59:49.119 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-21:59:49.144 [main] DEBUG LevelPropertiesMap - ---> levelTest
+
+2015-03-30-22:01:24.660 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-22:01:24.664 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-22:01:24.717 [main] DEBUG LevelPropertiesMap - MapProperties created.
+2015-03-30-22:02:23.526 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-22:02:23.546 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-22:14:58.413 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-22:14:58.417 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-22:14:58.458 [main] DEBUG LevelPropertiesMap - 
+************************************
+*   LevelProperties : 'levelTest'
+*   size (w*h) : 5*5
+*   tileGrid   : 11111
+*              10000
+*              11000
+*              01100
+*              00111
+*   Lemming number : 30
+*   Entry Cells : [(1;2), (5;2)]
+*   Exiting Cells : [(4;4)]
+************************************
+2015-03-30-22:14:58.459 [main] DEBUG LevelPropertiesMap - MapProperties created.
+2015-03-30-22:15:25.488 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-22:15:25.492 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-22:15:25.533 [main] DEBUG LevelPropertiesMap - 
+************************************
+*   LevelProperties : 'levelTest'
+*   size (w*h) : 5*5
+*   tileGrid   : 11111
+*                 10000
+*                 11000
+*                 01100
+*                 00111
+*   Lemming number : 30
+*   Entry Cells : [(1;2), (5;2)]
+*   Exiting Cells : [(4;4)]
+************************************
+2015-03-30-22:15:25.533 [main] DEBUG LevelPropertiesMap - MapProperties created.
+2015-03-30-22:15:31.134 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-22:15:31.140 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-22:15:31.185 [main] DEBUG LevelPropertiesMap - 
+************************************
+*   LevelProperties : 'levelTest'
+*   size (w*h) : 5*5
+*   tileGrid   : 11111
+*                10000
+*                11000
+*                01100
+*                00111
+*   Lemming number : 30
+*   Entry Cells : [(1;2), (5;2)]
+*   Exiting Cells : [(4;4)]
+************************************
+2015-03-30-22:15:31.185 [main] DEBUG LevelPropertiesMap - MapProperties created.
+2015-03-30-22:17:20.528 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-22:17:20.532 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-22:17:20.572 [main] DEBUG LevelPropertiesMap - MapProperties created.
+2015-03-30-22:20:01.913 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-22:20:01.917 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-22:20:01.958 [main] DEBUG LevelPropertiesMap - MapProperties created.
+2015-03-30-22:20:01.958 [main] INFO  Main - Main launched.
+2015-03-30-22:20:01.959 [main] DEBUG Simulation - Creation of the Simulation...
+2015-03-30-22:20:01.972 [main] DEBUG Environment - Creation of the environment...
+2015-03-30-22:20:01.978 [main] DEBUG Grid - Creation of the Grid with '0' rows and '0' columns...
+2015-03-30-22:20:01.980 [main] DEBUG Grid - Grid created.
+2015-03-30-22:20:01.989 [main] DEBUG PhysicsEngine - Creation of the PhysicsEngine...
+2015-03-30-22:20:01.989 [main] DEBUG PhysicsEngine - PhysicsEnngine created.
+2015-03-30-22:20:01.989 [main] DEBUG Environment - Environment created.
+2015-03-30-22:20:01.994 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-22:20:02.007 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-22:20:02.007 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-22:20:02.008 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-22:20:02.008 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-22:20:02.008 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-22:20:02.008 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-22:20:02.008 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-22:20:02.008 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-22:20:02.008 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-22:20:02.008 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-22:20:02.008 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-22:20:02.009 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-22:20:02.009 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-22:20:02.009 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-22:20:02.009 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-22:20:02.009 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-22:20:02.009 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-22:20:02.009 [main] DEBUG Simulation - Simulation instantiated.
+2015-03-30-22:20:03.645 [AWT-EventQueue-0] DEBUG MouseController - Mouse entered in window.
+2015-03-30-22:20:04.615 [AWT-EventQueue-0] DEBUG MouseController - Mouse exited window.
+2015-03-30-22:57:59.368 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-22:57:59.397 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-22:57:59.532 [main] INFO  Main - Main launched.
+2015-03-30-22:57:59.550 [main] DEBUG Simulation - Creation of the Simulation...
+2015-03-30-22:57:59.551 [main] DEBUG Environment - Creation of the environment...
+2015-03-30-22:57:59.552 [main] DEBUG Grid - Creation of the Grid with '0' rows and '0' columns...
+2015-03-30-22:57:59.552 [main] DEBUG Grid - Grid created.
+2015-03-30-22:57:59.561 [main] DEBUG PhysicsEngine - Creation of the PhysicsEngine...
+2015-03-30-22:57:59.562 [main] DEBUG PhysicsEngine - PhysicsEnngine created.
+2015-03-30-22:57:59.562 [main] DEBUG Environment - Environment created.
+2015-03-30-22:57:59.569 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-22:57:59.582 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-22:57:59.582 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-22:57:59.582 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-22:57:59.582 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-22:57:59.582 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-22:57:59.582 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-22:57:59.583 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-22:57:59.583 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-22:57:59.583 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-22:57:59.583 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-22:57:59.583 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-22:57:59.583 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-22:57:59.583 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-22:57:59.583 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-22:57:59.583 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-22:57:59.583 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-22:57:59.583 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-22:57:59.583 [main] DEBUG Simulation - Simulation instantiated.
+2015-03-30-22:58:12.540 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-22:58:12.545 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-22:58:39.206 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-22:58:39.211 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-22:58:39.409 [main] DEBUG LevelPropertiesMap - MapProperties created.
+2015-03-30-23:01:41.555 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-23:01:41.563 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-23:01:41.602 [main] DEBUG LevelPropertiesMap - 
+************************************
+*   LevelProperties ID : 'levelTest'
+*   Size (w*h) : 5*5
+*   TileGrid   : 11111
+*                10000
+*                11000
+*                01100
+*                00111
+*   Lemming number : 30
+*   WorldEntities : exitPoint - [(5;2)]
+*                   startPoint - [(1;2), (4;4)]
+************************************
+2015-03-30-23:01:41.603 [main] DEBUG LevelPropertiesMap - MapProperties created.
+2015-03-30-23:01:41.603 [main] INFO  Main - Main launched.
+2015-03-30-23:01:41.604 [main] DEBUG Simulation - Creation of the Simulation...
+2015-03-30-23:01:41.604 [main] DEBUG Environment - Creation of the environment...
+2015-03-30-23:01:41.605 [main] DEBUG Grid - Creation of the Grid with '0' rows and '0' columns...
+2015-03-30-23:01:41.605 [main] DEBUG Grid - Grid created.
+2015-03-30-23:01:41.606 [main] DEBUG PhysicsEngine - Creation of the PhysicsEngine...
+2015-03-30-23:01:41.606 [main] DEBUG PhysicsEngine - PhysicsEnngine created.
+2015-03-30-23:01:41.606 [main] DEBUG Environment - Environment created.
+2015-03-30-23:01:41.607 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-23:01:41.608 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-23:01:41.608 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-23:01:41.608 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-23:01:41.608 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-23:01:41.608 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-23:01:41.608 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-23:01:41.609 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-23:01:41.609 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-23:01:41.609 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-23:01:41.609 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-23:01:41.609 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-23:01:41.609 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-23:01:41.609 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-23:01:41.609 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-23:01:41.609 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-30-23:01:41.609 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-23:01:41.610 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-23:01:41.610 [main] DEBUG Simulation - Simulation instantiated.
+2015-03-30-23:01:42.384 [AWT-EventQueue-0] DEBUG MouseController - Mouse entered in window.
+2015-03-30-23:01:42.605 [AWT-EventQueue-0] DEBUG MouseController - Mouse exited window.
+2015-03-30-23:17:21.891 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-23:17:21.896 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-23:17:21.936 [main] DEBUG LevelPropertiesMap - 
+************************************
+*   LevelProperties ID : 'levelTest'
+*   Size (w*h) : 5*5
+*   TileGrid   : 11111
+*                10000
+*                11000
+*                01100
+*                00111
+*   Lemming number : 30
+*   WorldEntities : starting_point - [(1;2), (4;4)]
+*                   exiting_point - [(5;2)]
+************************************
+2015-03-30-23:17:21.936 [main] DEBUG LevelPropertiesMap - MapProperties created.
+2015-03-30-23:17:21.936 [main] INFO  Main - Main launched.
+2015-03-30-23:17:21.937 [main] DEBUG Simulation - Creation of the Simulation...
+2015-03-30-23:17:21.937 [main] DEBUG Environment - Creation of the environment...
+2015-03-30-23:17:21.938 [main] DEBUG Grid - Creation of the Grid with '0' rows and '0' columns...
+2015-03-30-23:17:21.938 [main] DEBUG Grid - Grid created.
+2015-03-30-23:17:21.939 [main] DEBUG PhysicsEngine - Creation of the PhysicsEngine...
+2015-03-30-23:17:21.940 [main] DEBUG PhysicsEngine - PhysicsEnngine created.
+2015-03-30-23:17:21.940 [main] DEBUG Environment - Environment created.
+2015-03-30-23:17:21.940 [main] DEBUG EntityFactory - Creating WorldEntity : 'LEMMING_BODY'.
+2015-03-30-23:17:21.941 [main] INFO  Main - Main terminated
+2015-03-30-23:17:41.425 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-23:17:41.429 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-23:17:41.473 [main] DEBUG LevelPropertiesMap - 
+************************************
+*   LevelProperties ID : 'levelTest'
+*   Size (w*h) : 5*5
+*   TileGrid   : 11111
+*                10000
+*                11000
+*                01100
+*                00111
+*   Lemming number : 30
+*   WorldEntities : starting_point - [(1;2), (4;4)]
+*                   exiting_point - [(5;2)]
+************************************
+2015-03-30-23:17:41.473 [main] DEBUG LevelPropertiesMap - MapProperties created.
+2015-03-30-23:17:41.473 [main] INFO  Main - Main launched.
+2015-03-30-23:17:41.474 [main] DEBUG Simulation - Creation of the Simulation...
+2015-03-30-23:17:41.475 [main] DEBUG Environment - Creation of the environment...
+2015-03-30-23:17:41.475 [main] DEBUG Grid - Creation of the Grid with '0' rows and '0' columns...
+2015-03-30-23:17:41.476 [main] DEBUG Grid - Grid created.
+2015-03-30-23:17:41.477 [main] DEBUG PhysicsEngine - Creation of the PhysicsEngine...
+2015-03-30-23:17:41.477 [main] DEBUG PhysicsEngine - PhysicsEnngine created.
+2015-03-30-23:17:41.477 [main] DEBUG Environment - Environment created.
+2015-03-30-23:17:41.478 [main] DEBUG EntityFactory - Creating WorldEntity : 'LEMMING_BODY'.
+2015-03-30-23:17:41.478 [main] DEBUG EntityFactory - LEMMING_BODY
+2015-03-30-23:17:41.479 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-23:17:41.479 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-23:17:41.479 [main] DEBUG EntityFactory - Creating WorldEntity : 'LEMMING_BODY'.
+2015-03-30-23:17:41.479 [main] DEBUG EntityFactory - LEMMING_BODY
+2015-03-30-23:17:41.479 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-23:17:41.479 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-23:17:41.479 [main] DEBUG EntityFactory - Creating WorldEntity : 'LEMMING_BODY'.
+2015-03-30-23:17:41.480 [main] DEBUG EntityFactory - LEMMING_BODY
+2015-03-30-23:17:41.480 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-23:17:41.480 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-23:17:41.480 [main] DEBUG EntityFactory - Creating WorldEntity : 'LEMMING_BODY'.
+2015-03-30-23:17:41.480 [main] DEBUG EntityFactory - LEMMING_BODY
+2015-03-30-23:17:41.480 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-23:17:41.480 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-23:17:41.481 [main] DEBUG EntityFactory - Creating WorldEntity : 'LEMMING_BODY'.
+2015-03-30-23:17:41.481 [main] DEBUG EntityFactory - LEMMING_BODY
+2015-03-30-23:17:41.481 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-23:17:41.481 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-23:17:41.481 [main] DEBUG EntityFactory - Creating WorldEntity : 'LEMMING_BODY'.
+2015-03-30-23:17:41.481 [main] DEBUG EntityFactory - LEMMING_BODY
+2015-03-30-23:17:41.481 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-30-23:17:41.482 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-30-23:17:41.482 [main] DEBUG Simulation - Simulation instantiated.
+2015-03-30-23:44:47.770 [main] DEBUG FileUtils - Log file initialized.
+2015-03-30-23:44:47.774 [main] INFO  Main - Main launched.
+2015-03-30-23:44:47.775 [main] DEBUG Simulation - Creation of the Simulation...
+2015-03-30-23:44:47.777 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-03-30-23:44:47.871 [main] DEBUG LevelPropertiesMap - 
+************************************
+*   LevelProperties ID : 'levelTest'
+*   Size (w*h) : 5*5
+*   TileGrid   : 11111
+*                10000
+*                11000
+*                01100
+*                00111
+*   Lemming number : 30
+*   WorldEntities : STARTING_POINT - [(1;2), (5;2)]
+*                   EXITING_POINT - [(4;4)]
+************************************
+2015-03-30-23:44:47.871 [main] DEBUG LevelPropertiesMap - MapProperties created.
+2015-03-30-23:44:47.872 [main] DEBUG Environment - Creation of the environment...
+2015-03-30-23:44:47.872 [main] DEBUG Grid - Creation of the Grid with '5' rows and '5' columns...
+2015-03-30-23:44:47.888 [main] DEBUG Grid - Grid created.
+2015-03-30-23:44:47.889 [main] DEBUG PhysicsEngine - Creation of the PhysicsEngine...
+2015-03-30-23:44:47.902 [main] DEBUG PhysicsEngine - PhysicsEnngine created.
+2015-03-30-23:44:47.902 [main] DEBUG Environment - Environment created.
+2015-03-30-23:44:47.902 [main] DEBUG Simulation - Simulation created.

@@ -1,0 +1,37 @@
+2015-03-26-15:27:54.494 [main] DEBUG FileUtils - Log file initialized.
+2015-03-26-15:27:54.507 [main] INFO  Main - Main launched.
+2015-03-26-15:27:54.520 [main] DEBUG Simulation - Creation of the Simulation...
+2015-03-26-15:27:54.522 [main] DEBUG Environment - Creation of the environment...
+2015-03-26-15:27:54.534 [main] DEBUG Grid - Creation of the Grid with '0' rows and '0' columns...
+2015-03-26-15:27:54.535 [main] DEBUG Grid - Grid created.
+2015-03-26-15:27:54.535 [main] DEBUG PhysicsEngine - Creation of the PhysicsEngine...
+2015-03-26-15:27:54.535 [main] DEBUG PhysicsEngine - PhysicsEnngine created.
+2015-03-26-15:27:54.536 [main] DEBUG Environment - Environment created.
+2015-03-26-15:27:54.536 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-26-15:27:54.550 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-26-15:27:54.551 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-26-15:27:54.551 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-26-15:27:54.551 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-26-15:27:54.551 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-26-15:27:54.551 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-26-15:27:54.551 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-26-15:27:54.551 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-26-15:27:54.552 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-26-15:27:54.552 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-26-15:27:54.552 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-26-15:27:54.552 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-26-15:27:54.552 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-26-15:27:54.552 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-26-15:27:54.552 [main] DEBUG EntityFactory - Creating WorldEntity : 'LemmingBody'.
+2015-03-26-15:27:54.552 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-03-26-15:27:54.552 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-03-26-15:27:54.552 [main] DEBUG Simulation - Simulation instantiated.
+2015-03-26-15:27:56.423 [AWT-EventQueue-0] DEBUG MouseController - Mouse entered in window.
+2015-03-26-15:27:56.732 [AWT-EventQueue-0] DEBUG MouseController - Mouse button '1' pressed.
+2015-03-26-15:27:56.745 [AWT-EventQueue-0] DEBUG MouseController - Mouse button '1' released.
+2015-03-26-15:27:56.745 [AWT-EventQueue-0] DEBUG MouseController - Mouse clicked with '1'
+2015-03-26-15:27:57.498 [AWT-EventQueue-0] DEBUG SpaceKeyListener - Key typed : 'space' !
+2015-03-26-15:27:58.422 [AWT-EventQueue-0] DEBUG SpaceKeyListener - Key typed : 'space' !
+2015-03-26-15:27:59.440 [AWT-EventQueue-0] DEBUG SpaceKeyListener - Key typed : 'space' !
+2015-03-26-15:28:00.584 [AWT-EventQueue-0] DEBUG SpaceKeyListener - Key typed : 'space' !
+2015-03-26-15:28:01.200 [AWT-EventQueue-0] DEBUG MouseController - Mouse exited window.
