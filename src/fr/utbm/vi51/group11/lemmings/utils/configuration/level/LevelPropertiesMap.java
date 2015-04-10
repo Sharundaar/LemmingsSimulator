@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.naming.ConfigurationException;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -24,6 +25,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import fr.utbm.vi51.group11.lemmings.controller.ErrorController;
 import fr.utbm.vi51.group11.lemmings.gui.texture.TextureBank;
 
 public class LevelPropertiesMap extends HashMap<String, LevelProperties>
@@ -54,6 +56,8 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 		int[][] tileGrid;
 		Set<String> textureIDs = new HashSet<String>();
 		MultivaluedMap<String, WorldEntityConfiguration> worldEntitiesConfiguration = new MultivaluedMapImpl<String, WorldEntityConfiguration>();
+		Point2f entityCoord = null;
+		String stringTemp = "";
 
 		try
 		{
@@ -111,18 +115,29 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 						document, XPathConstants.NODESET);
 				for (int i = 0; i < nodeList.getLength(); ++i)
 				{
-					worldEntitiesConfiguration.add(
-							nodeList.item(i).getAttributes().item(0).getTextContent(),
-							new WorldEntityConfiguration(
+					/* Retrieves the entity's world coordinates */
+					entityCoord = new Point2f(Float.parseFloat(nodeList.item(i).getChildNodes()
+							.item(1).getTextContent()), Float.parseFloat(nodeList.item(i)
+							.getChildNodes().item(3).getTextContent()));
+					if ((entityCoord.x() > nbCol) || (entityCoord.x() < 0)
+							|| (entityCoord.y() > nbRow) || (entityCoord.y() < 0))
+					{
+						ErrorController.addPendingException(new ConfigurationException(String
+								.format("Wrong coordinate for entity : (%.2f,%.2f).",
+										entityCoord.x(), entityCoord)));
 
-							/* Récupération des coordonnées */
-							new Point2f(Float.parseFloat(nodeList.item(i).getChildNodes().item(1)
-									.getTextContent()), Float.parseFloat(nodeList.item(i)
-									.getChildNodes().item(3).getTextContent())),
+					}
 
-							/* Récupèration de la texture ID */
-							nodeList.item(i).getChildNodes().item(5).getTextContent()));
+					/* Adds a new WorldEntity to the map */
+					worldEntitiesConfiguration.add(nodeList.item(i).getAttributes().item(0)
+							.getTextContent(), new WorldEntityConfiguration(entityCoord,
+					/* Retrieves the textureID */
+					nodeList.item(i).getChildNodes().item(5).getTextContent()));
 
+					/*
+					 * Adds the textureID to the list given afterwards to the
+					 * textureBank
+					 */
 					textureIDs.add(nodeList.item(i).getChildNodes().item(5).getTextContent());
 				}
 
@@ -133,25 +148,13 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 
 			s_LOGGER.debug("MapProperties created.\n{}", this.toString());
 
+			/* Loads texture with the given ids */
 			TextureBank.getInstance().loadTextures(textureIDs);
 
-		} catch (ParserConfigurationException e)
+		} catch (ParserConfigurationException | SAXException | IOException
+				| XPathExpressionException exception)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
-		} catch (SAXException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (XPathExpressionException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ErrorController.addPendingException(exception);
 		}
 	}
 

@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.core.joran.spi.JoranException;
+import fr.utbm.vi51.group11.lemmings.controller.ErrorController;
 import fr.utbm.vi51.group11.lemmings.model.Simulation;
 import fr.utbm.vi51.group11.lemmings.utils.statics.FileUtils;
 
@@ -28,12 +29,15 @@ public class Application implements WindowListener
 
 	}
 
-	public void go()
+	public void go() throws Exception
 	{
 		s_LOGGER.info("Application launched.");
 
 		/* Creates the simulation */
 		m_simulation = new Simulation("levelTest");
+
+		/* Throws exceptions if some occured when initializing configuration */
+		ErrorController.throwPendingException();
 
 		/* Adds a window listener to the application */
 		((JFrame) SwingUtilities.getWindowAncestor(m_simulation.getEnvironment()
