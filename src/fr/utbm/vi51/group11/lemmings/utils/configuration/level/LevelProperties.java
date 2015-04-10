@@ -1,4 +1,4 @@
-package fr.utbm.vi51.group11.lemmings.utils.configuration;
+package fr.utbm.vi51.group11.lemmings.utils.configuration.level;
 
 import java.util.Iterator;
 

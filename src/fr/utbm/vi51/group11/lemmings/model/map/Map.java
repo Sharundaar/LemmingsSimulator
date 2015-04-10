@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
-import fr.utbm.vi51.group11.lemmings.utils.configuration.LevelProperties;
+import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelProperties;
 import fr.utbm.vi51.group11.lemmings.utils.enums.CellType;
 
 public class Map extends WorldEntity

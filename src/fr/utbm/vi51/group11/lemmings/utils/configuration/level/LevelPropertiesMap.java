@@ -1,4 +1,4 @@
-package fr.utbm.vi51.group11.lemmings.utils.configuration;
+package fr.utbm.vi51.group11.lemmings.utils.configuration.level;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -69,6 +69,9 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 			levelList = (NodeList) xpath.compile("levels/level").evaluate(document,
 					XPathConstants.NODESET);
 
+			if (levelList.getLength() == 0)
+				s_LOGGER.error("List of level is empty. Please check the resource file 'level.xml' for any errors concerning <levels>/<level> tags.");
+
 			for (int index = 0; index < levelList.getLength(); ++index)
 			{
 				id = levelList.item(index).getAttributes().item(0).getTextContent();
@@ -128,9 +131,7 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 						worldEntitiesConfiguration));
 			}
 
-			s_LOGGER.debug("{}", this);
-
-			s_LOGGER.debug("MapProperties created.");
+			s_LOGGER.debug("MapProperties created.\n{}", this.toString());
 
 			TextureBank.getInstance().loadTextures(textureIDs);
 
@@ -172,6 +173,8 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 		String disp = "";
 		for (String s : this.keySet())
 			disp += this.get(s);
+
+		disp += "\n";
 
 		return disp;
 	}

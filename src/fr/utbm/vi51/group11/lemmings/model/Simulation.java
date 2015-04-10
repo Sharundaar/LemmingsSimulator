@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.utbm.vi51.group11.lemmings.model.agent.Agent;
-import fr.utbm.vi51.group11.lemmings.utils.configuration.LevelProperties;
-import fr.utbm.vi51.group11.lemmings.utils.configuration.LevelPropertiesMap;
+import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelProperties;
+import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelPropertiesMap;
 
 /**
  * Class designed to be the simulation of the project. Contains the list of

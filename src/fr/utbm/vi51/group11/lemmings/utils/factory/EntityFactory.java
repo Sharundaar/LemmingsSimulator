@@ -7,7 +7,7 @@ import fr.utbm.vi51.group11.lemmings.model.Environment;
 import fr.utbm.vi51.group11.lemmings.model.entity.immobile.LevelEnd;
 import fr.utbm.vi51.group11.lemmings.model.entity.immobile.LevelStart;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
-import fr.utbm.vi51.group11.lemmings.utils.configuration.WorldEntityConfiguration;
+import fr.utbm.vi51.group11.lemmings.utils.configuration.level.WorldEntityConfiguration;
 
 /**
  * 

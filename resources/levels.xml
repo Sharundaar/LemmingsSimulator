@@ -17,53 +17,53 @@
 			1	1	1	1	1	1
 		</tileGrid>
 
-		<!-- Number of Lemming that will look for th exit -->
+		<!-- Number of Lemming that will look for the exit -->
 		<lemmingNumber>30</lemmingNumber>
 
 		<!-- List of WorldEntities -->
 		<worldEntities>
 		
 			<!-- WorldEntity defined by an id, an x and a y coordinate -->
-<!-- 			<worldEntity id="LEVEL_START"> -->
-<!-- 				<x>1</x> -->
-<!-- 				<y>2</y> -->
-<!-- 				<textureID>entitySpriteSheet</textureID> -->
-<!-- 			</worldEntity> -->
-<!-- 			<worldEntity id="LEVEL_END"> -->
-<!-- 				<x>4</x> -->
-<!-- 				<y>4</y> -->
-<!-- 				<textureID>entitySpriteSheet</textureID> -->
-<!-- 			</worldEntity> -->
-<!-- 			<worldEntity id="LEVEL_START"> -->
-<!-- 				<x>5</x> -->
-<!-- 				<y>2</y> -->
-<!-- 				<textureID>entitySpriteSheet</textureID> -->
-<!-- 			</worldEntity> -->
-<!-- 			<worldEntity id="LEMMING_BODY"> -->
-<!-- 				<x>5</x> -->
-<!-- 				<y>2</y> -->
-<!-- 				<textureID>entitySpriteSheet</textureID> -->
-<!-- 			</worldEntity> -->
-<!-- 			<worldEntity id="LEMMING_BODY"> -->
-<!-- 				<x>5</x> -->
-<!-- 				<y>2</y> -->
-<!-- 				<textureID>entitySpriteSheet</textureID> -->
-<!-- 			</worldEntity> -->
-<!-- 			<worldEntity id="LEMMING_BODY"> -->
-<!-- 				<x>5</x> -->
-<!-- 				<y>2</y> -->
-<!-- 				<textureID>entitySpriteSheet</textureID> -->
-<!-- 			</worldEntity> -->
-<!-- 			<worldEntity id="LEMMING_BODY"> -->
-<!-- 				<x>5</x> -->
-<!-- 				<y>2</y> -->
-<!-- 				<textureID>entitySpriteSheet</textureID> -->
-<!-- 			</worldEntity> -->
-<!-- 			<worldEntity id="LEMMING_BODY"> -->
-<!-- 				<x>1</x> -->
-<!-- 				<y>2</y> -->
-<!-- 				<textureID>entitySpriteSheet</textureID> -->
-<!-- 			</worldEntity> -->
+			<worldEntity id="LEVEL_START">
+				<x>1</x>
+				<y>2</y>
+				<textureID>entitySpriteSheet</textureID>
+			</worldEntity>
+			<worldEntity id="LEVEL_END">
+				<x>4</x>
+				<y>4</y>
+				<textureID>entitySpriteSheet</textureID>
+			</worldEntity>
+			<worldEntity id="LEVEL_START">
+				<x>5</x>
+				<y>2</y>
+				<textureID>entitySpriteSheet</textureID>
+			</worldEntity>
+			<worldEntity id="LEMMING_BODY">
+				<x>5</x>
+				<y>2</y>
+				<textureID>entitySpriteSheet</textureID>
+			</worldEntity>
+			<worldEntity id="LEMMING_BODY">
+				<x>5</x>
+				<y>2</y>
+				<textureID>entitySpriteSheet</textureID>
+			</worldEntity>
+			<worldEntity id="LEMMING_BODY">
+				<x>5</x>
+				<y>2</y>
+				<textureID>entitySpriteSheet</textureID>
+			</worldEntity>
+			<worldEntity id="LEMMING_BODY">
+				<x>5</x>
+				<y>2</y>
+				<textureID>entitySpriteSheet</textureID>
+			</worldEntity>
+			<worldEntity id="LEMMING_BODY">
+				<x>1</x>
+				<y>2</y>
+				<textureID>entitySpriteSheet</textureID>
+			</worldEntity>
 			<worldEntity id="LEMMING_BODY">
 				<x>1</x>
 				<y>2</y>

@@ -1,4 +1,4 @@
-package fr.utbm.vi51.group11.lemmings.utils.configuration;
+package fr.utbm.vi51.group11.lemmings.utils.configuration.level;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
 
