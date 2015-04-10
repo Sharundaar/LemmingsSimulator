@@ -23,7 +23,7 @@ public class LemmingBody extends Body implements ICollidable
 
 	/*----------------------------------------------*/
 
-	public LemmingBody(final String _textureID, final Point2f _coordinates,
+	public LemmingBody(final String _textureID, final Point2f _worldCoords,
 			final Environment _environment)
 	{
 		s_LOGGER.debug("Creation of the Lemming Body...");
@@ -31,13 +31,13 @@ public class LemmingBody extends Body implements ICollidable
 		m_type = WorldEntityEnum.LEMMING_BODY;
 
 		m_alive = false;
-		m_coordinates = _coordinates;
+		m_worldCoords = _worldCoords;
 
 		// TODO lemming frustrum
 		m_maxSpeed = LemmingUtils.s_lemmingMaxVelocity;
 		m_environment = _environment;
 		// TODO world entity shapes
-		m_sprite = new Sprite(0, 0, 20, 20, _textureID);
+		m_sprite = new Sprite(m_worldCoords.x(), m_worldCoords.y(), 0, 0, 20, 20, _textureID);
 		s_LOGGER.debug("Lemming Body created.");
 	}
 

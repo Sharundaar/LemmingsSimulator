@@ -16,10 +16,10 @@ public class LevelStart extends WorldEntity implements ICollidable, IPerceivable
 	@SuppressWarnings("unused")
 	private final static Logger	s_LOGGER	= LoggerFactory.getLogger(LevelStart.class);
 
-	public LevelStart(final String _textureID, final Point2f _levelCoords)
+	public LevelStart(final String _textureID, final Point2f _worldCoords)
 	{
-		m_coordinates = _levelCoords;
+		m_worldCoords = _worldCoords;
 		m_type = WorldEntityEnum.LEVEL_START;
-		m_sprite = new Sprite(0, 0, 5, 5, _textureID); // TODO
+		m_sprite = new Sprite(_worldCoords.x(), _worldCoords.y(), 0, 0, 5, 5, _textureID); // TODO
 	}
 }

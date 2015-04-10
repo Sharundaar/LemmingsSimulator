@@ -181,4 +181,11 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 
 		return disp;
 	}
+
+	/*----------------------------------------------*/
+
+	public void destroy()
+	{
+		s_levelPropertiesMap.clear();
+	}
 }

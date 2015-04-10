@@ -11,7 +11,9 @@ import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.core.joran.spi.JoranException;
 import fr.utbm.vi51.group11.lemmings.controller.ErrorController;
+import fr.utbm.vi51.group11.lemmings.gui.texture.TextureBank;
 import fr.utbm.vi51.group11.lemmings.model.Simulation;
+import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelPropertiesMap;
 import fr.utbm.vi51.group11.lemmings.utils.statics.FileUtils;
 
 public class Application implements WindowListener
@@ -60,6 +62,14 @@ public class Application implements WindowListener
 		}
 	}
 
+	private void destroyApplication()
+	{
+		m_simulation.destroy();
+		TextureBank.getInstance().destroy();
+		LevelPropertiesMap.getInstance()
+		s_LOGGER.info("Application terminated");
+	}
+
 	@Override
 	public void windowOpened(
 			final WindowEvent e)
@@ -70,8 +80,7 @@ public class Application implements WindowListener
 	public void windowClosing(
 			final WindowEvent e)
 	{
-		m_simulation.destroy();
-		s_LOGGER.info("Application terminated");
+		destroyApplication();
 	}
 
 	@Override

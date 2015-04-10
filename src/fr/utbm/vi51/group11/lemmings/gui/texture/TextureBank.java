@@ -36,13 +36,18 @@ public class TextureBank
 	public void loadTextures(
 			final Set<String> _textureIDs) throws IOException
 	{
+		/* Loads textures from texture files */
 		for (String key : _textureIDs)
 			loadTexture(key,
 					FileUtils.TEXTURES_DIR.resolve(key + FileUtils.SPRITESHEET_FILE_EXTENSION));
 
+		/* Sends texture to sprite */
 		for (String key : m_handlers.keySet())
 			for (ITextureHandler hdl : m_handlers.get(key))
 				hdl.receiveTexture(m_textures.get(key));
+
+		/* Clears the handlers */
+		m_handlers.clear();
 	}
 
 	private void loadTexture(
@@ -72,5 +77,11 @@ public class TextureBank
 			m_handlers.put(_id, new HashSet<ITextureHandler>());
 			m_handlers.get(_id).add(_handler);
 		}
+	}
+
+	public void destroy()
+	{
+		m_handlers.clear();
+		m_textures.clear();
 	}
 }

@@ -14,11 +14,12 @@ public class Sprite implements ITextureHandler
 
 	private Point2f				m_worldCoords;
 
-	public Sprite(final int _x, final int _y, final int _width, final int _height, final String _id)
+	public Sprite(final float _worldX, final float _worldY, final int _textureX,
+			final int _textureY, final int _width, final int _height, final String _textureID)
 	{
-		m_spriteRect = new Rectangle2i(_x, _y, _width, _height);
-		m_worldCoords = new Point2f(1, 1); // TODO
-		TextureBank.getInstance().getTexture(_id, this);
+		m_spriteRect = new Rectangle2i(_textureX, _textureY, _width, _height);
+		m_worldCoords = new Point2f(_worldX, _worldY); // TODO
+		TextureBank.getInstance().getTexture(_textureID, this);
 	}
 
 	public Rectangle2i getSpriteRect()

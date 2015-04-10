@@ -19,7 +19,7 @@ public abstract class WorldEntity implements IPerceivable
 	protected WorldEntityEnum	m_type;
 
 	/** Position of the WorldEntity on the grid */
-	protected Point2f			m_coordinates;
+	protected Point2f			m_worldCoords;
 
 	/** Shape of the entity. Used for collisions */
 	protected CollisionMask		m_collisionMask;
@@ -44,7 +44,7 @@ public abstract class WorldEntity implements IPerceivable
 	 */
 	public Point2f getCoordinates()
 	{
-		return m_coordinates;
+		return m_worldCoords;
 	}
 
 	/*----------------------------------------------*/
@@ -79,10 +79,10 @@ public abstract class WorldEntity implements IPerceivable
 	 * @param _position
 	 *            New Position of the WorldEntity.
 	 */
-	public void setCoordinates(
+	public void setWorldCoords(
 			final Point2f _position)
 	{
-		this.m_coordinates.set(_position);
+		this.m_worldCoords.set(_position);
 	}
 
 	/*----------------------------------------------*/
@@ -96,12 +96,12 @@ public abstract class WorldEntity implements IPerceivable
 	 *            New y coordinate of the WorldEntity.
 	 * 
 	 */
-	public void setCoordinates(
+	public void setWorldCoords(
 			final float _x,
 			final float _y)
 	{
-		this.m_coordinates.setX(_x);
-		this.m_coordinates.setY(_y);
+		this.m_worldCoords.setX(_x);
+		this.m_worldCoords.setY(_y);
 	}
 
 	public Sprite getSprite()

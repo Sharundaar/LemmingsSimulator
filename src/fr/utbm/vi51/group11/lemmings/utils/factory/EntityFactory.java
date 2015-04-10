@@ -51,10 +51,10 @@ public class EntityFactory
 			final Environment _environment)
 	{
 		s_LOGGER.debug("Creating LemmingBody in ({},{}).", _worldEntityConfiguration
-				.getLevelCoords().x(), _worldEntityConfiguration.getLevelCoords().y());
+				.getWorldCoords().x(), _worldEntityConfiguration.getWorldCoords().y());
 
 		return new LemmingBody(_worldEntityConfiguration.getTextureID(),
-				_worldEntityConfiguration.getLevelCoords(), _environment);
+				_worldEntityConfiguration.getWorldCoords(), _environment);
 	}
 
 	/*----------------------------------------------*/
@@ -63,10 +63,10 @@ public class EntityFactory
 			final WorldEntityConfiguration _worldEntityConfiguration)
 	{
 		s_LOGGER.debug("Creating LevelStart in ({},{}).", _worldEntityConfiguration
-				.getLevelCoords().x(), _worldEntityConfiguration.getLevelCoords().y());
+				.getWorldCoords().x(), _worldEntityConfiguration.getWorldCoords().y());
 
 		return new LevelStart(_worldEntityConfiguration.getTextureID(),
-				_worldEntityConfiguration.getLevelCoords());
+				_worldEntityConfiguration.getWorldCoords());
 	}
 
 	/*----------------------------------------------*/
@@ -74,10 +74,10 @@ public class EntityFactory
 	public LevelEnd createLevelEnd(
 			final WorldEntityConfiguration _worldEntityConfiguration)
 	{
-		s_LOGGER.debug("Creating LevelEnd in ({},{}).", _worldEntityConfiguration.getLevelCoords()
-				.x(), _worldEntityConfiguration.getLevelCoords().y());
+		s_LOGGER.debug("Creating LevelEnd in ({},{}).", _worldEntityConfiguration.getWorldCoords()
+				.x(), _worldEntityConfiguration.getWorldCoords().y());
 
 		return new LevelEnd(_worldEntityConfiguration.getTextureID(),
-				_worldEntityConfiguration.getLevelCoords());
+				_worldEntityConfiguration.getWorldCoords());
 	}
 }
