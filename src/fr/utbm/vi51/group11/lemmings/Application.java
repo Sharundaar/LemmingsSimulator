@@ -14,7 +14,7 @@ import fr.utbm.vi51.group11.lemmings.controller.ErrorController;
 import fr.utbm.vi51.group11.lemmings.gui.texture.TextureBank;
 import fr.utbm.vi51.group11.lemmings.model.Simulation;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelPropertiesMap;
-import fr.utbm.vi51.group11.lemmings.utils.statics.FileUtils;
+import fr.utbm.vi51.group11.lemmings.utils.statics.FileUtils1;
 
 public class Application implements WindowListener
 {
@@ -27,7 +27,7 @@ public class Application implements WindowListener
 	public Application() throws JoranException
 	{
 		/* Initializes the logger and the logfile */
-		FileUtils.initLogger();
+		FileUtils1.initLogger();
 
 	}
 
@@ -66,7 +66,7 @@ public class Application implements WindowListener
 	{
 		m_simulation.destroy();
 		TextureBank.getInstance().destroy();
-		LevelPropertiesMap.getInstance()
+		LevelPropertiesMap.getInstance().destroy();
 		s_LOGGER.info("Application terminated");
 	}
 

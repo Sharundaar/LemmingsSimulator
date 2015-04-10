@@ -27,6 +27,7 @@ import org.xml.sax.SAXException;
 
 import fr.utbm.vi51.group11.lemmings.controller.ErrorController;
 import fr.utbm.vi51.group11.lemmings.gui.texture.TextureBank;
+import fr.utbm.vi51.group11.lemmings.utils.statics.FileUtils1;
 
 public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 {
@@ -57,7 +58,6 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 		Set<String> textureIDs = new HashSet<String>();
 		MultivaluedMap<String, WorldEntityConfiguration> worldEntitiesConfiguration = new MultivaluedMapImpl<String, WorldEntityConfiguration>();
 		Point2f entityCoord = null;
-		String stringTemp = "";
 
 		try
 		{
@@ -67,7 +67,8 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 			documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
 			/* Parses the file containing the configuration of the maps */
-			Document document = documentBuilder.parse("./resources/levels.xml");
+			Document document = documentBuilder.parse(FileUtils1.USER_CONFIGURATION_DIR.resolve(
+					FileUtils1.LEVEL_CONF_FILENAME).toString());
 			XPath xpath = XPathFactory.newInstance().newXPath();
 
 			levelList = (NodeList) xpath.compile("levels/level").evaluate(document,

@@ -11,7 +11,7 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.ITextureHandler;
-import fr.utbm.vi51.group11.lemmings.utils.statics.FileUtils;
+import fr.utbm.vi51.group11.lemmings.utils.statics.FileUtils1;
 
 public class TextureBank
 {
@@ -39,7 +39,7 @@ public class TextureBank
 		/* Loads textures from texture files */
 		for (String key : _textureIDs)
 			loadTexture(key,
-					FileUtils.TEXTURES_DIR.resolve(key + FileUtils.SPRITESHEET_FILE_EXTENSION));
+					FileUtils1.CONFIGURATION_TEXTURE_DIR.resolve(key + FileUtils1.SPRITESHEET_FILE_EXTENSION));
 
 		/* Sends texture to sprite */
 		for (String key : m_handlers.keySet())
