@@ -1662,3 +1662,67 @@
 2015-04-10-15:46:19.431 [main] DEBUG Environment - Environment created.
 2015-04-10-15:46:19.431 [main] DEBUG Simulation - Simulation created.
 2015-04-10-15:46:20.085 [AWT-EventQueue-0] INFO  Application - Application terminated
+2015-04-10-17:26:45.254 [main] DEBUG FileUtils - Log file initialized.
+2015-04-10-17:26:45.296 [main] INFO  Application - Application launched.
+2015-04-10-17:26:45.300 [main] DEBUG Simulation - Creation of the Simulation...
+2015-04-10-17:26:45.307 [main] DEBUG LevelPropertiesMap - Creation of the MapProperties...
+2015-04-10-17:26:45.598 [main] DEBUG LevelPropertiesMap - MapProperties created.
+
+************************************
+*   LevelProperties ID : 'levelTest'
+*   Size (w*h) : 6*5
+*   TileGrid   : 	1	1	1	1	1	15
+*                	1	0	0	0	0	1
+*                	1	0	0	0	0	1
+*                	1	0	0	0	0	1
+*                	1	1	1	1	1	1
+*
+*   WorldEntities : LEMMING_BODY - [TextureID='entitySpriteSheet', WorldCoords=(5,2), TextureID='entitySpriteSheet', WorldCoords=(5,2), TextureID='entitySpriteSheet', WorldCoords=(5,2), TextureID='entitySpriteSheet', WorldCoords=(5,2), TextureID='entitySpriteSheet', WorldCoords=(1,2), TextureID='entitySpriteSheet', WorldCoords=(1,2)]
+*                   LEVEL_END - [TextureID='entitySpriteSheet', WorldCoords=(4,4)]
+*                   LEVEL_START - [TextureID='entitySpriteSheet', WorldCoords=(1,2), TextureID='entitySpriteSheet', WorldCoords=(5,2)]
+*
+************************************
+
+2015-04-10-17:26:45.893 [main] DEBUG Environment - Creation of the environment...
+2015-04-10-17:26:45.897 [main] DEBUG Grid - Creation of the Grid with '5' rows and '6' columns...
+2015-04-10-17:26:45.901 [main] DEBUG Grid - Grid created.
+2015-04-10-17:26:45.902 [main] DEBUG PhysicsEngine - Creation of the PhysicsEngine...
+2015-04-10-17:26:45.927 [main] DEBUG PhysicsEngine - PhysicsEngine created.
+2015-04-10-17:26:46.546 [main] DEBUG EntityFactory - Creating LemmingBody in (5,2).
+2015-04-10-17:26:46.548 [main] DEBUG LemmingBody - Creation of the Lemming Body...
+2015-04-10-17:26:46.560 [main] DEBUG LemmingBody - Lemming Body created.
+2015-04-10-17:26:46.563 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-04-10-17:26:46.563 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-04-10-17:26:46.564 [main] DEBUG EntityFactory - Creating LemmingBody in (5,2).
+2015-04-10-17:26:46.565 [main] DEBUG LemmingBody - Creation of the Lemming Body...
+2015-04-10-17:26:46.565 [main] DEBUG LemmingBody - Lemming Body created.
+2015-04-10-17:26:46.565 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-04-10-17:26:46.566 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-04-10-17:26:46.566 [main] DEBUG EntityFactory - Creating LemmingBody in (5,2).
+2015-04-10-17:26:46.567 [main] DEBUG LemmingBody - Creation of the Lemming Body...
+2015-04-10-17:26:46.567 [main] DEBUG LemmingBody - Lemming Body created.
+2015-04-10-17:26:46.567 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-04-10-17:26:46.568 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-04-10-17:26:46.568 [main] DEBUG EntityFactory - Creating LemmingBody in (5,2).
+2015-04-10-17:26:46.569 [main] DEBUG LemmingBody - Creation of the Lemming Body...
+2015-04-10-17:26:46.569 [main] DEBUG LemmingBody - Lemming Body created.
+2015-04-10-17:26:46.569 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-04-10-17:26:46.570 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-04-10-17:26:46.570 [main] DEBUG EntityFactory - Creating LemmingBody in (1,2).
+2015-04-10-17:26:46.571 [main] DEBUG LemmingBody - Creation of the Lemming Body...
+2015-04-10-17:26:46.571 [main] DEBUG LemmingBody - Lemming Body created.
+2015-04-10-17:26:46.572 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-04-10-17:26:46.572 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-04-10-17:26:46.573 [main] DEBUG EntityFactory - Creating LemmingBody in (1,2).
+2015-04-10-17:26:46.573 [main] DEBUG LemmingBody - Creation of the Lemming Body...
+2015-04-10-17:26:46.574 [main] DEBUG LemmingBody - Lemming Body created.
+2015-04-10-17:26:46.574 [main] DEBUG LemmingAgent - Creation of the Lemming Agent...
+2015-04-10-17:26:46.574 [main] DEBUG LemmingAgent - Lemming Agent created.
+2015-04-10-17:26:46.575 [main] DEBUG EntityFactory - Creating LevelEnd in (4,4).
+2015-04-10-17:26:46.576 [main] DEBUG EntityFactory - Creating LevelStart in (1,2).
+2015-04-10-17:26:46.577 [main] DEBUG EntityFactory - Creating LevelStart in (5,2).
+2015-04-10-17:26:46.577 [main] DEBUG Environment - Environment created.
+2015-04-10-17:26:46.578 [main] DEBUG Simulation - Simulation created.
+2015-04-10-17:26:47.488 [AWT-EventQueue-0] DEBUG MouseController - Mouse entered in window.
+2015-04-10-17:26:48.464 [AWT-EventQueue-0] DEBUG MouseController - Mouse exited window.
+2015-04-10-17:26:49.608 [AWT-EventQueue-0] INFO  Application - Application terminated
