@@ -3,10 +3,10 @@ package fr.utbm.vi51.group11.lemmings.model.physics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PhysicsEngine
+public class PhysicEngine
 {
 	/** Logger of the class */
-	private final static Logger	s_LOGGER	= LoggerFactory.getLogger(PhysicsEngine.class);
+	private final static Logger	s_LOGGER	= LoggerFactory.getLogger(PhysicEngine.class);
 
 	/** Value of the force of Gravity */
 	private final static float	s_GRAVITY	= 9.8f;
@@ -14,7 +14,7 @@ public class PhysicsEngine
 	/** QuadTree splitting the screen */
 	private final QuadTree		m_quadTree;
 
-	public PhysicsEngine()
+	public PhysicEngine()
 	{
 		s_LOGGER.debug("Creation of the PhysicsEngine...");
 
@@ -27,5 +27,12 @@ public class PhysicsEngine
 	{
 		/** TODO */
 		return false;
+	}
+
+	/**
+	 * @return the quadTree
+	 */
+	public QuadTree getQuadTree() {
+		return m_quadTree;
 	}
 }

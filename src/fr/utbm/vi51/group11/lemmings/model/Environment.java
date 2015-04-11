@@ -15,7 +15,7 @@ import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.Body;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
 import fr.utbm.vi51.group11.lemmings.model.map.Map;
-import fr.utbm.vi51.group11.lemmings.model.physics.PhysicsEngine;
+import fr.utbm.vi51.group11.lemmings.model.physics.PhysicEngine;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelProperties;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.WorldEntityConfiguration;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
@@ -38,7 +38,7 @@ public class Environment
 	/** Time of the environment */
 	private final long			m_environmentTime;
 
-	/** Grid of the map */
+	/** The Map */
 	private final Map			m_map;
 
 	/** Graphical User Interface of the simulation */
@@ -46,9 +46,9 @@ public class Environment
 
 	/**
 	 * PhyicsEngine of the environment that handles all matters related to
-	 * collisions, pĥysics, etc ...
+	 * collisions, physics, etc ...
 	 */
-	private final PhysicsEngine	m_physicsEngine;
+	private final PhysicEngine	m_physicEngine;
 
 	public List<WorldEntity>	list;
 
@@ -61,7 +61,7 @@ public class Environment
 		/* Instantiates attributes */
 		m_environmentTime = System.currentTimeMillis();
 		m_map = new Map(_currentLevelProperties);
-		m_physicsEngine = new PhysicsEngine();
+		m_physicEngine = new PhysicEngine();
 		m_gui = new MainFrame(this);
 
 		list = new ArrayList<WorldEntity>();
@@ -163,5 +163,25 @@ public class Environment
 	public GraphicsEngine getGraphicsEngine()
 	{
 		return m_gui.getGraphicsEngine();
+	}
+	
+	/*----------------------------------------------*/
+	
+	/**
+	 * @return Map of the level
+	 */
+	public Map getMap()
+	{
+		return m_map;
+	}
+	
+/*----------------------------------------------*/
+	
+	/**
+	 * @return PhysicEngine
+	 */
+	public PhysicEngine getPhysicEngine()
+	{
+		return m_physicEngine;
 	}
 }

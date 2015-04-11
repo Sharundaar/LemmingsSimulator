@@ -18,7 +18,7 @@ public abstract class WorldEntity implements IPerceivable
 	/** Type of the WorldEntity */
 	protected WorldEntityEnum	m_type;
 
-	/** Position of the WorldEntity on the grid */
+	/** Position of the WorldEntity in the world */
 	protected Point2f			m_worldCoords;
 
 	/** Shape of the entity. Used for collisions */

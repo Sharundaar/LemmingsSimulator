@@ -1,6 +1,7 @@
 package fr.utbm.vi51.group11.lemmings.gui.texture;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
+import org.arakhne.afc.math.continous.object2d.Rectangle2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
 import org.arakhne.afc.math.discrete.object2d.Rectangle2i;
 
@@ -12,13 +13,14 @@ public class Sprite implements ITextureHandler
 
 	private final Rectangle2i	m_spriteRect;
 
-	private Point2f				m_worldCoords;
+	private Rectangle2f			m_worldRect;
 
-	public Sprite(final float _worldX, final float _worldY, final int _textureX,
-			final int _textureY, final int _width, final int _height, final String _textureID)
+	public Sprite(final float _worldX, final float _worldY, final float _worldWidth, final float _worldHeight, 
+			final int _textureX, final int _textureY, final int _textureWidth, final int _textureHeight, 
+			final String _textureID)
 	{
-		m_spriteRect = new Rectangle2i(_textureX, _textureY, _width, _height);
-		m_worldCoords = new Point2f(_worldX, _worldY); // TODO
+		m_spriteRect = new Rectangle2i(_textureX, _textureY, _textureWidth, _textureHeight);
+		m_worldRect = new Rectangle2f(_worldX, _worldY, _worldWidth, _worldHeight); // TODO
 		TextureBank.getInstance().getTexture(_textureID, this);
 	}
 
@@ -64,13 +66,18 @@ public class Sprite implements ITextureHandler
 
 	public Point2f getWorldCoords()
 	{
-		return m_worldCoords;
+		return new Point2f(m_worldRect.getMinX(), m_worldRect.getMinY());
 	}
 
 	public void setWorldCoords(
 			final Point2f _coords)
 	{
-		m_worldCoords = _coords;
+		m_worldRect.set(_coords.x(), _coords.y(), m_worldRect.getWidth(), m_worldRect.getHeight());
+	}
+	
+	public Rectangle2f getWorldRect()
+	{
+		return m_worldRect;
 	}
 
 	public Texture getTexture()

@@ -18,7 +18,7 @@ public class LemmingBody extends Body implements ICollidable
 	/** Logger of the class */
 	private final static Logger	s_LOGGER	= LoggerFactory.getLogger(LemmingBody.class);
 
-	private final float			m_maxSpeed;
+	private float				m_maxSpeed;
 	private float				m_maxAcceleration;
 
 	/*----------------------------------------------*/
@@ -37,7 +37,8 @@ public class LemmingBody extends Body implements ICollidable
 		m_maxSpeed = LemmingUtils.s_lemmingMaxVelocity;
 		m_environment = _environment;
 		// TODO world entity shapes
-		m_sprite = new Sprite(m_worldCoords.x(), m_worldCoords.y(), 0, 0, 20, 20, _textureID);
+		m_sprite = new Sprite(m_worldCoords.x(), m_worldCoords.y(), LemmingUtils.LEMMING_DEFAULT_WIDTH, LemmingUtils.LEMMING_DEFAULT_HEIGHT,
+								0, 0, 20, 20, _textureID);
 		s_LOGGER.debug("Lemming Body created.");
 	}
 
