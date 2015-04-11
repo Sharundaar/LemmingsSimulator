@@ -120,14 +120,14 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 					entityCoord = new Point2f(Float.parseFloat(nodeList.item(i).getChildNodes()
 							.item(1).getTextContent()), Float.parseFloat(nodeList.item(i)
 							.getChildNodes().item(3).getTextContent()));
-					if ((entityCoord.x() > nbCol) || (entityCoord.x() < 0)
+					/*if ((entityCoord.x() > nbCol) || (entityCoord.x() < 0)
 							|| (entityCoord.y() > nbRow) || (entityCoord.y() < 0))
 					{
 						ErrorController.addPendingException(new ConfigurationException(String
 								.format("Wrong coordinate for entity : (%.2f,%.2f).",
-										entityCoord.x(), entityCoord)));
+										entityCoord.x(), entityCoord.y())));
 
-					}
+					}*/
 
 					/* Adds a new WorldEntity to the map */
 					worldEntitiesConfiguration.add(nodeList.item(i).getAttributes().item(0)

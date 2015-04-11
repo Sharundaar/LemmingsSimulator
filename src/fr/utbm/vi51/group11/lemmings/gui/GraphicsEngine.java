@@ -104,7 +104,7 @@ public class GraphicsEngine extends JPanel
 			double sy = drawRect.getHeight() / blitRect.getHeight();
 			
 			m_affineTransform.scale(sx, sy);
-			m_affineTransform.translate(blitRect.getMinX(), blitRect.getMinY());
+			m_affineTransform.translate(drawRect.getMinX(), drawRect.getMinY());
 			
 			g2d.drawImage(img, m_affineTransform, null);
 		}
