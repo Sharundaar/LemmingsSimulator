@@ -1,18 +1,21 @@
 package fr.utbm.vi51.group11.lemmings.gui;
 
-import org.arakhne.afc.math.discrete.object2d.Rectangle2i;
+import org.arakhne.afc.math.continous.object2d.Rectangle2f;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class Camera2D extends Rectangle2i
+public class Camera2D
 {
+	/** Logger of the class */
+	private final static Logger	s_LOGGER	= LoggerFactory.getLogger(Camera2D.class);
 
-	/**
-	 * 
-	 */
-	private static final long	serialVersionUID	= 1L;
+	private Rectangle2f			m_clippingRect;
+
+	private float				m_zoomRatio;
 
 	public Camera2D()
 	{
-		super();
+
 	}
 
 }
