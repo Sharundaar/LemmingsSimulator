@@ -1,9 +1,12 @@
 package fr.utbm.vi51.group11.lemmings;
 
+import java.io.File;
+
+import javax.imageio.ImageIO;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelPropertiesMap;
 import fr.utbm.vi51.group11.lemmings.utils.statics.ConfigurationUtils;
 import fr.utbm.vi51.group11.lemmings.utils.statics.FileUtils1;
 
@@ -21,9 +24,9 @@ public class MainTest
 
 		FileUtils1.initLogger();
 
-		LevelPropertiesMap.getInstance();
+		// GlobalConfiguration.getInstance();
 
-		System.out.println(LevelPropertiesMap.getInstance());
-
+		System.out.println(ImageIO.read(new File(
+				"/home/jnovak/LemmingsSimulator/textures/entitySpriteSheet.png")));
 	}
 }

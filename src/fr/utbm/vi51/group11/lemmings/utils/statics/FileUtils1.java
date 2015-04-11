@@ -42,7 +42,7 @@ public class FileUtils1
 
 	/** Application textures */
 	public static final Path	CONFIGURATION_TEXTURE_DIR	= USER_CONFIGURATION_DIR
-																	.resolve("texture");
+																	.resolve("textures");
 
 	/** String name of the logback file */
 	public static final String	LOGBACK_FILENAME			= "logback_lemmings.xml";
