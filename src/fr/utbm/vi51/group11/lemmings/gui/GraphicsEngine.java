@@ -76,6 +76,9 @@ public class GraphicsEngine extends JPanel
 		// -sprite.getWorldCoords()
 		// .getY());
 		// }
+		
+		m_environnement.getMap().redrawMap();
+		drawSprite(m_environnement.getMap().getSprite(), _g);
 
 	}
 

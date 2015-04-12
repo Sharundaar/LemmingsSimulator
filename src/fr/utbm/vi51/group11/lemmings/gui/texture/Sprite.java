@@ -23,6 +23,15 @@ public class Sprite implements ITextureHandler
 		m_worldRect = new Rectangle2f(_worldX, _worldY, _worldWidth, _worldHeight); // TODO
 		TextureBank.getInstance().getTexture(_textureID, this);
 	}
+	
+	public Sprite(final float _worldX, final float _worldY, final float _worldWidth, final float _worldHeight, 
+			final int _textureX, final int _textureY, final int _textureWidth, final int _textureHeight,
+			Texture _texture)
+	{
+		m_spriteRect = new Rectangle2i(_textureX, _textureY, _textureWidth, _textureHeight);
+		m_worldRect = new Rectangle2f(_worldX, _worldY, _worldWidth, _worldHeight); // TODO
+		m_texture = _texture;
+	}
 
 	public Rectangle2i getSpriteRect()
 	{
