@@ -22,10 +22,12 @@ public class MainFrame extends GUI
 
 		m_graphicsEngine = new GraphicsEngine(_environnement);
 
-		this.setContentPane(m_graphicsEngine);
 		KeyboardController.getInstance().updateJPanelKeyboardMaps(m_graphicsEngine);
 
 		m_graphicsEngine.setFocusable(true);
+
+		setContentPane(m_graphicsEngine);
+		setLocationRelativeTo(null);
 
 		setVisible(true);
 	}

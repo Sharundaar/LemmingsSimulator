@@ -67,12 +67,13 @@ public class FileUtils1
 	 */
 	public static void initLogger() throws JoranException
 	{
-		System.setProperty("configuration.dir", USER_CONFIGURATION_DIR.toString());
+		System.setProperty("configuration.dir", Paths.get("./").toAbsolutePath().toString());
 		JoranConfigurator configurator = new JoranConfigurator();
 		LoggerContext c = (LoggerContext) LoggerFactory.getILoggerFactory();
 		c.reset();
 		configurator.setContext(c);
-		configurator.doConfigure(FileUtils1.LOGBACK_FILEPATH.toFile());
+		// configurator.doConfigure(FileUtils1.LOGBACK_FILEPATH.toFile());
+		configurator.doConfigure(FileUtils1.RESOURCES_DIR.resolve(LOGBACK_FILENAME).toFile());
 
 		LOGGER.debug("Log file initialized.");
 	}

@@ -11,15 +11,23 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.arakhne.afc.math.continous.object2d.Rectangle2f;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-import fr.utbm.vi51.group11.lemmings.controller.ErrorController;
+import fr.utbm.vi51.group11.lemmings.utils.enums.GlobalConfigurationEnum;
 import fr.utbm.vi51.group11.lemmings.utils.statics.FileUtils1;
 
-public class GlobalConfiguration extends HashMap<String, Object>
+public class GlobalConfiguration extends HashMap<GlobalConfigurationEnum, Object>
 {
+
+	private static final long					serialVersionUID		= 1L;
+
+	/** Logger of the class */
+	private final static Logger					s_LOGGER				= LoggerFactory
+																				.getLogger(GlobalConfiguration.class);
 
 	/** Instance of the singleton */
 	private final static GlobalConfiguration	s_globalConfiguration	= new GlobalConfiguration();
@@ -35,17 +43,47 @@ public class GlobalConfiguration extends HashMap<String, Object>
 			documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
 			/* Parses the file containing the configuration of the maps */
-			Document document = documentBuilder.parse(FileUtils1.USER_CONFIGURATION_DIR.resolve(
+			Document document = documentBuilder.parse(FileUtils1.RESOURCES_DIR.resolve(
 					FileUtils1.LEVEL_CONF_FILENAME).toString());
+			// Document document =
+			// documentBuilder.parse("resources/configuration.xml");
 			XPath xpath = XPathFactory.newInstance().newXPath();
 
-			Node s = (Node) xpath.compile("camera/width").evaluate(document, XPathConstants.NODE);
-			System.out.println("string : " + s.getTextContent());
+			parseInstallationPath(document, xpath);
+
+			parseCamera(document, xpath);
+
 		} catch (ParserConfigurationException | SAXException | IOException
 				| XPathExpressionException exception)
 		{
-			ErrorController.addPendingException(exception);
+			s_LOGGER.error("{}", exception);
 		}
+	}
+
+	private void parseInstallationPath(
+			final Document document,
+			final XPath xpath) throws XPathExpressionException
+	{
+		String installationPath = (String) xpath.compile("configuration/installationPath")
+				.evaluate(document, XPathConstants.STRING);
+		this.put(GlobalConfigurationEnum.INSTALLATION_PATH, installationPath);
+	}
+
+	private void parseCamera(
+			final Document document,
+			final XPath xpath) throws XPathExpressionException
+	{
+		float cameraXCoords = Float.parseFloat((String) xpath.compile("configuration/camera/x")
+				.evaluate(document, XPathConstants.STRING));
+		float cameraYCoords = Float.parseFloat((String) xpath.compile("configuration/camera/y")
+				.evaluate(document, XPathConstants.STRING));
+		float cameraWidth = Float.parseFloat((String) xpath.compile("configuration/camera/width")
+				.evaluate(document, XPathConstants.STRING));
+		float cameraHeight = Float.parseFloat((String) xpath.compile("configuration/camera/height")
+				.evaluate(document, XPathConstants.STRING));
+
+		this.put(GlobalConfigurationEnum.CAMERA_RECTANGLE, new Rectangle2f(cameraXCoords,
+				cameraYCoords, cameraWidth, cameraHeight));
 	}
 
 	/**
@@ -55,5 +93,4 @@ public class GlobalConfiguration extends HashMap<String, Object>
 	{
 		return s_globalConfiguration;
 	}
-
 }

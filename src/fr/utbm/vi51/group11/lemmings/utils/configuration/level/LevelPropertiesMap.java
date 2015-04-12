@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
-import javax.naming.ConfigurationException;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -25,7 +24,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import fr.utbm.vi51.group11.lemmings.controller.ErrorController;
 import fr.utbm.vi51.group11.lemmings.gui.texture.TextureBank;
 import fr.utbm.vi51.group11.lemmings.utils.statics.FileUtils1;
 
@@ -67,7 +65,7 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 			documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
 			/* Parses the file containing the configuration of the maps */
-			Document document = documentBuilder.parse(FileUtils1.USER_CONFIGURATION_DIR.resolve(
+			Document document = documentBuilder.parse(FileUtils1.RESOURCES_DIR.resolve(
 					FileUtils1.LEVEL_CONF_FILENAME).toString());
 			XPath xpath = XPathFactory.newInstance().newXPath();
 
@@ -120,14 +118,11 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 					entityCoord = new Point2f(Float.parseFloat(nodeList.item(i).getChildNodes()
 							.item(1).getTextContent()), Float.parseFloat(nodeList.item(i)
 							.getChildNodes().item(3).getTextContent()));
-					/*if ((entityCoord.x() > nbCol) || (entityCoord.x() < 0)
+					if ((entityCoord.x() > nbCol) || (entityCoord.x() < 0)
 							|| (entityCoord.y() > nbRow) || (entityCoord.y() < 0))
 					{
-						ErrorController.addPendingException(new ConfigurationException(String
-								.format("Wrong coordinate for entity : (%.2f,%.2f).",
-										entityCoord.x(), entityCoord.y())));
-
-					}*/
+						s_LOGGER.error("Wrong coordinates, entityCoords.x > or < to bounds (or y).");
+					}
 
 					/* Adds a new WorldEntity to the map */
 					worldEntitiesConfiguration.add(nodeList.item(i).getAttributes().item(0)
@@ -155,7 +150,7 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 		} catch (ParserConfigurationException | SAXException | IOException
 				| XPathExpressionException exception)
 		{
-			ErrorController.addPendingException(exception);
+			s_LOGGER.error("{}", exception);
 		}
 	}
 

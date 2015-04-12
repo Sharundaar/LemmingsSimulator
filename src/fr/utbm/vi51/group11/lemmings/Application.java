@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.core.joran.spi.JoranException;
-import fr.utbm.vi51.group11.lemmings.controller.ErrorController;
 import fr.utbm.vi51.group11.lemmings.gui.texture.TextureBank;
 import fr.utbm.vi51.group11.lemmings.model.Simulation;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelPropertiesMap;
@@ -28,7 +27,6 @@ public class Application implements WindowListener
 	{
 		/* Initializes the logger and the logfile */
 		FileUtils1.initLogger();
-
 	}
 
 	public void go() throws Exception
@@ -37,9 +35,6 @@ public class Application implements WindowListener
 
 		/* Creates the simulation */
 		m_simulation = new Simulation("levelTest");
-
-		/* Throws exceptions if some occured when initializing configuration */
-		ErrorController.throwPendingException();
 
 		/* Adds a window listener to the application */
 		((JFrame) SwingUtilities.getWindowAncestor(m_simulation.getEnvironment()
