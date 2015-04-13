@@ -18,4 +18,9 @@ public class Texture
 	{
 		return m_image;
 	}
+	
+	public String getID()
+	{
+		return m_id;
+	}
 }
