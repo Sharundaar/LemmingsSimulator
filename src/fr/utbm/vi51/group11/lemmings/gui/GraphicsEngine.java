@@ -21,7 +21,7 @@ public class GraphicsEngine extends JPanel
 	/**
 	 * Generated serial ID
 	 */
-	private static final long serialVersionUID = 1756239984776600738L;
+	private static final long		serialVersionUID	= 1756239984776600738L;
 
 	private final Environment		m_environnement;
 
@@ -49,34 +49,6 @@ public class GraphicsEngine extends JPanel
 	private void drawMap(
 			final Graphics _g)
 	{
-		// int[][] tileGrid =
-		// m_environnement.getCurrentLevelProperties().getTileGrid();
-		// Texture texture;
-		// Sprite sprite;
-		// AffineTransform affineTransform = new AffineTransform();
-		//
-		// for (int i = 0; i < tileGrid.length; ++i)
-		// for (int j = 0; j < tileGrid[0].length; ++j)
-		// {
-		// texture =
-		// TextureBank.getInstance().getTexture(CellType.valueOf(tileGrid[i][j]));
-		// sprite = texture.getSprite(0);
-		// Image image =
-		// texture.getImage().getSubimage(sprite.getTextureRect().getMinX(),
-		// sprite.getTextureRect().getMinY(),
-		// sprite.getTextureRect().getWidth(),
-		// sprite.getTextureRect().getHeight());
-		//
-		// affineTransform.translate(sprite.getWorldCoords().getX(),
-		// sprite.getWorldCoords()
-		// .getY());
-		// m_g2d.drawImage(image, affineTransform, null);
-		//
-		// affineTransform.translate(-sprite.getWorldCoords().getX(),
-		// -sprite.getWorldCoords()
-		// .getY());
-		// }
-		
 		m_environnement.getMap().redrawMap();
 		drawSprite(m_environnement.getMap().getSprite(), _g);
 
@@ -95,28 +67,33 @@ public class GraphicsEngine extends JPanel
 	{
 		Graphics2D g2d = (Graphics2D) _g;
 		m_affineTransform.setToIdentity();
-		
-		if(_sprite.getTexture() != null) // Image has been correctly set
-		{			
+
+		if (_sprite.getTexture() != null) // Image has been correctly set
+		{
 			Rectangle2i blitRect = _sprite.getSpriteRect();
 			Rectangle2f drawRect = _sprite.getWorldRect();
-			
-			Image img = _sprite.getTexture().getImage().getSubimage(blitRect.getMinX(), blitRect.getMinY(), blitRect.getWidth(), blitRect.getHeight());
-			
+
+			Image img = _sprite
+					.getTexture()
+					.getImage()
+					.getSubimage(blitRect.getMinX(), blitRect.getMinY(), blitRect.getWidth(),
+							blitRect.getHeight());
+
 			double sx = drawRect.getWidth() / blitRect.getWidth();
 			double sy = drawRect.getHeight() / blitRect.getHeight();
-			
+
 			m_affineTransform.scale(sx, sy);
 			m_affineTransform.translate(drawRect.getMinX(), drawRect.getMinY());
-			
+
 			g2d.drawImage(img, m_affineTransform, null);
-		}
-		else // Let's draw a simple placeholder for now
+		} else
+		// Let's draw a simple placeholder for now
 		{
 			Rectangle2f drawRect = _sprite.getWorldRect();
-			
+
 			g2d.setColor(Color.CYAN);
-			g2d.fillRect((int)drawRect.getMinX(), (int)drawRect.getMinY(), (int)drawRect.getWidth(), (int)drawRect.getHeight());
+			g2d.fillRect((int) drawRect.getMinX(), (int) drawRect.getMinY(),
+					(int) drawRect.getWidth(), (int) drawRect.getHeight());
 			g2d.setColor(Color.WHITE);
 		}
 	}

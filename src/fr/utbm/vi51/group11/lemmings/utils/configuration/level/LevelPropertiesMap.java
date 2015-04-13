@@ -79,20 +79,14 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 			{
 				id = levelList.item(index).getAttributes().item(0).getTextContent();
 
-				/* Retrieves the height of the map */
-				nbRow = Integer.parseInt((String) xpath.compile(
-						"levels/level[@id='" + id + "']/nbRow").evaluate(document,
-						XPathConstants.STRING));
-				/* Retrieves the width of the map */
-				nbCol = Integer.parseInt((String) xpath.compile(
-						"levels/level[@id='" + id + "']/nbCol").evaluate(document,
-						XPathConstants.STRING));
-
 				/* Retrieves the Texture tile grid of the map */
-				tileGrid = new int[nbRow][nbCol];
 				tempString = StringUtils.removePattern(
 						(String) xpath.compile("levels/level[@id='" + id + "']/tileGrid").evaluate(
 								document, XPathConstants.STRING), "\t\t");
+				nbRow = StringUtils.countMatches(tempString, "\n") - 1;
+				nbCol = StringUtils.countMatches(tempString, "\t") / nbRow;
+
+				tileGrid = new int[nbCol][nbRow];
 
 				/* Creation of a scanner to get the next integers */
 				Scanner sc = new Scanner(tempString);
@@ -100,7 +94,7 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 				/* Transforms the String into a matrix of integers */
 				for (int i = 0; i < nbRow; ++i)
 					for (int j = 0; j < nbCol; ++j)
-						tileGrid[i][j] = sc.nextInt();
+						tileGrid[j][i] = sc.nextInt();
 
 				/* Closes the scanner */
 				sc.close();
@@ -138,8 +132,7 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 				}
 
 				/* Creates and add a new LevelProperties to this */
-				this.put(id, new LevelProperties(id, nbRow, nbCol, tileGrid,
-						worldEntitiesConfiguration));
+				this.put(id, new LevelProperties(id, tileGrid, worldEntitiesConfiguration));
 			}
 
 			s_LOGGER.debug("MapProperties created.\n{}", this.toString());

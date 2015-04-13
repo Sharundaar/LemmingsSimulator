@@ -17,12 +17,6 @@ public class LevelProperties
 	/** ID of the Level */
 	private final String											m_id;
 
-	/** Height of the map */
-	private final int												m_nbRow;
-
-	/** Width of the map */
-	private final int												m_nbCol;
-
 	/** Matrix representing the texture for each cell of the grid of the map */
 	private final int[][]											m_tileGrid;
 
@@ -31,13 +25,10 @@ public class LevelProperties
 
 	/*----------------------------------------------*/
 
-	public LevelProperties(final String _id, final int _nbRow, final int _nbCol,
-			final int[][] _tileGrid,
+	public LevelProperties(final String _id, final int[][] _tileGrid,
 			final MultivaluedMap<String, WorldEntityConfiguration> worldEntities)
 	{
 		m_id = _id;
-		m_nbRow = _nbRow;
-		m_nbCol = _nbCol;
 		m_tileGrid = _tileGrid;
 		m_worldEntitiesConfiguration = worldEntities;
 	}
@@ -46,14 +37,14 @@ public class LevelProperties
 
 	public int getNbRow()
 	{
-		return m_nbRow;
+		return m_tileGrid[0].length;
 	}
 
 	/*----------------------------------------------*/
 
 	public int getNbCol()
 	{
-		return m_nbCol;
+		return m_tileGrid.length;
 	}
 
 	/*----------------------------------------------*/
@@ -75,18 +66,20 @@ public class LevelProperties
 	@Override
 	public String toString()
 	{
+		int nbRow = getNbRow();
+		int nbCol = getNbCol();
 		String disp = "";
 		disp += "\n************************************";
 		disp += "\n*   LevelProperties ID : '" + m_id + "'";
-		disp += "\n*   Size (w*h) : " + m_nbCol + "*" + m_nbRow;
+		disp += "\n*   Size (w*h) : " + nbCol + "*" + nbRow;
 		disp += "\n*   TileGrid   : ";
 
-		for (int i = 0; i < m_nbRow; ++i)
-			for (int j = 0; j < m_nbCol; ++j)
+		for (int i = 0; i < nbRow; ++i)
+			for (int j = 0; j < nbCol; ++j)
 			{
 				if ((i != 0) && (j == 0))
 					disp += "\n*                ";
-				disp += "\t" + m_tileGrid[i][j];
+				disp += "\t" + m_tileGrid[j][i];
 			}
 
 		disp += "\n*";

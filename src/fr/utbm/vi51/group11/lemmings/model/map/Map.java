@@ -49,8 +49,8 @@ public class Map extends WorldEntity
 
 		this.m_worldCoords = new Point2f(0, 0);
 
-		m_image = new BufferedImage(_levelProperties.getNbRow() * CELL_SIZE,
-				_levelProperties.getNbCol() * CELL_SIZE, TYPE_ARGB);
+		m_image = new BufferedImage(_levelProperties.getNbCol() * CELL_SIZE,
+				_levelProperties.getNbRow() * CELL_SIZE, TYPE_ARGB);
 		m_imageGraphics = m_image.createGraphics();
 		m_texture = new Texture("Map", m_image);
 
@@ -75,7 +75,7 @@ public class Map extends WorldEntity
 		{
 			for (int j = 0; j < m_grid.getHeight(); ++j)
 			{
-				Vector2f cellPos = discreteToContinuCoordinates(i, j);
+				Vector2f cellPos = discreteToContinueCoordinates(i, j);
 				switch (getCellType(i, j, true))
 				{
 					case BACK_WALL:
@@ -120,7 +120,7 @@ public class Map extends WorldEntity
 		if (_gridCoord)
 			return m_grid.getCell((int) _x, (int) _y).getCellType();
 
-		final Vector2i cellPosition = continuToDiscreteCoordinates(_x, _y);
+		final Vector2i cellPosition = continueToDiscreteCoordinates(_x, _y);
 		return m_grid.getCell(cellPosition.x(), cellPosition.y()).getCellType();
 	}
 
@@ -138,7 +138,7 @@ public class Map extends WorldEntity
 	 * @return Vector of integer containing the position of the cell in the grid
 	 *         where the entity is located.
 	 */
-	private Vector2i continuToDiscreteCoordinates(
+	private Vector2i continueToDiscreteCoordinates(
 			final float _x,
 			final float _y)
 	{
@@ -164,7 +164,7 @@ public class Map extends WorldEntity
 	 * @return vector equivalent to the upper-left coordinate of the [_x][_y]
 	 *         grid cell
 	 */
-	private Vector2f discreteToContinuCoordinates(
+	private Vector2f discreteToContinueCoordinates(
 			final int _x,
 			final int _y)
 	{

@@ -36,12 +36,12 @@ public class Grid
 	{
 		s_LOGGER.debug("Creation of the Grid with '{}' rows and '{}' columns...", _rowNb, _colNb);
 
-		m_cells = new Cell[_rowNb][_colNb];
+		m_cells = new Cell[_colNb][_rowNb];
 		for (int i = 0; i < _rowNb; ++i)
 			for (int j = 0; j < _colNb; ++j)
 			{
-				m_cells[i][j] = new Cell(i, j);
-				m_cells[i][j].setCellType(CellType.valueOf(_tileGrid[i][j]));
+				m_cells[j][i] = new Cell(j, i);
+				m_cells[j][i].setCellType(CellType.valueOf(_tileGrid[j][i]));
 			}
 
 		s_LOGGER.debug("Grid created.");

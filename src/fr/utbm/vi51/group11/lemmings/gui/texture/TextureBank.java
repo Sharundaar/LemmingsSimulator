@@ -38,10 +38,8 @@ public class TextureBank
 	{
 		/* Loads textures from texture files */
 		for (String key : _textureIDs)
-			loadTexture(
-					key,
-					FileUtils1.CONFIGURATION_TEXTURE_DIR.resolve(key
-							+ FileUtils1.SPRITESHEET_FILE_EXTENSION));
+			loadTexture(key,
+					FileUtils1.TEXTURE_DIR.resolve(key + FileUtils1.SPRITESHEET_FILE_EXTENSION));
 
 		/* Sends texture to sprite */
 		for (String key : m_handlers.keySet())
