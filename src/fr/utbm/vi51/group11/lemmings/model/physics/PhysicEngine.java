@@ -3,6 +3,9 @@ package fr.utbm.vi51.group11.lemmings.model.physics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.utbm.vi51.group11.lemmings.model.physics.quadtree.QuadTree;
+import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
+
 public class PhysicEngine
 {
 	/** Logger of the class */

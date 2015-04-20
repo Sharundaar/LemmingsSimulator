@@ -3,7 +3,7 @@ package fr.utbm.vi51.group11.lemmings.model.entity;
 import org.arakhne.afc.math.continous.object2d.Point2f;
 
 import fr.utbm.vi51.group11.lemmings.gui.texture.Sprite;
-import fr.utbm.vi51.group11.lemmings.model.physics.CollisionMask;
+import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
 

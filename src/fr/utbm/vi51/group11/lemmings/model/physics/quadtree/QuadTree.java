@@ -1,4 +1,4 @@
-package fr.utbm.vi51.group11.lemmings.model.physics;
+package fr.utbm.vi51.group11.lemmings.model.physics.quadtree;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

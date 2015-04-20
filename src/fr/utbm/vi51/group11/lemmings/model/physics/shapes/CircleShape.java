@@ -1,4 +1,4 @@
-package fr.utbm.vi51.group11.lemmings.model.physics;
+package fr.utbm.vi51.group11.lemmings.model.physics.shapes;
 
 import org.arakhne.afc.math.continous.object2d.Circle2f;
 import org.arakhne.afc.math.continous.object2d.Point2f;

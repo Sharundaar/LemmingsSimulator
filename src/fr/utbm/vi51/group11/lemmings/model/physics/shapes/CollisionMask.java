@@ -1,4 +1,4 @@
-package fr.utbm.vi51.group11.lemmings.model.physics;
+package fr.utbm.vi51.group11.lemmings.model.physics.shapes;
 
 import java.util.LinkedList;
 
