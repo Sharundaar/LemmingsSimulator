@@ -19,7 +19,6 @@ public class HandleKeyListener extends AbstractAction implements ActionListener
 	private final static Logger	s_LOGGER			= LoggerFactory
 															.getLogger(HandleKeyListener.class);
 
-	@Override
 	public void actionPerformed(
 			final ActionEvent _event)
 	{

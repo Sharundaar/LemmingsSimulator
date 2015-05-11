@@ -16,11 +16,11 @@ import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
  * @author jnovak
  *
  */
-public class LemmingAgent extends Agent
-{
+public class LemmingAgent extends Agent {
 
 	/** Logger of the class */
-	private final static Logger	s_LOGGER	= LoggerFactory.getLogger(LemmingAgent.class);
+	private final static Logger s_LOGGER = LoggerFactory
+			.getLogger(LemmingAgent.class);
 
 	/*----------------------------------------------*/
 
@@ -30,8 +30,7 @@ public class LemmingAgent extends Agent
 	 * @param _lemmingBody
 	 *            Body of the LemmingAgent.
 	 */
-	public LemmingAgent(final LemmingBody _lemmingBody)
-	{
+	public LemmingAgent(final LemmingBody _lemmingBody) {
 		s_LOGGER.debug("Creation of the Lemming Agent...");
 
 		m_body = _lemmingBody;
@@ -45,8 +44,7 @@ public class LemmingAgent extends Agent
 	 * Method used to tell the agent to start its cycle of life.
 	 */
 	@Override
-	public void live()
-	{
+	public void live() {
 		List<IPerceivable> surroundingEntities = getPerceptions();
 
 		Vector2f newDirection = decide(surroundingEntities);
@@ -65,8 +63,7 @@ public class LemmingAgent extends Agent
 	 *         agent's body's frustrum.
 	 */
 	@Override
-	protected List<IPerceivable> getPerceptions()
-	{
+	protected List<IPerceivable> getPerceptions() {
 		return m_body.getPerception();
 	}
 
@@ -81,9 +78,7 @@ public class LemmingAgent extends Agent
 	 *            frustrum.
 	 */
 	@Override
-	protected Vector2f decide(
-			final List<IPerceivable> _surroundingEntities)
-	{
+	protected Vector2f decide(final List<IPerceivable> _surroundingEntities) {
 		return null;// TODO
 	}
 
@@ -97,9 +92,7 @@ public class LemmingAgent extends Agent
 	 *            Direction to take for the next move.
 	 */
 	@Override
-	protected void move(
-			final Vector2f _direction)
-	{
+	protected void move(final Vector2f _direction) {
 		m_body.move(_direction);
 	}
 

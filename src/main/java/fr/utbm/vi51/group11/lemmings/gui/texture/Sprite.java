@@ -94,7 +94,6 @@ public class Sprite implements ITextureHandler
 		return m_texture;
 	}
 
-	@Override
 	public void receiveTexture(
 			final Texture _texture)
 	{

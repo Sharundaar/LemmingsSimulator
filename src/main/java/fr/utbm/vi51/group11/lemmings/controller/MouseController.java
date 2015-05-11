@@ -17,95 +17,71 @@ import org.slf4j.LoggerFactory;
  * @author jnovak
  *
  */
-public class MouseController implements MouseListener, MouseMotionListener, MouseWheelListener
-{
+public class MouseController implements MouseListener, MouseMotionListener,
+		MouseWheelListener {
 	/** Logger of the class */
-	private final static Logger		s_LOGGER			= LoggerFactory
-																.getLogger(MouseController.class);
+	private final static Logger s_LOGGER = LoggerFactory
+			.getLogger(MouseController.class);
 
 	/** Instance of the input controller */
-	private static MouseController	s_mouseController	= new MouseController();
+	private static MouseController s_mouseController = new MouseController();
 
 	/*----------------------------------------------*/
 
 	/**
 	 * @return The instance of the singleton of InputController.
 	 */
-	public static MouseController getInstance()
-	{
+	public static MouseController getInstance() {
 		return s_mouseController;
 	}
 
 	/*----------------------------------------------*/
 
-	@Override
-	public void mouseClicked(
-			final MouseEvent _event)
-	{
+	public void mouseClicked(final MouseEvent _event) {
 		s_LOGGER.debug("Mouse clicked with '{}'", _event.getButton());
 	}
 
 	/*----------------------------------------------*/
 
-	@Override
-	public void mousePressed(
-			final MouseEvent _event)
-	{
+	public void mousePressed(final MouseEvent _event) {
 		s_LOGGER.debug("Mouse button '{}' pressed.", _event.getButton());
 	}
 
 	/*----------------------------------------------*/
 
-	@Override
-	public void mouseReleased(
-			final MouseEvent _event)
-	{
+	public void mouseReleased(final MouseEvent _event) {
 		s_LOGGER.debug("Mouse button '{}' released.", _event.getButton());
 	}
 
 	/*----------------------------------------------*/
 
-	@Override
-	public void mouseEntered(
-			final MouseEvent _event)
-	{
+	public void mouseEntered(final MouseEvent _event) {
 		s_LOGGER.debug("Mouse entered in window.", _event.getButton());
 	}
 
 	/*----------------------------------------------*/
 
-	@Override
-	public void mouseExited(
-			final MouseEvent _event)
-	{
+	public void mouseExited(final MouseEvent _event) {
 		s_LOGGER.debug("Mouse exited window.");
 	}
 
 	/*----------------------------------------------*/
 
-	@Override
-	public void mouseWheelMoved(
-			final MouseWheelEvent _event)
-	{
-		s_LOGGER.debug("Mouse wheel moved '{}' '{}'.", _event.getPreciseWheelRotation(),
+	public void mouseWheelMoved(final MouseWheelEvent _event) {
+		s_LOGGER.debug("Mouse wheel moved '{}' '{}'.", _event
+				.getPreciseWheelRotation(),
 				_event.getWheelRotation() > 0 ? "up" : "down");
 	}
 
 	/*----------------------------------------------*/
 
-	@Override
-	public void mouseDragged(
-			final MouseEvent _event)
-	{
+	public void mouseDragged(final MouseEvent _event) {
 		s_LOGGER.debug("Mouse dragged from '{}' to '{}'.");
 	}
 
 	/*----------------------------------------------*/
 
-	@Override
-	public void mouseMoved(
-			final MouseEvent _event)
-	{
+	public void mouseMoved(final MouseEvent _event) {
 		s_LOGGER.debug("Mouse moved from '{}' to '{}'.");
 	}
 }

@@ -63,7 +63,6 @@ public abstract class Body extends DynamicEntity implements IControllable
 	 * @return List of Perceivable objects computed by the environment according
 	 *         to the body's frustrum.
 	 */
-	@Override
 	public List<IPerceivable> getPerception()
 	{
 		List<IPerceivable> perception = m_environment.getPerceptions(this);
@@ -90,7 +89,6 @@ public abstract class Body extends DynamicEntity implements IControllable
 	 * @param _direction
 	 *            Direction where the body wants to mvoe to.
 	 */
-	@Override
 	public void move(Vector2f _direction)
 	{
 		if (!filterAction())

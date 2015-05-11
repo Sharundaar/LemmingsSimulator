@@ -8,7 +8,7 @@ import javax.swing.AbstractAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ArrowKeyListener extends AbstractAction implements ActionListener
+public class MathKeyListener extends AbstractAction implements ActionListener
 {
 	/**
 	 * 
@@ -17,13 +17,12 @@ public class ArrowKeyListener extends AbstractAction implements ActionListener
 
 	/** Logger of the class */
 	private final static Logger	s_LOGGER			= LoggerFactory
-															.getLogger(ArrowKeyListener.class);
+															.getLogger(MathKeyListener.class);
 
-	@Override
 	public void actionPerformed(
 			final ActionEvent _event)
 	{
-		s_LOGGER.debug("Key typed : '{}' !", _event.getActionCommand());
+		s_LOGGER.debug("Key typed : '{}' !");
 	}
 
 }
