@@ -3,6 +3,8 @@ package fr.utbm.vi51.group11.lemmings.model.physics.quadtree;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.arakhne.afc.math.continous.object2d.Point2f;
+import org.arakhne.afc.math.continous.object2d.Rectangle2f;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +38,7 @@ public class Node
 	Vector2f m_center = new Vector2f();
 	Vector2f m_size = new Vector2f();
 
+	Rectangle2f m_shape;
 	LinkedList<WorldEntity> m_entities = new LinkedList<WorldEntity>();
 	
 	/*----------------------------------------------*/
@@ -48,6 +51,8 @@ public class Node
 	{
 		m_center = _center;
 		m_size = _size;
+		
+		m_shape = new Rectangle2f(new Point2f(m_center.getX() - m_size.getX() / 2.0f, m_center.getY() - m_size.getY() / 2.0f), new Point2f(m_center.getX() + m_size.getX() / 2.0f, m_center.getY() + m_size.getY() / 2.0f));
 	}
 	
 	/*----------------------------------------------*/

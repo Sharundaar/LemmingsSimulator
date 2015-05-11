@@ -1,10 +1,13 @@
 package fr.utbm.vi51.group11.lemmings.model.physics;
 
+import java.util.LinkedList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.utbm.vi51.group11.lemmings.model.physics.quadtree.QuadTree;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
+import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
 
 public class PhysicEngine
 {
@@ -29,7 +32,16 @@ public class PhysicEngine
 	public boolean collide(CollisionMask _m1, CollisionMask _m2)
 	{
 		/** TODO */
-		return false;
+		return _m1.collide(_m2);
+	}
+	
+	public LinkedList<CollisionShape> getCollidingEntities()
+	{
+		LinkedList<CollisionShape> result = new LinkedList<CollisionShape>();
+		
+		
+		
+		return result;
 	}
 
 	/**
