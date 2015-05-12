@@ -17,6 +17,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.lang3.StringUtils;
 import org.arakhne.afc.math.continous.object2d.Point2f;
+import org.arakhne.afc.vmutil.Resources;
 import org.jboss.resteasy.specimpl.MultivaluedMapImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,8 +66,11 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 			documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
 			/* Parses the file containing the configuration of the maps */
-			Document document = documentBuilder.parse(FileUtils1.RESOURCES_DIR.resolve(
-					FileUtils1.LEVEL_CONF_FILENAME).toString());
+			// Document document =
+			// documentBuilder.parse(FileUtils1.RESOURCES_DIR.resolve(
+			// FileUtils1.LEVEL_CONF_FILENAME).toString()); TODO change path
+			Document document = documentBuilder.parse(Resources
+					.getResourceAsStream(FileUtils1.LEVEL_CONF_FILENAME));
 			XPath xpath = XPathFactory.newInstance().newXPath();
 
 			levelList = (NodeList) xpath.compile("levels/level").evaluate(document,

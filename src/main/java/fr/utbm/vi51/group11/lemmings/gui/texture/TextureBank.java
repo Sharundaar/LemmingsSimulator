@@ -2,13 +2,17 @@ package fr.utbm.vi51.group11.lemmings.gui.texture;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import javax.imageio.ImageIO;
+
+import org.arakhne.afc.vmutil.Resources;
 
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.ITextureHandler;
 import fr.utbm.vi51.group11.lemmings.utils.statics.FileUtils1;
@@ -38,8 +42,12 @@ public class TextureBank
 	{
 		/* Loads textures from texture files */
 		for (String key : _textureIDs)
-			loadTexture(key,
-					FileUtils1.TEXTURE_DIR.resolve(key + FileUtils1.SPRITESHEET_FILE_EXTENSION));
+			loadTexture(
+					key,
+					Resources.getResourceAsStream(Paths.get(FileUtils1.TEXTURE_DIR_NAME)
+							.resolve(key + FileUtils1.SPRITESHEET_FILE_EXTENSION).toString()));
+		// FileUtils1.TEXTURE_DIR.resolve(key +
+		// FileUtils1.SPRITESHEET_FILE_EXTENSION)); // TODO
 
 		/* Sends texture to sprite */
 		for (String key : m_handlers.keySet())
@@ -55,6 +63,14 @@ public class TextureBank
 			final Path _path) throws IOException
 	{
 		BufferedImage image = ImageIO.read(_path.toFile());
+		m_textures.put(_key, new Texture(_key, image));
+	}
+
+	private void loadTexture(
+			final String _key,
+			final InputStream _inputStream) throws IOException
+	{
+		BufferedImage image = ImageIO.read(_inputStream);
 		m_textures.put(_key, new Texture(_key, image));
 	}
 

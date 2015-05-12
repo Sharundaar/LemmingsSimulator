@@ -6,8 +6,7 @@
 
 	<property name="module.name" value="lemmings" />
 
-<!-- 	<property name="log_dir" value="${configuration.dir}/log" /> -->
-	<property name="log_dir" value="log" />
+	<property name="log_dir" value="${configuration.dir}/log" />
 	<property name="file_name" value="${module.name}" />
 	<property name="pattern" value="%d{yyyy-MM-dd-HH:mm:ss.SSS} [%thread] %-5level %logger{0} - %msg%n" />
 
