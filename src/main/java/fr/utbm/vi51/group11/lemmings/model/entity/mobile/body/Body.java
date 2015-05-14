@@ -1,15 +1,19 @@
 package fr.utbm.vi51.group11.lemmings.model.entity.mobile.body;
 
 import java.util.List;
+import java.util.Set;
 
 import org.arakhne.afc.math.continous.object2d.Vector2f;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.DynamicEntity;
-import fr.utbm.vi51.group11.lemmings.utils.frustrums.Frustrum;
+import fr.utbm.vi51.group11.lemmings.utils.enums.InfluenceType;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IControllable;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
+import fr.utbm.vi51.group11.lemmings.utils.misc.Action;
+import fr.utbm.vi51.group11.lemmings.utils.misc.Frustrum;
+import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
 
 /**
  * 
@@ -33,6 +37,9 @@ public abstract class Body extends DynamicEntity implements IControllable
 
 	/** Field of perception of the body */
 	protected Frustrum			m_frustrum;
+
+	/** Influences given by the agent to perform */
+	protected Set<Influence>	m_influences;
 
 	/*----------------------------------------------*/
 
@@ -63,6 +70,7 @@ public abstract class Body extends DynamicEntity implements IControllable
 	 * @return List of Perceivable objects computed by the environment according
 	 *         to the body's frustrum.
 	 */
+	@Override
 	public List<IPerceivable> getPerception()
 	{
 		List<IPerceivable> perception = m_environment.getPerceptions(this);
@@ -79,33 +87,85 @@ public abstract class Body extends DynamicEntity implements IControllable
 	 * 
 	 * @return True if the list has been totally filtered.</br>False otherwise.
 	 */
-	protected abstract boolean filterPerception(List<IPerceivable> _perception);
+	protected abstract boolean filterPerception(
+			List<IPerceivable> _perception);
+
+	public boolean addInfluence(
+			final Influence _influence)
+	{
+		return m_influences.add(_influence);
+	}
+
+	public boolean removeInfluence(
+			final Influence _influence)
+	{
+		return m_influences.remove(_influence);
+	}
 
 	/*----------------------------------------------*/
 
 	/**
-	 * Method used to move the object with a certain direction.
+	 * Method used to add a speed influence to the body.
 	 * 
-	 * @param _direction
-	 *            Direction where the body wants to mvoe to.
+	 * @param _speed
+	 *            Speed influence of the body.
 	 */
-	public void move(Vector2f _direction)
+	@Override
+	public void influenceSpeed(
+			final Vector2f _speed)
 	{
-		if (!filterAction())
+		if (!filterInfluence())
 		{
-			m_environment.move(this, _direction);
+			m_influences.add(new Influence(InfluenceType.SPEED, _speed));
 		}
 	}
 
 	/*----------------------------------------------*/
 
 	/**
-	 * Method used to filter the action of the body. If for example the body
-	 * wants to move but is paralyzed, it will filter the action of moving.
+	 * Method used to add an acceleration influence to the body.
 	 * 
-	 * @return True if the action is filtered.</br>False otherwise.
+	 * @param _acceleration
+	 *            Acceleration influence of the body.
 	 */
-	protected abstract boolean filterAction();
+	@Override
+	public void influenceAcceleration(
+			final Vector2f _acceleration)
+	{
+		if (!filterInfluence())
+		{
+			m_influences.add(new Influence(InfluenceType.ACCELERATION, _acceleration));
+		}
+	}
+
+	/*----------------------------------------------*/
+
+	/**
+	 * Method used to add an Action influence to the body.
+	 * 
+	 * @param _action
+	 *            Action influence to perform for the body.
+	 */
+	@Override
+	public void influenceAction(
+			final Action _action)
+	{
+		if (!filterInfluence())
+		{
+			m_influences.add(new Influence(InfluenceType.ACTION, _action));
+		}
+	}
+
+	/*----------------------------------------------*/
+
+	/**
+	 * Method used to filter the influence added to the body by the agent. If
+	 * for example the body wants to move but is paralyzed, it will filter the
+	 * speed influence.
+	 * 
+	 * @return True if the influence is filtered.</br>False otherwise.
+	 */
+	protected abstract boolean filterInfluence();
 
 	/*----------------------------------------------*/
 

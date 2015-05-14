@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.arakhne.afc.math.continous.object2d.Vector2f;
 
+import fr.utbm.vi51.group11.lemmings.utils.misc.Action;
+
 /**
  * 
  * Interface designed to allow the "mind" of the body to use only these
@@ -27,11 +29,34 @@ public interface IControllable
 	/*----------------------------------------------*/
 
 	/**
-	 * Method used to move the object with a certain direction.
+	 * Method used to add a speed influence to the body.
 	 * 
-	 * @param _direction
-	 *            desired direction.
+	 * @param _speed
+	 *            Speed influence of the body.
 	 */
-	public void move(
-			Vector2f _direction);
+	public void influenceSpeed(
+			Vector2f _speed);
+
+	/*----------------------------------------------*/
+
+	/**
+	 * Method used to add an acceleration influence to the body.
+	 * 
+	 * @param _acceleration
+	 *            Acceleration influence of the body.
+	 */
+	public void influenceAcceleration(
+			Vector2f _acceleration);
+
+	/*----------------------------------------------*/
+
+	/**
+	 * Method used to add an Action influence to the body.
+	 * 
+	 * @param _action
+	 *            Action influence to perform for the body.
+	 */
+	public void influenceAction(
+			Action _action);
+
 }

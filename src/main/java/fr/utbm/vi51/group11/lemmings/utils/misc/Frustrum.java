@@ -1,4 +1,4 @@
-package fr.utbm.vi51.group11.lemmings.utils.frustrums;
+package fr.utbm.vi51.group11.lemmings.utils.misc;
 
 import java.awt.geom.Point2D;
 import java.util.Iterator;

@@ -3,7 +3,6 @@ package fr.utbm.vi51.group11.lemmings.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.arakhne.afc.math.continous.object2d.Vector2f;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +49,8 @@ public class Environment
 	 */
 	private final PhysicEngine	m_physicEngine;
 
-	public List<WorldEntity>	list;
+	/** List containing all of the world entities of the simulation */
+	public List<WorldEntity>	m_worldEntities;
 
 	/*----------------------------------------------*/
 
@@ -64,7 +64,7 @@ public class Environment
 		m_physicEngine = new PhysicEngine();
 		m_gui = new MainFrame(this);
 
-		list = new ArrayList<WorldEntity>();
+		m_worldEntities = new ArrayList<WorldEntity>();
 
 		WorldEntity worldEntity = null;
 		/* Creates the world entities from the configuration file. */
@@ -84,7 +84,7 @@ public class Environment
 					worldEntity = EntityFactory.getInstance().createLevelEnd(c);
 				}
 
-				list.add(worldEntity);
+				m_worldEntities.add(worldEntity);
 				// TODO add to quadtree
 			}
 
@@ -108,6 +108,7 @@ public class Environment
 			final int _x,
 			final int _y)
 	{
+		// TODO
 	}
 
 	/*----------------------------------------------*/
@@ -124,25 +125,14 @@ public class Environment
 	public List<IPerceivable> getPerceptions(
 			final Body _body)
 	{
-		return null;
+		return null; // TODO
 	}
 
 	/*----------------------------------------------*/
 
-	/**
-	 * Method used to move a Body with a certain direction. This movement is
-	 * handled by the PhysicsEngine and it updates the data structure containing
-	 * all entities.
-	 * 
-	 * @param _body
-	 *            Body to move in the environment.
-	 * @param _direction
-	 *            Direction the body will move with.
-	 */
-	public void move(
-			final Body _body,
-			final Vector2f _direction)
+	public void update()
 	{
+		// TODO
 	}
 
 	/*----------------------------------------------*/
@@ -164,9 +154,9 @@ public class Environment
 	{
 		return m_gui.getGraphicsEngine();
 	}
-	
+
 	/*----------------------------------------------*/
-	
+
 	/**
 	 * @return Map of the level
 	 */
@@ -174,9 +164,9 @@ public class Environment
 	{
 		return m_map;
 	}
-	
-/*----------------------------------------------*/
-	
+
+	/*----------------------------------------------*/
+
 	/**
 	 * @return PhysicEngine
 	 */

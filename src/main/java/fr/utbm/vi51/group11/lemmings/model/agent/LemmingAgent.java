@@ -93,7 +93,7 @@ public class LemmingAgent extends Agent {
 	 */
 	@Override
 	protected void move(final Vector2f _direction) {
-		m_body.move(_direction);
+		m_body.influenceSpeed(_direction);
 	}
 
 }
