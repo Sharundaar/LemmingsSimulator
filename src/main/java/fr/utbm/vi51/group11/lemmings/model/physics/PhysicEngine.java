@@ -66,4 +66,9 @@ public class PhysicEngine
 	public QuadTree getQuadTree() {
 		return m_quadTree;
 	}
+
+	public void update() {
+		// TODO Auto-generated method stub
+		m_quadTree.updateElements(m_collisionShapes);
+	}
 }

@@ -63,24 +63,27 @@ public class Simulation
 		
 		long start = 0;
 		long end = System.currentTimeMillis();
+		long dt = 0;
 		long fps_timer = 0;
 		short fps_count = 0;
 		while(m_running)
 		{
 			start = System.currentTimeMillis();
-			update(end - start);
+			update(dt);
 			draw();
 			
 			try {
-				if(end - start < 16)
-					Thread.sleep(17 - end + start);
+				if(System.currentTimeMillis() - start < 17)
+					Thread.sleep(17 - (System.currentTimeMillis() - start));
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			end = System.currentTimeMillis();
 			
-			fps_timer += (end - start);
+			dt = end - start;
+			
+			fps_timer += dt;
 			fps_count++;
 			if(fps_timer >= 1000)
 			{

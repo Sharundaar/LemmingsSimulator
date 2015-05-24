@@ -1,5 +1,7 @@
 package fr.utbm.vi51.group11.lemmings.model;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +32,7 @@ import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
  * @author jnovak
  *
  */
-public class Environment
+public class Environment implements KeyListener
 {
 	/** Logger of the class */
 	private final static Logger	s_LOGGER	= LoggerFactory.getLogger(Environment.class);
@@ -136,11 +138,21 @@ public class Environment
 	public void update(long _dt)
 	{
 		// TODO
+		WorldEntity controlledEnt = m_worldEntities.get(3);
+		if(m_upPressed)
+			controlledEnt.getCoordinates().addY(-0.1f *_dt);
+		if(m_downPressed)
+			controlledEnt.getCoordinates().addY(0.1f *_dt);
+		if(m_leftPressed)
+			controlledEnt.getCoordinates().addX(-0.1f *_dt);
+		if(m_rightPressed)
+			controlledEnt.getCoordinates().addX(0.1f *_dt);
+		
 		for(WorldEntity ent : m_worldEntities)
-			ent.getCollisionMask().updateShape();
-		
-		WorldEntity controlledEnt = m_worldEntities.get(m_worldEntities.size()-1);
-		
+		{
+			ent.updateExterns();
+		}
+		m_physicEngine.update();
 		
 	}
 
@@ -182,5 +194,42 @@ public class Environment
 	public PhysicEngine getPhysicEngine()
 	{
 		return m_physicEngine;
+	}
+	
+	boolean m_upPressed = false;
+	boolean m_downPressed = false;
+	boolean m_rightPressed = false;
+	boolean m_leftPressed = false;
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		if(arg0.getKeyCode() == KeyEvent.VK_UP)
+			m_upPressed = true;
+		if(arg0.getKeyCode() == KeyEvent.VK_RIGHT)
+			m_rightPressed = true;
+		if(arg0.getKeyCode() == KeyEvent.VK_LEFT)
+			m_leftPressed = true;
+		if(arg0.getKeyCode() == KeyEvent.VK_DOWN)
+			m_downPressed = true;
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		if(arg0.getKeyCode() == KeyEvent.VK_UP)
+			m_upPressed = false;
+		if(arg0.getKeyCode() == KeyEvent.VK_RIGHT)
+			m_rightPressed = false;
+		if(arg0.getKeyCode() == KeyEvent.VK_LEFT)
+			m_leftPressed = false;
+		if(arg0.getKeyCode() == KeyEvent.VK_DOWN)
+			m_downPressed = false;
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

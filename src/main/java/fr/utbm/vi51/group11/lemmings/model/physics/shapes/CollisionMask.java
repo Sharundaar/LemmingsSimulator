@@ -18,12 +18,6 @@ public class CollisionMask extends CollisionShape
 	}
 
 	@Override
-	public CollisionShapeType getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public boolean collide(CollisionShape _shape) {
 		/** TODO: implementation */
 		

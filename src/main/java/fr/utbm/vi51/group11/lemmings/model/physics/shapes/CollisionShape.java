@@ -68,15 +68,23 @@ public abstract class CollisionShape {
 	{
 		updateShape();
 		
-		switch(_shape.getType())
+		try
 		{
-		case CIRCLE:
-			return m_shape.intersects((Circle2f)_shape.getShape());
-		case MASK:
-			return ((CollisionMask)_shape).collide(this);
-		case RECTANGLE:
-			return m_shape.intersects((Rectangle2f)_shape.getShape());
-		default:
+			switch(_shape.getType())
+			{
+			case CIRCLE:
+				return m_shape.intersects((Circle2f)_shape.getShape());
+			case MASK:
+				return ((CollisionMask)_shape).collide(this);
+			case RECTANGLE:
+				return m_shape.intersects((Rectangle2f)_shape.getShape());
+			default:
+				return false;
+			}
+		}
+		catch(NullPointerException _e)
+		{
+			System.out.println(_e.getMessage());
 			return false;
 		}
 	}

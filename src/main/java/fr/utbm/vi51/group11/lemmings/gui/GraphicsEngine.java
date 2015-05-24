@@ -15,7 +15,9 @@ import org.arakhne.afc.math.discrete.object2d.Rectangle2i;
 import fr.utbm.vi51.group11.lemmings.gui.texture.Sprite;
 import fr.utbm.vi51.group11.lemmings.model.Environment;
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
+import fr.utbm.vi51.group11.lemmings.model.physics.collidingobjects.CollidingObjects;
 import fr.utbm.vi51.group11.lemmings.model.physics.quadtree.QuadTree;
+import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 
 public class GraphicsEngine extends JPanel
@@ -42,6 +44,8 @@ public class GraphicsEngine extends JPanel
 	public GraphicsEngine(final Environment _environnement)
 	{
 		super();
+		
+		this.addKeyListener(_environnement);
 		
 		m_environnement = _environnement;
 		m_affineTransform = new AffineTransform();
@@ -98,6 +102,18 @@ public class GraphicsEngine extends JPanel
 			RectangleShape rect = (RectangleShape) entity.getCollisionMask().getChilds().getFirst();
 			_g.drawRect(Math.round(rect.getRectangle().getMinX()), Math.round(rect.getRectangle().getMinY()),
 					Math.round(rect.getRectangle().getWidth()), Math.round(rect.getRectangle().getHeight()));
+		}
+		
+		_g.setColor(Color.red);
+		for(CollidingObjects co : m_environnement.getPhysicEngine().getQuadTree().getCollidingObjects(null))
+		{
+			RectangleShape rs1 = (RectangleShape) co.m_s1.getChilds().getFirst();
+			RectangleShape rs2 = (RectangleShape) co.m_s2.getChilds().getFirst();
+			
+			_g.drawRect(Math.round(rs1.getRectangle().getMinX()), Math.round(rs1.getRectangle().getMinY()),
+					Math.round(rs1.getRectangle().getWidth()), Math.round(rs1.getRectangle().getHeight()));
+			_g.drawRect(Math.round(rs2.getRectangle().getMinX()), Math.round(rs2.getRectangle().getMinY()),
+					Math.round(rs2.getRectangle().getWidth()), Math.round(rs2.getRectangle().getHeight()));
 		}
 	}
 	

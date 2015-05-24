@@ -5,7 +5,10 @@ import java.util.LinkedList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.utbm.vi51.group11.lemmings.model.physics.collidingobjects.CollidingObjects;
+import fr.utbm.vi51.group11.lemmings.model.physics.collidingobjects.CollidingObjectsSet;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
+import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 
 public class QuadTree
@@ -167,6 +170,11 @@ public class QuadTree
 		{
 			return m_se;
 		}
+
+		public LinkedList<CollisionShape> getElements() {
+			// TODO Auto-generated method stub
+			return m_elements;
+		}
 	}
 	
 	/** TODO: make the tree handle collision mask and not just position */
@@ -225,5 +233,44 @@ public class QuadTree
 	public QuadTreeNode getRootNode() {
 		// TODO Auto-generated method stub
 		return m_rootNode;
+	}
+	
+	public CollidingObjectsSet getCollidingObjects(CollidingObjectsSet _out)
+	{
+		if(_out == null)
+			_out = new CollidingObjectsSet();
+		getCollidingObjects(m_rootNode, _out);
+		return _out;
+	}
+	
+	public CollidingObjectsSet getCollidingObjects(QuadTreeNode _n, CollidingObjectsSet _out)
+	{
+		if(_out == null)
+			_out = new CollidingObjectsSet();
+			
+		if(_n.isLeaf())
+		{
+			CollisionShape[] shapes = _n.getElements().toArray(new CollisionShape[0]);
+			short elemCount = (short)shapes.length;
+			for(short i=0 ; i<elemCount; ++i)
+			{
+				for(short j=(short) (i+1); j<elemCount; ++j)
+				{
+					if(shapes[i].collide(shapes[j]))
+					{
+						_out.add(new CollidingObjects(shapes[i], shapes[j]));
+					}
+				}
+			}
+		}
+		else
+		{
+			getCollidingObjects(_n.getNW(), _out);
+			getCollidingObjects(_n.getNE(), _out);
+			getCollidingObjects(_n.getSW(), _out);
+			getCollidingObjects(_n.getSE(), _out);
+		}
+			
+		return _out;
 	}
 }
