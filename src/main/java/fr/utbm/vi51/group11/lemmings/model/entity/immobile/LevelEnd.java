@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 
 import fr.utbm.vi51.group11.lemmings.gui.texture.Sprite;
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
+import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
+import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.ICollidable;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
@@ -23,6 +25,9 @@ public class LevelEnd extends WorldEntity implements ICollidable, IPerceivable
 		m_type = WorldEntityEnum.LEVEL_END;
 		m_sprite = new Sprite(_worldCoords.x(), _worldCoords.y(), LemmingUtils.EXIT_DEFAULT_WIDTH, LemmingUtils.EXIT_DEFAULT_HEIGHT, 
 				0, 0, 5, 5, _textureID); // TODO
+		
+		m_collisionMask = new CollisionMask(m_worldCoords);
+		m_collisionMask.addChild(new RectangleShape(LemmingUtils.ENTRY_DEFAULT_WIDTH, LemmingUtils.ENTRY_DEFAULT_HEIGHT, null));
 	}
 
 }

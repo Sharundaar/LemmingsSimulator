@@ -77,7 +77,15 @@ public class CollisionMask extends CollisionShape
 	@Override
 	public void updateShape() {
 		// Recursive refresh ?
-		
+		for(CollisionShape shape : this.m_childs)
+			updateShape(shape);
+	}
+	
+	private void updateShape(CollisionShape _shape)
+	{
+		_shape.updateShape();
+		for(CollisionShape shape : _shape.getChilds())
+			updateShape(shape);
 	}
 	
 }

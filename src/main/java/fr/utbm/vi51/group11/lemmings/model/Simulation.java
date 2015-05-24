@@ -31,6 +31,8 @@ public class Simulation
 
 	/** Reference to the environment of the simulation */
 	private final Environment	m_environment;
+	
+	private boolean m_running = false;
 
 	/*----------------------------------------------*/
 
@@ -49,8 +51,59 @@ public class Simulation
 		m_environment = new Environment(currentLevelProperties, m_agents);
 
 		s_LOGGER.debug("Simulation created.");
+		loop();
 	}
 
+	/*----------------------------------------------*/
+	public void loop()
+	{
+		s_LOGGER.debug("Loop start.");
+		
+		m_running = true;
+		
+		long start = 0;
+		long end = System.currentTimeMillis();
+		long fps_timer = 0;
+		short fps_count = 0;
+		while(m_running)
+		{
+			start = System.currentTimeMillis();
+			update(end - start);
+			draw();
+			
+			try {
+				if(end - start < 16)
+					Thread.sleep(17 - end + start);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			end = System.currentTimeMillis();
+			
+			fps_timer += (end - start);
+			fps_count++;
+			if(fps_timer >= 1000)
+			{
+				s_LOGGER.debug("FPS: {}.", fps_count);
+				fps_timer = 0;
+				fps_count = 0;
+			}
+		}
+	}
+	
+	/*----------------------------------------------*/
+	public void update(long _dt)
+	{
+		m_environment.update(_dt);
+	}
+	
+	/*----------------------------------------------*/
+	public void draw()
+	{
+		m_environment.getGraphicsEngine().repaint();
+	}
+	
+	
 	/*----------------------------------------------*/
 
 	/**

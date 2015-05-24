@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import fr.utbm.vi51.group11.lemmings.gui.texture.Sprite;
 import fr.utbm.vi51.group11.lemmings.model.Environment;
+import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
+import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.ICollidable;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
@@ -32,6 +34,9 @@ public class LemmingBody extends Body implements ICollidable
 
 		m_alive = false;
 		m_worldCoords = _worldCoords;
+		
+		m_collisionMask = new CollisionMask(m_worldCoords);
+		m_collisionMask.addChild(new RectangleShape(LemmingUtils.LEMMING_DEFAULT_WIDTH, LemmingUtils.LEMMING_DEFAULT_HEIGHT, null));
 
 		// TODO lemming frustrum
 		m_maxSpeed = LemmingUtils.s_lemmingMaxVelocity;

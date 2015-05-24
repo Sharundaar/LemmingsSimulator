@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.utbm.vi51.group11.lemmings.controller.KeyboardController;
 import fr.utbm.vi51.group11.lemmings.gui.GraphicsEngine;
 import fr.utbm.vi51.group11.lemmings.gui.MainFrame;
 import fr.utbm.vi51.group11.lemmings.model.agent.Agent;
@@ -50,7 +51,7 @@ public class Environment
 	private final PhysicEngine	m_physicEngine;
 
 	/** List containing all of the world entities of the simulation */
-	public List<WorldEntity>	m_worldEntities;
+	public ArrayList<WorldEntity>	m_worldEntities;
 
 	/*----------------------------------------------*/
 
@@ -85,7 +86,9 @@ public class Environment
 				}
 
 				m_worldEntities.add(worldEntity);
+				worldEntity.getCollisionMask().updateShape();
 				// TODO add to quadtree
+				m_physicEngine.addShape(worldEntity.getCollisionMask());
 			}
 
 		s_LOGGER.debug("Environment created.");
@@ -130,9 +133,15 @@ public class Environment
 
 	/*----------------------------------------------*/
 
-	public void update()
+	public void update(long _dt)
 	{
 		// TODO
+		for(WorldEntity ent : m_worldEntities)
+			ent.getCollisionMask().updateShape();
+		
+		WorldEntity controlledEnt = m_worldEntities.get(m_worldEntities.size()-1);
+		
+		
 	}
 
 	/*----------------------------------------------*/
@@ -142,7 +151,7 @@ public class Environment
 	 */
 	public long getEnvironmentTime()
 	{
-		return m_environmentTime - System.currentTimeMillis();
+		return System.currentTimeMillis() - m_environmentTime;
 	}
 
 	/*----------------------------------------------*/

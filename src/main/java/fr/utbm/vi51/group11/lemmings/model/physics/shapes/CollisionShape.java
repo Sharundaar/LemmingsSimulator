@@ -95,5 +95,30 @@ public abstract class CollisionShape {
 		return m_coordinates;
 	}
 	
+	private void setParent(CollisionShape _shape)
+	{
+		if(m_parent != null)
+			m_parent.removeShape(this);
+		m_parent = _shape;
+	}
+	
+	public void addChild(CollisionShape _shape)
+	{
+		if(!m_childs.contains(_shape))
+		{
+			m_childs.add(_shape);
+			_shape.setParent(this);
+		}
+	}
+	
+	public void removeShape(CollisionShape _shape)
+	{
+		if(m_childs.contains(_shape))
+		{
+			m_childs.remove(_shape);
+			_shape.setParent(null);
+		}
+	}
+	
 	public abstract void updateShape();
 }

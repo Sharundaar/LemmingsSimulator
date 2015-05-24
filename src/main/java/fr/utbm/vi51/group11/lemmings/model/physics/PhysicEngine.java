@@ -19,6 +19,7 @@ public class PhysicEngine
 
 	/** QuadTree splitting the screen */
 	private final QuadTree		m_quadTree;
+	private final LinkedList<CollisionShape> m_collisionShapes = new LinkedList<>();
 
 	public PhysicEngine()
 	{
@@ -33,6 +34,21 @@ public class PhysicEngine
 	{
 		/** TODO */
 		return _m1.collide(_m2);
+	}
+	
+	public void addShape(CollisionShape _shape)
+	{
+		if(_shape == null)
+			return;
+		
+		m_collisionShapes.add(_shape);
+		m_quadTree.add(_shape);
+	}
+	
+	public void removeShape(CollisionShape _shape)
+	{
+		m_collisionShapes.remove(_shape);
+		m_quadTree.remove(_shape);
 	}
 	
 	public LinkedList<CollisionShape> getCollidingEntities()
