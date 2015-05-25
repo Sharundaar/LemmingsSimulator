@@ -134,11 +134,12 @@ public class Environment implements KeyListener
 	}
 
 	/*----------------------------------------------*/
+	private int m_selectedEnt = 3;
 
 	public void update(long _dt)
 	{
 		// TODO
-		WorldEntity controlledEnt = m_worldEntities.get(3);
+		WorldEntity controlledEnt = m_worldEntities.get(m_selectedEnt);
 		if(m_upPressed)
 			controlledEnt.getCoordinates().addY(-0.1f *_dt);
 		if(m_downPressed)
@@ -212,6 +213,12 @@ public class Environment implements KeyListener
 			m_leftPressed = true;
 		if(arg0.getKeyCode() == KeyEvent.VK_DOWN)
 			m_downPressed = true;
+		
+		if(arg0.getKeyCode() == KeyEvent.VK_I)
+			m_selectedEnt++;
+		
+		if(m_selectedEnt >= 4)
+			m_selectedEnt = 1;
 	}
 
 	@Override
@@ -230,6 +237,6 @@ public class Environment implements KeyListener
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
