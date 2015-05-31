@@ -37,7 +37,8 @@ public class LemmingBody extends Body implements ICollidable
 		
 		m_collisionMask = new CollisionMask(m_worldCoords);
 		m_collisionMask.addChild(new RectangleShape(LemmingUtils.LEMMING_DEFAULT_WIDTH, LemmingUtils.LEMMING_DEFAULT_HEIGHT, null));
-
+		m_collisionMask.setData(this);
+		
 		// TODO lemming frustrum
 		m_maxSpeed = LemmingUtils.s_lemmingMaxVelocity;
 		m_environment = _environment;

@@ -23,8 +23,10 @@ public abstract class Agent
 
 	/**
 	 * Method used to tell the agent to start its cycle of life.
+	 * @param _dt
+	 * 				time span since last call to live, in milliseconds.
 	 */
-	public abstract void live();
+	public abstract void live(long _dt);
 
 	/*----------------------------------------------*/
 

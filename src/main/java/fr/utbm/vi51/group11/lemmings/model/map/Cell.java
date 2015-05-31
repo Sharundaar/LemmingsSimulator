@@ -1,5 +1,8 @@
 package fr.utbm.vi51.group11.lemmings.model.map;
 
+import org.arakhne.afc.math.continous.object2d.Rectangle2f;
+
+import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 import fr.utbm.vi51.group11.lemmings.utils.enums.CellType;
 
 /**
@@ -21,6 +24,8 @@ public class Cell
 
 	/** Type defining the cell */
 	private CellType	m_type;
+	
+	private RectangleShape m_rectangle;
 
 	/*----------------------------------------------*/
 
@@ -37,6 +42,9 @@ public class Cell
 	{
 		this.m_x = _x;
 		this.m_y = _y;
+		
+		m_rectangle = new RectangleShape(_x*Map.CELL_SIZE, _y*Map.CELL_SIZE, Map.CELL_SIZE, Map.CELL_SIZE, null);
+		m_rectangle.updateShape();
 	}
 
 	/*----------------------------------------------*/
@@ -81,5 +89,11 @@ public class Cell
 			final CellType _type)
 	{
 		this.m_type = _type;
+	}
+	
+	/*----------------------------------------------*/
+	public RectangleShape getRectangle()
+	{
+		return m_rectangle;
 	}
 }

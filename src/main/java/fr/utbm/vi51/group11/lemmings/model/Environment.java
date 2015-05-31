@@ -18,6 +18,8 @@ import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.Body;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
 import fr.utbm.vi51.group11.lemmings.model.map.Map;
 import fr.utbm.vi51.group11.lemmings.model.physics.PhysicEngine;
+import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
+import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape.PhysicType;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelProperties;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.WorldEntityConfiguration;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
@@ -87,15 +89,38 @@ public class Environment implements KeyListener
 					worldEntity = EntityFactory.getInstance().createLevelEnd(c);
 				}
 
-				m_worldEntities.add(worldEntity);
-				worldEntity.getCollisionMask().updateShape();
-				// TODO add to quadtree
-				m_physicEngine.addShape(worldEntity.getCollisionMask());
+				addWorldEntity(worldEntity);
 			}
 
+		m_map.getCollisionMask().updateShape();
+		for(CollisionShape _shape : m_map.getCollisionMask().getChilds())
+		{
+			m_physicEngine.addShape(_shape, PhysicType.STATIC);
+		}
+		
 		s_LOGGER.debug("Environment created.");
 	}
 
+	/*----------------------------------------------*/
+
+	/**
+	 * Method used to add a WorldEntity to the environment.
+	 * 
+	 * @param _worldEntity
+	 *            WorldEntity to add.
+	 */
+	public void addWorldEntity(
+			final WorldEntity _worldEntity)
+	{
+		_worldEntity.updateExterns();
+		
+		m_worldEntities.add(_worldEntity);
+		if(_worldEntity.getType() == WorldEntityEnum.LEMMING_BODY)
+			m_physicEngine.addShape(_worldEntity.getCollisionMask(), PhysicType.DYNAMIC);
+		else
+			m_physicEngine.addShape(_worldEntity.getCollisionMask(), PhysicType.STATIC);
+	}
+	
 	/*----------------------------------------------*/
 
 	/**
@@ -113,7 +138,10 @@ public class Environment implements KeyListener
 			final int _x,
 			final int _y)
 	{
-		// TODO
+		_worldEntity.setWorldCoords(_x, _y);
+		_worldEntity.updateExterns();
+		
+		addWorldEntity(_worldEntity);
 	}
 
 	/*----------------------------------------------*/
@@ -131,6 +159,13 @@ public class Environment implements KeyListener
 			final Body _body)
 	{
 		return null; // TODO
+	}
+	
+	/*----------------------------------------------*/
+	
+	public void applyExternForces(long _dt)
+	{
+		
 	}
 
 	/*----------------------------------------------*/
@@ -153,7 +188,11 @@ public class Environment implements KeyListener
 		{
 			ent.updateExterns();
 		}
-		m_physicEngine.update();
+		
+		m_physicEngine.applyExternForces(_dt);
+		m_physicEngine.computeMovements(_dt);
+		m_physicEngine.updateQuadTree();
+		m_physicEngine.solveCollisions();
 		
 	}
 

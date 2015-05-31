@@ -17,7 +17,9 @@ import fr.utbm.vi51.group11.lemmings.model.Environment;
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
 import fr.utbm.vi51.group11.lemmings.model.physics.collidingobjects.CollidingObjects;
 import fr.utbm.vi51.group11.lemmings.model.physics.quadtree.QuadTree;
+import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CircleShape;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
+import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape.CollisionShapeType;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 
 public class GraphicsEngine extends JPanel
@@ -82,8 +84,8 @@ public class GraphicsEngine extends JPanel
 		if(_node == null)
 			return;
 		
-		_g.drawRect(Math.round(_node.getShape().getRectangle().getMinX()), Math.round(_node.getShape().getRectangle().getMinY())
-				, Math.round(_node.getShape().getRectangle().getWidth()), Math.round(_node.getShape().getRectangle().getHeight()));
+		_g.drawRect((int)(_node.getShape().getRectangle().getMinX()), (int)(_node.getShape().getRectangle().getMinY())
+				, (int)(_node.getShape().getRectangle().getWidth()), (int)(_node.getShape().getRectangle().getHeight()));
 		
 		if(!_node.isLeaf())
 		{
@@ -94,26 +96,65 @@ public class GraphicsEngine extends JPanel
 		}
 	}
 	
+	private void drawCollisionShape(Graphics _g, CollisionShape _shape)
+	{
+		if(_shape == null)
+			return;
+		
+		switch(_shape.getType())
+		{
+		case CIRCLE:
+			CircleShape circle = (CircleShape) _shape;
+			_g.drawArc(circle.getCoordinates(true).x(), circle.getCoordinates(true).y(), (int)circle.getRadius(), (int)circle.getRadius(), 0, (int) (2*Math.PI));
+			break;
+		case MASK:
+			for(CollisionShape s : _shape.getChilds())
+			{
+				drawCollisionShape(_g, s, true);
+			}
+			break;
+		case RECTANGLE:
+			RectangleShape rectangle = (RectangleShape) _shape;
+			_g.drawRect(rectangle.getCoordinates(true).x(), rectangle.getCoordinates(true).y(), (int)rectangle.getWidth(), (int)rectangle.getHeight());
+			break;
+		default:
+			break;
+		}
+	}
+	
+	private void drawCollisionShape(Graphics _g, CollisionShape _shape, boolean _drawChilds)
+	{
+		drawCollisionShape(_g, _shape);
+		
+		if(_drawChilds)
+		{
+			for(CollisionShape s : _shape.getChilds())
+			{
+				drawCollisionShape(_g, s, true);
+			}
+		}
+	}
+	
 	private void drawCollisionBoxes(Graphics _g)
 	{
 		_g.setColor(Color.cyan);
 		for(WorldEntity entity : m_environnement.m_worldEntities)
 		{
-			RectangleShape rect = (RectangleShape) entity.getCollisionMask().getChilds().getFirst();
-			_g.drawRect(Math.round(rect.getRectangle().getMinX()), Math.round(rect.getRectangle().getMinY()),
-					Math.round(rect.getRectangle().getWidth()), Math.round(rect.getRectangle().getHeight()));
+			drawCollisionShape(_g, entity.getCollisionMask());
+		}
+		
+		for(CollisionShape shape : m_environnement.getMap().getCollisionMask().getChilds())
+		{
+			drawCollisionShape(_g, shape);
 		}
 		
 		_g.setColor(Color.red);
 		for(CollidingObjects co : m_environnement.getPhysicEngine().getQuadTree().getCollidingObjects(null))
 		{
-			RectangleShape rs1 = (RectangleShape) co.m_s1.getChilds().getFirst();
-			RectangleShape rs2 = (RectangleShape) co.m_s2.getChilds().getFirst();
+			RectangleShape rs1, rs2;
 			
-			_g.drawRect(Math.round(rs1.getRectangle().getMinX()), Math.round(rs1.getRectangle().getMinY()),
-					Math.round(rs1.getRectangle().getWidth()), Math.round(rs1.getRectangle().getHeight()));
-			_g.drawRect(Math.round(rs2.getRectangle().getMinX()), Math.round(rs2.getRectangle().getMinY()),
-					Math.round(rs2.getRectangle().getWidth()), Math.round(rs2.getRectangle().getHeight()));
+			drawCollisionShape(_g, co.m_s1);
+			drawCollisionShape(_g, co.m_s2);
 		}
 	}
 	

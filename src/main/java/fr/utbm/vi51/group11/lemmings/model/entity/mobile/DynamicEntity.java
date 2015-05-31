@@ -25,10 +25,13 @@ public abstract class DynamicEntity extends WorldEntity
 	protected Environment		m_environment;
 
 	/** Current speed */
-	protected Vector2f 			m_speed;
+	protected Vector2f 			m_speed = new Vector2f();
 	
 	/** Current acceleration */
-	protected Vector2f 			m_acceleration;
+	protected Vector2f 			m_acceleration = new Vector2f();
+	
+	/** Saved position */
+	protected Vector2f m_savedPosition;
 	
 	/*----------------------------------------------*/
 
@@ -62,6 +65,9 @@ public abstract class DynamicEntity extends WorldEntity
 	 */
 	public Vector2f getSpeed()
 	{
+		if(m_speed == null)
+			m_speed = new Vector2f();
+		
 		return m_speed;
 	}
 	
@@ -96,6 +102,20 @@ public abstract class DynamicEntity extends WorldEntity
 	public void setAcceleration(Vector2f _acceleration)
 	{
 		m_acceleration.set(_acceleration);
+	}
+	
+	public void savePosition()
+	{
+		if(m_savedPosition == null)
+			m_savedPosition = new Vector2f();
+		
+		m_savedPosition.set(m_worldCoords);
+	}
+	
+	public void reloadPosition()
+	{
+		if(m_savedPosition != null && m_worldCoords != null)
+			this.m_worldCoords.set(m_savedPosition);
 	}
 
 }

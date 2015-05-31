@@ -81,5 +81,4 @@ public class CollisionMask extends CollisionShape
 		for(CollisionShape shape : _shape.getChilds())
 			updateShape(shape);
 	}
-	
 }

@@ -116,7 +116,7 @@ public abstract class Body extends DynamicEntity implements IControllable
 	{
 		if (!filterInfluence())
 		{
-			m_influences.add(new Influence(InfluenceType.SPEED, _speed));
+			// m_influences.add(new Influence(InfluenceType.SPEED, _speed));
 		}
 	}
 

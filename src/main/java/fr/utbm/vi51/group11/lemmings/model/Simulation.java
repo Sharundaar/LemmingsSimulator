@@ -69,6 +69,7 @@ public class Simulation
 		while(m_running)
 		{
 			start = System.currentTimeMillis();
+			updateAgents(dt);
 			update(dt);
 			draw();
 			
@@ -91,6 +92,15 @@ public class Simulation
 				fps_timer = 0;
 				fps_count = 0;
 			}
+		}
+	}
+	
+	/*----------------------------------------------*/
+	public void updateAgents(long _dt)
+	{
+		for(Agent ag : m_agents)
+		{
+			ag.live(_dt);
 		}
 	}
 	

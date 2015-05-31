@@ -17,7 +17,7 @@ public class QuadTree
 	public class QuadTreeNode
 	{
 		public static final int s_threasold = 3;
-		public static final float s_minimalArea = 10;
+		public static final float s_minimalArea = 32;
 		
 		private RectangleShape m_shape;
 		

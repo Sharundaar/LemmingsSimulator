@@ -10,9 +10,9 @@ package fr.utbm.vi51.group11.lemmings.utils.enums;
 public enum CellType
 {
 	BACK_WALL(0, true, false),
-	DIRT(1, true, false),
-	GRASS(2, true, false),
-	STONE(3, true, false),
+	DIRT(1, false, false),
+	GRASS(2, false, false),
+	STONE(3, false, false),
 	TOXIC(4, true, true),
 	PIT(5, true, true),
 	ATTRACTIVE_FIELD(6, true, false),

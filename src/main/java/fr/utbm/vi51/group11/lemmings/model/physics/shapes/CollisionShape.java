@@ -15,8 +15,13 @@ public abstract class CollisionShape {
 	protected LinkedList<CollisionShape> m_childs = new LinkedList<CollisionShape>();
 	
 	protected CollisionShape m_parent;
+	protected PhysicType m_phyType;
 	
 	protected Shape2f m_shape;
+	
+	protected Point2f m_computedCoordinates = new Point2f();
+	
+	protected Object m_data;
 	
 	protected CollisionShape(CollisionShapeType _type, CollisionShape _parent)
 	{
@@ -33,6 +38,12 @@ public abstract class CollisionShape {
 		MASK,
 	}
 	
+	public enum PhysicType
+	{
+		STATIC,
+		DYNAMIC
+	}
+	
 	public Point2f computeGlobalCoordinates()
 	{
 		CollisionShape current = this;
@@ -46,6 +57,7 @@ public abstract class CollisionShape {
 			current = current.getParent();
 		}
 		
+		m_computedCoordinates.set(result.getX(), result.getY());
 		return result;
 	}
 	
@@ -100,12 +112,20 @@ public abstract class CollisionShape {
 	 */
 	public Point2f getCoordinates()
 	{
-		return m_coordinates;
+		return this.m_coordinates;
+	}
+	
+	public Point2f getCoordinates(boolean _global)
+	{
+		if(_global)
+			return m_computedCoordinates;
+		else
+			return m_coordinates;
 	}
 	
 	private void setParent(CollisionShape _shape)
 	{
-		if(m_parent != null)
+		if(m_parent != null && m_parent != _shape)
 			m_parent.removeShape(this);
 		m_parent = _shape;
 	}
@@ -126,6 +146,26 @@ public abstract class CollisionShape {
 			m_childs.remove(_shape);
 			_shape.setParent(null);
 		}
+	}
+	
+	public PhysicType getPhysicType()
+	{
+		return m_phyType;
+	}
+	
+	public void setPhysicType(PhysicType _type)
+	{
+		m_phyType = _type;
+	}
+	
+	public void setData(Object _data)
+	{
+		m_data = _data;
+	}
+	
+	public Object getData()
+	{
+		return m_data;
 	}
 	
 	public abstract void updateShape();

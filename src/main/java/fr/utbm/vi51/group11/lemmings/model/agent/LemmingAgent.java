@@ -44,7 +44,7 @@ public class LemmingAgent extends Agent {
 	 * Method used to tell the agent to start its cycle of life.
 	 */
 	@Override
-	public void live() {
+	public void live(long _dt) {
 		List<IPerceivable> surroundingEntities = getPerceptions();
 
 		Vector2f newDirection = decide(surroundingEntities);
