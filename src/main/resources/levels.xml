@@ -38,20 +38,21 @@
 				<y>17</y>
 				<textureID>entitySpriteSheet</textureID>
 			</worldEntity>
-			<worldEntity id="LEMMING_BODY">
-				<x>300</x>
-				<y>300</y>
-				<textureID>entitySpriteSheet</textureID>
-			</worldEntity>
-			<worldEntity id="LEMMING_BODY">
-				<x>50</x>
-				<y>150</y>
-				<textureID>entitySpriteSheet</textureID>
-			</worldEntity>
-			<worldEntity id="LEMMING_BODY">
-				<x>673</x>
-				<y>332</y>
-				<textureID>entitySpriteSheet</textureID></worldEntity>
+<!-- 			<worldEntity id="LEMMING_BODY"> -->
+<!-- 				<x>300</x> -->
+<!-- 				<y>300</y> -->
+<!-- 				<textureID>entitySpriteSheet</textureID> -->
+<!-- 			</worldEntity> -->
+<!-- 			<worldEntity id="LEMMING_BODY"> -->
+<!-- 				<x>50</x> -->
+<!-- 				<y>150</y> -->
+<!-- 				<textureID>entitySpriteSheet</textureID> -->
+<!-- 			</worldEntity> -->
+<!-- 			<worldEntity id="LEMMING_BODY"> -->
+<!-- 				<x>673</x> -->
+<!-- 				<y>332</y> -->
+<!-- 				<textureID>entitySpriteSheet</textureID> -->
+<!-- 			</worldEntity> -->
 		</worldEntities>
 	</level>
 </levels> 

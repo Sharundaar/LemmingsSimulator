@@ -88,7 +88,7 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 						(String) xpath.compile("levels/level[@id='" + id + "']/tileGrid").evaluate(
 								document, XPathConstants.STRING), "\t\t");
 				nbRow = StringUtils.countMatches(tempString, "\n") - 1;
-				nbCol = StringUtils.countMatches(tempString, "\t") / nbRow;
+				nbCol = (StringUtils.countMatches(tempString, "\t") / nbRow) - 1;
 
 				tileGrid = new int[nbCol][nbRow];
 
