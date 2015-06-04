@@ -1,3 +1,9 @@
 bin
 lib
 log
+.metadata/
+RemoteSystemsTempFiles/
+/target/
+.settings/
+.project
+/src/
