@@ -1,7 +1,5 @@
 package fr.utbm.vi51.group11.lemmings.utils.configuration.level;
 
-import java.util.Iterator;
-
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.slf4j.Logger;
@@ -85,19 +83,10 @@ public class LevelProperties
 		disp += "\n*";
 		disp += "\n*   WorldEntities : ";
 
-		Iterator<String> iterator = m_worldEntitiesConfiguration.keySet().iterator();
-		String key = iterator.next();
-		String oldKey = key;
-		disp += key + " - " + m_worldEntitiesConfiguration.get(key);
-
-		while (iterator.hasNext())
+		for (String key : m_worldEntitiesConfiguration.keySet())
 		{
-			key = iterator.next();
 			disp += "\n*                   ";
-			if (!oldKey.equals(key))
-				disp += key + " - ";
-			else
-				disp += "   ";
+			disp += m_worldEntitiesConfiguration.get(key).size() + " " + key + " - ";
 			disp += m_worldEntitiesConfiguration.get(key);
 		}
 		disp += "\n*";

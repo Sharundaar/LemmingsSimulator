@@ -26,7 +26,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import fr.utbm.vi51.group11.lemmings.gui.texture.TextureBank;
-import fr.utbm.vi51.group11.lemmings.utils.statics.FileUtils1;
+import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsFile;
+import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 
 public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 {
@@ -70,7 +71,7 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 			// documentBuilder.parse(FileUtils1.RESOURCES_DIR.resolve(
 			// FileUtils1.LEVEL_CONF_FILENAME).toString()); TODO change path
 			Document document = documentBuilder.parse(Resources
-					.getResourceAsStream(FileUtils1.LEVEL_CONF_FILENAME));
+					.getResourceAsStream(UtilsFile.LEVEL_CONF_FILENAME));
 			XPath xpath = XPathFactory.newInstance().newXPath();
 
 			levelList = (NodeList) xpath.compile("levels/level").evaluate(document,
@@ -116,23 +117,30 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 					entityCoord = new Point2f(Float.parseFloat(nodeList.item(i).getChildNodes()
 							.item(1).getTextContent()), Float.parseFloat(nodeList.item(i)
 							.getChildNodes().item(3).getTextContent()));
-					if ((entityCoord.x() > nbCol) || (entityCoord.x() < 0)
-							|| (entityCoord.y() > nbRow) || (entityCoord.y() < 0))
+					if ((entityCoord.x() >= (nbCol * UtilsLemmings.s_tileWidth))
+							|| (entityCoord.x() < 0)
+							|| (entityCoord.y() >= (nbRow * UtilsLemmings.s_tileHeight))
+							|| (entityCoord.y() < 0))
 					{
-						s_LOGGER.error("Wrong coordinates, entityCoords.x > or < to bounds (or y).");
+						s_LOGGER.error(
+								"Entity-{} : Wrong coordinates, entityCoords.x > or < to bounds (or y).",
+								i);
+					} else
+					{
+
+						/* Adds a new WorldEntity to the map */
+						worldEntitiesConfiguration.add(nodeList.item(i).getAttributes().item(0)
+								.getTextContent(), new WorldEntityConfiguration(entityCoord,
+						/* Retrieves the textureID */
+						nodeList.item(i).getChildNodes().item(5).getTextContent()));
+
+						/*
+						 * Adds the textureID to the list given afterwards to
+						 * the
+						 * textureBank
+						 */
+						textureIDs.add(nodeList.item(i).getChildNodes().item(5).getTextContent());
 					}
-
-					/* Adds a new WorldEntity to the map */
-					worldEntitiesConfiguration.add(nodeList.item(i).getAttributes().item(0)
-							.getTextContent(), new WorldEntityConfiguration(entityCoord,
-					/* Retrieves the textureID */
-					nodeList.item(i).getChildNodes().item(5).getTextContent()));
-
-					/*
-					 * Adds the textureID to the list given afterwards to the
-					 * textureBank
-					 */
-					textureIDs.add(nodeList.item(i).getChildNodes().item(5).getTextContent());
 				}
 
 				/* Creates and add a new LevelProperties to this */

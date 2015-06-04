@@ -10,6 +10,7 @@ import javax.swing.event.ChangeListener;
 import fr.utbm.vi51.group11.lemmings.controller.KeyboardController;
 import fr.utbm.vi51.group11.lemmings.gui.GraphicsEngine.DebugOption;
 import fr.utbm.vi51.group11.lemmings.model.Environment;
+import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 
 public class MainFrame extends GUI
 {
@@ -19,16 +20,17 @@ public class MainFrame extends GUI
 	private static final long		serialVersionUID	= 1L;
 
 	private final GraphicsEngine	m_graphicsEngine;
-	
-	private JMenuBar m_menuBar;
 
-	public MainFrame(final Environment _environnement)
+	private JMenuBar				m_menuBar;
+
+	public MainFrame(final Environment _environnement, final int _rowNb, final int _colNb)
 	{
 		super();
-		setSize(500, 500);
+		setSize((int) UtilsLemmings.s_tileWidth * _colNb, (int) UtilsLemmings.s_tileHeight * _rowNb);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		m_graphicsEngine = new GraphicsEngine(_environnement);
+		m_graphicsEngine = new GraphicsEngine(_environnement, (int) UtilsLemmings.s_tileWidth
+				* _colNb, (int) UtilsLemmings.s_tileHeight * _rowNb);
 
 		KeyboardController.getInstance().updateJPanelKeyboardMaps(m_graphicsEngine);
 
@@ -36,43 +38,50 @@ public class MainFrame extends GUI
 
 		setContentPane(m_graphicsEngine);
 		setLocationRelativeTo(null);
-		
+
 		createMenuBar();
 		this.setJMenuBar(m_menuBar);
-		
+
 		setVisible(true);
 	}
-	
+
 	public void createMenuBar()
 	{
 		m_menuBar = new JMenuBar();
-		
+
 		JMenu debugMenu = new JMenu("Debug Options");
 		final JCheckBoxMenuItem showQuadTree = new JCheckBoxMenuItem("Show QuadTree");
-		showQuadTree.addChangeListener(new ChangeListener() {
+		showQuadTree.addChangeListener(new ChangeListener()
+		{
 
 			@Override
-			public void stateChanged(ChangeEvent arg0) {
+			public void stateChanged(
+					final ChangeEvent arg0)
+			{
 				// TODO Auto-generated method stub
-				m_graphicsEngine.enableDebugOption(DebugOption.SHOW_QUAD_TREE, showQuadTree.getState());
+				m_graphicsEngine.enableDebugOption(DebugOption.SHOW_QUAD_TREE,
+						showQuadTree.getState());
 			}
-			
-		
+
 		});
 		final JCheckBoxMenuItem showCollisionBox = new JCheckBoxMenuItem("Show Collision Boxes");
-		showCollisionBox.addChangeListener(new ChangeListener() {
-			
+		showCollisionBox.addChangeListener(new ChangeListener()
+		{
+
 			@Override
-			public void stateChanged(ChangeEvent arg0) {
+			public void stateChanged(
+					final ChangeEvent arg0)
+			{
 				// TODO Auto-generated method stub
-				m_graphicsEngine.enableDebugOption(DebugOption.SHOW_COLLISION_BOX, showCollisionBox.getState());
+				m_graphicsEngine.enableDebugOption(DebugOption.SHOW_COLLISION_BOX,
+						showCollisionBox.getState());
 			}
-			
+
 		});
-		
+
 		debugMenu.add(showCollisionBox);
 		debugMenu.add(showQuadTree);
-		
+
 		m_menuBar.add(debugMenu);
 	}
 

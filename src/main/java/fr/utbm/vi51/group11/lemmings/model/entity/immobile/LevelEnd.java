@@ -11,7 +11,7 @@ import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.ICollidable;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
-import fr.utbm.vi51.group11.lemmings.utils.statics.LemmingUtils;
+import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 
 public class LevelEnd extends WorldEntity implements ICollidable, IPerceivable
 {
@@ -23,11 +23,11 @@ public class LevelEnd extends WorldEntity implements ICollidable, IPerceivable
 	{
 		m_worldCoords = _worldCoords;
 		m_type = WorldEntityEnum.LEVEL_END;
-		m_sprite = new Sprite(_worldCoords.x(), _worldCoords.y(), LemmingUtils.EXIT_DEFAULT_WIDTH, LemmingUtils.EXIT_DEFAULT_HEIGHT, 
+		m_sprite = new Sprite(_worldCoords.x(), _worldCoords.y(), UtilsLemmings.s_exitDefaultWidth, UtilsLemmings.s_exitDefaultHeight, 
 				0, 0, 5, 5, _textureID); // TODO
 		
 		m_collisionMask = new CollisionMask(m_worldCoords);
-		m_collisionMask.addChild(new RectangleShape(LemmingUtils.ENTRY_DEFAULT_WIDTH, LemmingUtils.ENTRY_DEFAULT_HEIGHT, null));
+		m_collisionMask.addChild(new RectangleShape(UtilsLemmings.s_entryDefaultWidth, UtilsLemmings.s_entryDefaultHeight, null));
 	}
 
 }

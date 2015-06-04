@@ -6,8 +6,6 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
-import org.arakhne.afc.math.continous.object2d.Rectangle2f;
-import org.arakhne.afc.math.continous.object2d.Shape2f;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
 import org.arakhne.afc.math.discrete.object2d.Vector2i;
 import org.slf4j.Logger;
@@ -32,7 +30,7 @@ public class Map extends WorldEntity
 	/** Discrete Grid of cells containing the environment */
 	private final Grid			m_grid;
 
-	public 	final static int	CELL_SIZE	= 32;
+	public final static int		CELL_SIZE	= 32;
 	private final static int	TYPE_ARGB	= 2;
 
 	private final Texture		m_texture;
@@ -44,10 +42,8 @@ public class Map extends WorldEntity
 	/**
 	 * Only constructor. Initializes the grid.
 	 * 
-	 * @param _rowNb
-	 *            Number of rows splitting the screen.
-	 * @param _colNb
-	 *            Number of columns splitting the screen.
+	 * @param _levelProperties
+	 *            Current level properties.
 	 */
 	public Map(final LevelProperties _levelProperties)
 	{
@@ -61,13 +57,13 @@ public class Map extends WorldEntity
 		m_imageGraphics = m_image.createGraphics();
 		m_texture = new Texture("Map", m_image);
 		m_type = WorldEntityEnum.MAP;
-		
+
 		this.m_sprite = new Sprite(m_worldCoords.getX(), m_worldCoords.getY(), m_grid.getWidth()
 				* CELL_SIZE, m_grid.getHeight() * CELL_SIZE, // world components
 				0, 0, m_grid.getWidth() * CELL_SIZE, m_grid.getHeight() * CELL_SIZE, // texture
 																						// components
 				m_texture); // image
-		
+
 		updateCollisionMask();
 	}
 
@@ -181,71 +177,76 @@ public class Map extends WorldEntity
 		return new Vector2f(m_worldCoords.getX() + (_x * CELL_SIZE), m_worldCoords.getY()
 				+ (_y * CELL_SIZE));
 	}
-	
+
 	private void updateCollisionMask()
 	{
 		m_collisionMask = new CollisionMask(m_worldCoords);
 		m_collisionMask.setData(this);
-		for(int i=0; i<m_grid.getHeight(); ++i)
+		for (int i = 0; i < m_grid.getHeight(); ++i)
 		{
 			int start = 0, end = -1;
-			for(int j=0; j<m_grid.getWidth(); ++j)
+			for (int j = 0; j < m_grid.getWidth(); ++j)
 			{
 				CellType tcell = this.getCellType(j, i, true);
-				// we wan't to test collision in these two cases (not crossable or dangerous)
-				if(!tcell.isCrossable() || tcell.isDangerous())
+				// we wan't to test collision in these two cases (not crossable
+				// or dangerous)
+				if (!tcell.isCrossable() || tcell.isDangerous())
 				{
-					if(end < 0)
+					if (end < 0)
 						end = start;
 					else
 						end++;
-				}
-				else 
+				} else
 				{
-					if(end >= 0) // two cases, or end >= 0 in which case we need to create a collision box of at least 1 cell
+					if (end >= 0) // two cases, or end >= 0 in which case we
+									// need to create a collision box of at
+									// least 1 cell
 					{
-						RectangleShape rect = new RectangleShape(start*CELL_SIZE, i*CELL_SIZE, ((end+1)-start)*CELL_SIZE, CELL_SIZE, m_collisionMask);
+						RectangleShape rect = new RectangleShape(start * CELL_SIZE, i * CELL_SIZE,
+								((end + 1) - start) * CELL_SIZE, CELL_SIZE, m_collisionMask);
 						m_collisionMask.addChild(rect);
 						rect.setData(this);
-						
-						start = end+2;
+
+						start = end + 2;
 						end = -1;
-					}
-					else // or we're not creating a collision box so we move start point
+					} else
+					// or we're not creating a collision box so we move start
+					// point
 					{
 						start++;
 					}
 				}
 			}
-			
-			if(end != -1)
+
+			if (end != -1)
 			{
-				RectangleShape rect = new RectangleShape(start*CELL_SIZE, i*CELL_SIZE, ((end+1)-start)*CELL_SIZE, CELL_SIZE, m_collisionMask);
+				RectangleShape rect = new RectangleShape(start * CELL_SIZE, i * CELL_SIZE,
+						((end + 1) - start) * CELL_SIZE, CELL_SIZE, m_collisionMask);
 				m_collisionMask.addChild(rect);
 			}
 		}
 	}
-	
-	public LinkedList<Cell> getCellInArea(Point2f _position, CollisionShape _area)
+
+	public LinkedList<Cell> getCellInArea(
+			final Point2f _position,
+			final CollisionShape _area)
 	{
 		LinkedList<Cell> result = new LinkedList<Cell>();
-		
-		
+
 		Vector2i mapPos = continueToDiscreteCoordinates(_position.getX(), _position.getY());
-		int i=mapPos.x();
-		int j=mapPos.y();
-		while(i<m_grid.getWidth() && _area.collide(m_grid.getCell(i, j).getRectangle()))
+		int i = mapPos.x();
+		int j = mapPos.y();
+		while ((i < m_grid.getWidth()) && _area.collide(m_grid.getCell(i, j).getRectangle()))
 		{
-			while(j<m_grid.getHeight() && _area.collide(m_grid.getCell(i, j).getRectangle()))
+			while ((j < m_grid.getHeight()) && _area.collide(m_grid.getCell(i, j).getRectangle()))
 			{
 				result.add(m_grid.getCell(i, j));
 				++j;
 			}
-			j=mapPos.y();
+			j = mapPos.y();
 			++i;
 		}
-		
-		
+
 		return result;
 	}
 }

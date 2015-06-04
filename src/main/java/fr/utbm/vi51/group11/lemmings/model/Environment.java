@@ -62,11 +62,14 @@ public class Environment implements KeyListener
 	{
 		s_LOGGER.debug("Creation of the environment...");
 
+		int rowNb = _currentLevelProperties.getNbRow();
+		int colNb = _currentLevelProperties.getNbCol();
+
 		/* Instantiates attributes */
 		m_environmentTime = System.currentTimeMillis();
 		m_map = new Map(_currentLevelProperties);
-		m_physicEngine = new PhysicEngine();
-		m_gui = new MainFrame(this);
+		m_physicEngine = new PhysicEngine(rowNb, colNb);
+		m_gui = new MainFrame(this, rowNb, colNb);
 
 		m_worldEntities = new ArrayList<WorldEntity>();
 

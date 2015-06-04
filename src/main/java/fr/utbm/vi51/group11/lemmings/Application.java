@@ -13,7 +13,7 @@ import ch.qos.logback.core.joran.spi.JoranException;
 import fr.utbm.vi51.group11.lemmings.gui.texture.TextureBank;
 import fr.utbm.vi51.group11.lemmings.model.Simulation;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelPropertiesMap;
-import fr.utbm.vi51.group11.lemmings.utils.statics.FileUtils1;
+import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsFile;
 
 public class Application implements WindowListener
 {
@@ -26,7 +26,7 @@ public class Application implements WindowListener
 	public Application() throws JoranException
 	{
 		/* Initializes the logger and the logfile */
-		FileUtils1.initLogger();
+		UtilsFile.initLogger();
 	}
 
 	public void go() throws Exception
