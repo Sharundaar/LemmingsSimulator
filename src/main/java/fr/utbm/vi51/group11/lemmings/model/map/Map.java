@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import fr.utbm.vi51.group11.lemmings.gui.texture.Sprite;
 import fr.utbm.vi51.group11.lemmings.gui.texture.Texture;
+import fr.utbm.vi51.group11.lemmings.gui.texture.TextureBank;
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
@@ -20,9 +21,10 @@ import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelProperties;
 import fr.utbm.vi51.group11.lemmings.utils.enums.CellType;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
+import fr.utbm.vi51.group11.lemmings.utils.interfaces.ITextureHandler;
 import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 
-public class Map extends WorldEntity
+public class Map extends WorldEntity implements ITextureHandler
 {
 	/** Logger of the class */
 	@SuppressWarnings("unused")
@@ -35,6 +37,7 @@ public class Map extends WorldEntity
 
 	private final Texture		m_texture;
 	private final BufferedImage	m_image;
+	private Texture				m_spriteSheet;
 
 	private final Graphics2D	m_imageGraphics;
 
@@ -53,6 +56,13 @@ public class Map extends WorldEntity
 
 		this.m_worldCoords = new Point2f(0, 0);
 
+		TextureBank.getInstance().getTexture(_levelProperties.getTileSpriteSheet(), this);
+
+		m_image = new BufferedImage(_levelProperties.getNbCol() * UtilsLemmings.s_tileWidth,
+				_levelProperties.getNbRow() * UtilsLemmings.s_tileHeight, TYPE_ARGB);
+		m_imageGraphics = m_image.createGraphics();
+		m_texture = new Texture("Map", m_image);
+
 		this.m_sprite = new Sprite(
 		/* world coordinates */
 		m_worldCoords.getX(), m_worldCoords.getY(), m_grid.getWidth() * UtilsLemmings.s_tileWidth,
@@ -61,12 +71,7 @@ public class Map extends WorldEntity
 				0, 0, m_grid.getWidth() * UtilsLemmings.s_tileWidth, m_grid.getHeight()
 						* UtilsLemmings.s_tileHeight,
 				/* associated Texture. */
-				_levelProperties.getTileSpriteSheet());
-
-		m_image = new BufferedImage(_levelProperties.getNbCol() * UtilsLemmings.s_tileWidth,
-				_levelProperties.getNbRow() * UtilsLemmings.s_tileHeight, TYPE_ARGB);
-		m_imageGraphics = m_image.createGraphics();
-		m_texture = new Texture("Map", m_image);
+				m_texture);
 		m_type = WorldEntityEnum.MAP;
 
 		updateCollisionMask();
@@ -79,8 +84,8 @@ public class Map extends WorldEntity
 	 */
 	public void redrawMap()
 	{
+		BufferedImage image = null;
 		m_imageGraphics.clearRect(0, 0, m_image.getWidth(), m_image.getHeight());
-		BufferedImage ima = null;
 
 		for (int i = 0; i < m_grid.getWidth(); ++i)
 		{
@@ -90,40 +95,53 @@ public class Map extends WorldEntity
 				switch (getCellType(i, j, true))
 				{
 					case BACK_WALL:
-						ima = m_sprite
-								.getTexture()
-								.getImage()
-								.getSubimage(2 * UtilsLemmings.s_tileWidth,
-										0 * UtilsLemmings.s_tileHeight, UtilsLemmings.s_tileWidth,
-										UtilsLemmings.s_tileHeight);
+						drawCell(image, cellPos, Color.GRAY, 2, 0);
 						break;
 					case DIRT:
+						drawCell(image, cellPos, Color.ORANGE, 0, 0); // TODO
+						break;
 					case GRASS:
+						drawCell(image, cellPos, Color.GREEN, 0, 0); // TODO
 					case STONE:
-						ima = m_sprite
-								.getTexture()
-								.getImage()
-								.getSubimage(0 * UtilsLemmings.s_tileWidth,
-										0 * UtilsLemmings.s_tileHeight, UtilsLemmings.s_tileWidth,
-										UtilsLemmings.s_tileHeight);
+						drawCell(image, cellPos, Color.YELLOW, 0, 0); // TODO
 						break;
 					case TOXIC:
+						/* Dark green color otherwise. */
+						drawCell(image, cellPos, Color.getHSBColor(120, 100, 50), 1, 0);
 					case PIT:
+						drawCell(image, cellPos, Color.PINK, 2, 0); // TODO
 					case ATTRACTIVE_FIELD:
+						drawCell(image, cellPos, Color.LIGHT_GRAY, 2, 0); // TODO
 					case REPULSIVE_FIELD:
-						m_imageGraphics.setColor(Color.GREEN);
+						drawCell(image, cellPos, Color.DARK_GRAY, 2, 0); // TODO
 						break;
 
 					default:
 						break;
 
 				}
-
-				// m_imageGraphics.fillRect(cellPos.x(), cellPos.y(),
-				// UtilsLemmings.s_tileWidth,
-				// UtilsLemmings.s_tileHeight);
-				m_imageGraphics.drawImage(ima, null, cellPos.x(), cellPos.y());
 			}
+		}
+	}
+
+	private void drawCell(
+			BufferedImage _image,
+			final Vector2f _cellPos,
+			final Color _color,
+			final int _xTexCoord,
+			final int _yTexCoord)
+	{
+		if (m_spriteSheet == null)
+		{
+			m_imageGraphics.setColor(_color);
+			m_imageGraphics.fillRect(_cellPos.x(), _cellPos.y(), UtilsLemmings.s_tileWidth,
+					UtilsLemmings.s_tileHeight);
+		} else
+		{
+			_image = m_spriteSheet.getImage().getSubimage(_xTexCoord * UtilsLemmings.s_tileWidth,
+					_yTexCoord * UtilsLemmings.s_tileHeight, UtilsLemmings.s_tileWidth,
+					UtilsLemmings.s_tileHeight);
+			m_imageGraphics.drawImage(_image, _cellPos.x(), _cellPos.y(), null);
 		}
 	}
 
@@ -272,5 +290,12 @@ public class Map extends WorldEntity
 		}
 
 		return result;
+	}
+
+	@Override
+	public void receiveTexture(
+			final Texture _texture)
+	{
+		m_spriteSheet = _texture;
 	}
 }

@@ -91,6 +91,7 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 				tileSpriteSheet = (String) xpath.compile(
 						"levels/level[@id='" + id + "']/tileSpriteSheet").evaluate(document,
 						XPathConstants.STRING);
+				textureIDs.add(tileSpriteSheet);
 
 				/* Retrieves the Texture tile grid of the map */
 				tempString = StringUtils.removePattern(

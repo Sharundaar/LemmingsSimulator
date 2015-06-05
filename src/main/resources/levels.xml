@@ -36,7 +36,7 @@
 				<textureID>worldEntitySpriteSheet</textureID>
 			</worldEntity>
 			<worldEntity id="LEVEL_END">
-				<x>704</x>
+				<x>654</x>
 				<y>544</y>
 				<textureID>worldEntitySpriteSheet</textureID>
 			</worldEntity>
