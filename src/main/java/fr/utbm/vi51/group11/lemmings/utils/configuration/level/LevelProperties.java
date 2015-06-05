@@ -15,6 +15,9 @@ public class LevelProperties
 	/** ID of the Level */
 	private final String											m_id;
 
+	/** String name of the sprite sheet containing the tiles. */
+	private final String											m_tileSpriteSheet;
+
 	/** Matrix representing the texture for each cell of the grid of the map */
 	private final int[][]											m_tileGrid;
 
@@ -23,10 +26,12 @@ public class LevelProperties
 
 	/*----------------------------------------------*/
 
-	public LevelProperties(final String _id, final int[][] _tileGrid,
+	public LevelProperties(final String _id, final String _tileSpriteSheet,
+			final int[][] _tileGrid,
 			final MultivaluedMap<String, WorldEntityConfiguration> worldEntities)
 	{
 		m_id = _id;
+		m_tileSpriteSheet = _tileSpriteSheet;
 		m_tileGrid = _tileGrid;
 		m_worldEntitiesConfiguration = worldEntities;
 	}
@@ -43,6 +48,13 @@ public class LevelProperties
 	public int getNbCol()
 	{
 		return m_tileGrid.length;
+	}
+
+	/*----------------------------------------------*/
+
+	public String getTileSpriteSheet()
+	{
+		return m_tileSpriteSheet;
 	}
 
 	/*----------------------------------------------*/
@@ -69,6 +81,7 @@ public class LevelProperties
 		String disp = "";
 		disp += "\n************************************";
 		disp += "\n*   LevelProperties ID : '" + m_id + "'";
+		disp += "\n*   Associated SpriteSheet : '" + m_tileSpriteSheet + "'";
 		disp += "\n*   Size (w*h) : " + nbCol + "*" + nbRow;
 		disp += "\n*   TileGrid   : ";
 

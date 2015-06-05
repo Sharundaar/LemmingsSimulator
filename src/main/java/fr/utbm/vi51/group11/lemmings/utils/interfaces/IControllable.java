@@ -5,6 +5,7 @@ import java.util.List;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
 
 import fr.utbm.vi51.group11.lemmings.utils.misc.Action;
+import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
 
 /**
  * 
@@ -25,6 +26,11 @@ public interface IControllable
 	 *         to the body's frustrum.
 	 */
 	public List<IPerceivable> getPerception();
+
+	/*----------------------------------------------*/
+
+	public boolean removeInfluence(
+			Influence _influence);
 
 	/*----------------------------------------------*/
 

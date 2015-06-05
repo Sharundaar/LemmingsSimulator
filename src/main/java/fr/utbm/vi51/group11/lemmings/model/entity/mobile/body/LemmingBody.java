@@ -1,6 +1,7 @@
 package fr.utbm.vi51.group11.lemmings.model.entity.mobile.body;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
@@ -12,10 +13,11 @@ import fr.utbm.vi51.group11.lemmings.gui.texture.Sprite;
 import fr.utbm.vi51.group11.lemmings.model.Environment;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
-import fr.utbm.vi51.group11.lemmings.utils.enums.ActionType;
+import fr.utbm.vi51.group11.lemmings.utils.enums.AnimationState;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.ICollidable;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
+import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
 import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 
 public class LemmingBody extends Body implements ICollidable
@@ -35,7 +37,11 @@ public class LemmingBody extends Body implements ICollidable
 
 		m_type = WorldEntityEnum.LEMMING_BODY;
 
-		m_animations = new HashMap<ActionType, Animation>();
+		m_animations = new HashMap<AnimationState, Animation>();
+		for (AnimationState state : AnimationState.values())
+			m_animations.put(state, new Animation(state));
+		m_currentAnimationState = AnimationState.BLOCK;
+		m_previousAnimationState = AnimationState.BLOCK;
 
 		m_alive = false;
 		m_worldCoords = _worldCoords;
@@ -52,6 +58,9 @@ public class LemmingBody extends Body implements ICollidable
 		m_sprite = new Sprite(m_worldCoords.x(), m_worldCoords.y(),
 				UtilsLemmings.s_lemmingDefaultWidth, UtilsLemmings.s_LemmingDefaultHeight, 0, 0,
 				27, 26, _textureID);
+
+		m_influences = new HashSet<Influence>();
+
 		s_LOGGER.debug("Lemming Body created.");
 	}
 

@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.arakhne.afc.math.discrete.object2d.Vector2i;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,9 +22,12 @@ import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape.PhysicType;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelProperties;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.WorldEntityConfiguration;
+import fr.utbm.vi51.group11.lemmings.utils.enums.AnimationState;
+import fr.utbm.vi51.group11.lemmings.utils.enums.InfluenceType;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.factory.EntityFactory;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
+import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
 
 /**
  * 
@@ -188,8 +192,34 @@ public class Environment implements KeyListener
 		if (m_rightPressed)
 			controlledEnt.getCoordinates().addX(0.1f * _dt);
 
+		if (controlledEnt instanceof Body)
+		{
+			LemmingBody b = (LemmingBody) controlledEnt;
+			for (Influence i : b.getInfluences())
+				if (i.getType() == InfluenceType.SPEED)
+				{
+					b.setSpeed(i.getSpeed());
+					b.setPreviousAnimationState(b.getCurrentAnimationState());
+					b.setCurrentAnimationState(b.getSpeed().getX() > 0 ? AnimationState.WALK_RIGHT
+							: AnimationState.WALK_LEFT);
+				}
+		}
+
 		for (WorldEntity ent : m_worldEntities)
 		{
+
+			if (ent instanceof Body)
+			{
+				Body body = (Body) ent;
+				if (body.getCurrentAnimationState() == body.getPreviousAnimationState())
+					if (!body.getAnimations().get(body.getCurrentAnimationState())
+							.incrementTime(_dt))
+					{
+						Vector2i spritePos = body.getAnimations()
+								.get(body.getCurrentAnimationState()).getCoords();
+						body.getSprite().setTextureRect(spritePos.x(), spritePos.y(), 27, 26);
+					}
+			}
 			ent.updateExterns();
 		}
 

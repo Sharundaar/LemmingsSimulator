@@ -20,6 +20,7 @@ import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelProperties;
 import fr.utbm.vi51.group11.lemmings.utils.enums.CellType;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
+import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 
 public class Map extends WorldEntity
 {
@@ -30,11 +31,11 @@ public class Map extends WorldEntity
 	/** Discrete Grid of cells containing the environment */
 	private final Grid			m_grid;
 
-	public final static int		CELL_SIZE	= 32;
 	private final static int	TYPE_ARGB	= 2;
 
 	private final Texture		m_texture;
 	private final BufferedImage	m_image;
+
 	private final Graphics2D	m_imageGraphics;
 
 	/*----------------------------------------------*/
@@ -52,17 +53,21 @@ public class Map extends WorldEntity
 
 		this.m_worldCoords = new Point2f(0, 0);
 
-		m_image = new BufferedImage(_levelProperties.getNbCol() * CELL_SIZE,
-				_levelProperties.getNbRow() * CELL_SIZE, TYPE_ARGB);
+		this.m_sprite = new Sprite(
+		/* world coordinates */
+		m_worldCoords.getX(), m_worldCoords.getY(), m_grid.getWidth() * UtilsLemmings.s_tileWidth,
+				m_grid.getHeight() * UtilsLemmings.s_tileHeight,
+				/* texture coordinates */
+				0, 0, m_grid.getWidth() * UtilsLemmings.s_tileWidth, m_grid.getHeight()
+						* UtilsLemmings.s_tileHeight,
+				/* associated Texture. */
+				_levelProperties.getTileSpriteSheet());
+
+		m_image = new BufferedImage(_levelProperties.getNbCol() * UtilsLemmings.s_tileWidth,
+				_levelProperties.getNbRow() * UtilsLemmings.s_tileHeight, TYPE_ARGB);
 		m_imageGraphics = m_image.createGraphics();
 		m_texture = new Texture("Map", m_image);
 		m_type = WorldEntityEnum.MAP;
-
-		this.m_sprite = new Sprite(m_worldCoords.getX(), m_worldCoords.getY(), m_grid.getWidth()
-				* CELL_SIZE, m_grid.getHeight() * CELL_SIZE, // world components
-				0, 0, m_grid.getWidth() * CELL_SIZE, m_grid.getHeight() * CELL_SIZE, // texture
-																						// components
-				m_texture); // image
 
 		updateCollisionMask();
 	}
@@ -75,6 +80,7 @@ public class Map extends WorldEntity
 	public void redrawMap()
 	{
 		m_imageGraphics.clearRect(0, 0, m_image.getWidth(), m_image.getHeight());
+		BufferedImage ima = null;
 
 		for (int i = 0; i < m_grid.getWidth(); ++i)
 		{
@@ -84,11 +90,23 @@ public class Map extends WorldEntity
 				switch (getCellType(i, j, true))
 				{
 					case BACK_WALL:
-						m_imageGraphics.setColor(Color.GRAY);
+						ima = m_sprite
+								.getTexture()
+								.getImage()
+								.getSubimage(2 * UtilsLemmings.s_tileWidth,
+										0 * UtilsLemmings.s_tileHeight, UtilsLemmings.s_tileWidth,
+										UtilsLemmings.s_tileHeight);
 						break;
 					case DIRT:
 					case GRASS:
 					case STONE:
+						ima = m_sprite
+								.getTexture()
+								.getImage()
+								.getSubimage(0 * UtilsLemmings.s_tileWidth,
+										0 * UtilsLemmings.s_tileHeight, UtilsLemmings.s_tileWidth,
+										UtilsLemmings.s_tileHeight);
+						break;
 					case TOXIC:
 					case PIT:
 					case ATTRACTIVE_FIELD:
@@ -101,7 +119,10 @@ public class Map extends WorldEntity
 
 				}
 
-				m_imageGraphics.fillRect(cellPos.x(), cellPos.y(), CELL_SIZE, CELL_SIZE);
+				// m_imageGraphics.fillRect(cellPos.x(), cellPos.y(),
+				// UtilsLemmings.s_tileWidth,
+				// UtilsLemmings.s_tileHeight);
+				m_imageGraphics.drawImage(ima, null, cellPos.x(), cellPos.y());
 			}
 		}
 	}
@@ -152,8 +173,8 @@ public class Map extends WorldEntity
 		float mapY = _y - this.m_worldCoords.getY();
 
 		/* Then from map space to grid space */
-		int gridX = (int) Math.floor((_x / CELL_SIZE));
-		int gridY = (int) Math.floor(_y / CELL_SIZE);
+		int gridX = (int) Math.floor((_x / UtilsLemmings.s_tileWidth));
+		int gridY = (int) Math.floor(_y / UtilsLemmings.s_tileHeight);
 
 		return new Vector2i(gridX, gridY);
 	}
@@ -174,8 +195,8 @@ public class Map extends WorldEntity
 			final int _y)
 	{
 
-		return new Vector2f(m_worldCoords.getX() + (_x * CELL_SIZE), m_worldCoords.getY()
-				+ (_y * CELL_SIZE));
+		return new Vector2f(m_worldCoords.getX() + (_x * UtilsLemmings.s_tileWidth),
+				m_worldCoords.getY() + (_y * UtilsLemmings.s_tileHeight));
 	}
 
 	private void updateCollisionMask()
@@ -202,8 +223,10 @@ public class Map extends WorldEntity
 									// need to create a collision box of at
 									// least 1 cell
 					{
-						RectangleShape rect = new RectangleShape(start * CELL_SIZE, i * CELL_SIZE,
-								((end + 1) - start) * CELL_SIZE, CELL_SIZE, m_collisionMask);
+						RectangleShape rect = new RectangleShape(start * UtilsLemmings.s_tileWidth,
+								i * UtilsLemmings.s_tileHeight, ((end + 1) - start)
+										* UtilsLemmings.s_tileWidth, UtilsLemmings.s_tileHeight,
+								m_collisionMask);
 						m_collisionMask.addChild(rect);
 						rect.setData(this);
 
@@ -220,8 +243,9 @@ public class Map extends WorldEntity
 
 			if (end != -1)
 			{
-				RectangleShape rect = new RectangleShape(start * CELL_SIZE, i * CELL_SIZE,
-						((end + 1) - start) * CELL_SIZE, CELL_SIZE, m_collisionMask);
+				RectangleShape rect = new RectangleShape(start * UtilsLemmings.s_tileWidth, i
+						* UtilsLemmings.s_tileHeight, ((end + 1) - start)
+						* UtilsLemmings.s_tileWidth, UtilsLemmings.s_tileHeight, m_collisionMask);
 				m_collisionMask.addChild(rect);
 			}
 		}

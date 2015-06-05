@@ -23,10 +23,12 @@ public class LevelStart extends WorldEntity implements ICollidable, IPerceivable
 	{
 		m_worldCoords = _worldCoords;
 		m_type = WorldEntityEnum.LEVEL_START;
-		m_sprite = new Sprite(_worldCoords.x(), _worldCoords.y(), UtilsLemmings.s_entryDefaultWidth, UtilsLemmings.s_entryDefaultHeight, 
-				0, 0, 5, 5, _textureID); // TODO
-		
+		m_sprite = new Sprite(_worldCoords.x(), _worldCoords.y(),
+				UtilsLemmings.s_entryDefaultWidth, UtilsLemmings.s_entryDefaultHeight, 0, 0, 64,
+				32, _textureID); // TODO
+
 		m_collisionMask = new CollisionMask(m_worldCoords);
-		m_collisionMask.addChild(new RectangleShape(UtilsLemmings.s_entryDefaultWidth, UtilsLemmings.s_entryDefaultHeight, null));
+		m_collisionMask.addChild(new RectangleShape(UtilsLemmings.s_entryDefaultWidth,
+				UtilsLemmings.s_entryDefaultHeight, null));
 	}
 }

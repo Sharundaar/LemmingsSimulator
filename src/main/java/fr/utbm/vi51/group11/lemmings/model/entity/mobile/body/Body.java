@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import fr.utbm.vi51.group11.lemmings.gui.texture.Animation;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.DynamicEntity;
-import fr.utbm.vi51.group11.lemmings.utils.enums.ActionType;
+import fr.utbm.vi51.group11.lemmings.utils.enums.AnimationState;
 import fr.utbm.vi51.group11.lemmings.utils.enums.InfluenceType;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IControllable;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
@@ -33,18 +33,21 @@ public abstract class Body extends DynamicEntity implements IControllable
 {
 	/** Logger of the class */
 	@SuppressWarnings("unused")
-	private final static Logger				s_LOGGER	= LoggerFactory.getLogger(Body.class);
+	private final static Logger					s_LOGGER	= LoggerFactory.getLogger(Body.class);
 
 	/** Tells of the body is alive or not. */
-	protected boolean						m_alive;
+	protected boolean							m_alive;
 
 	/** Field of perception of the body */
-	protected Frustrum						m_frustrum;
+	protected Frustrum							m_frustrum;
 
 	/** Influences given by the agent to perform */
-	protected Set<Influence>				m_influences;
+	protected Set<Influence>					m_influences;
 
-	protected Map<ActionType, Animation>	m_animations;
+	protected Map<AnimationState, Animation>	m_animations;
+
+	protected AnimationState					m_currentAnimationState;
+	protected AnimationState					m_previousAnimationState;
 
 	/*----------------------------------------------*/
 
@@ -83,6 +86,38 @@ public abstract class Body extends DynamicEntity implements IControllable
 		return perception;
 	}
 
+	public Map<AnimationState, Animation> getAnimations()
+	{
+		return m_animations;
+	}
+
+	public Set<Influence> getInfluences()
+	{
+		return m_influences;
+	}
+
+	public AnimationState getCurrentAnimationState()
+	{
+		return m_currentAnimationState;
+	}
+
+	public void setCurrentAnimationState(
+			final AnimationState _animationState)
+	{
+		m_currentAnimationState = _animationState;
+	}
+
+	public AnimationState getPreviousAnimationState()
+	{
+		return m_previousAnimationState;
+	}
+
+	public void setPreviousAnimationState(
+			final AnimationState _animationState)
+	{
+		m_previousAnimationState = _animationState;
+	}
+
 	/*----------------------------------------------*/
 
 	/**
@@ -95,12 +130,7 @@ public abstract class Body extends DynamicEntity implements IControllable
 	protected abstract boolean filterPerception(
 			List<IPerceivable> _perception);
 
-	public boolean addInfluence(
-			final Influence _influence)
-	{
-		return m_influences.add(_influence);
-	}
-
+	@Override
 	public boolean removeInfluence(
 			final Influence _influence)
 	{
@@ -121,7 +151,7 @@ public abstract class Body extends DynamicEntity implements IControllable
 	{
 		if (!filterInfluence())
 		{
-			// m_influences.add(new Influence(InfluenceType.SPEED, _speed));
+			m_influences.add(new Influence(InfluenceType.SPEED, _speed));
 		}
 	}
 

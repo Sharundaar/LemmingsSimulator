@@ -185,12 +185,9 @@ public class GraphicsEngine extends JPanel
 	private void drawEntities(
 			final Graphics _g)
 	{
-		Sprite sprite;
 		for (WorldEntity e : m_environnement.m_worldEntities)
 		{
-			sprite = e.getSprite();
-			// sprite.getTexture();
-			drawSprite(sprite, _g);
+			drawSprite(e.getSprite(), _g);
 		}
 	}
 

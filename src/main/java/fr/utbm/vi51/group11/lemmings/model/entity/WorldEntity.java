@@ -104,12 +104,19 @@ public abstract class WorldEntity implements IPerceivable
 		this.m_worldCoords.setY(_y);
 	}
 
+	public void setSprite(
+			final Sprite _sprite)
+	{
+		m_sprite = _sprite;
+	}
+
 	public Sprite getSprite()
 	{
 		return m_sprite;
 	}
 
-	public void updateExterns() {
+	public void updateExterns()
+	{
 		// TODO Auto-generated method stub
 		m_collisionMask.getCoordinates().set(m_worldCoords);
 		m_collisionMask.updateShape();

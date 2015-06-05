@@ -52,6 +52,7 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 		NodeList nodeList;
 		NodeList levelList;
 		String tempString = "";
+		String tileSpriteSheet = "";
 		String id;
 		int nbRow, nbCol;
 		int[][] tileGrid;
@@ -80,9 +81,16 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 			if (levelList.getLength() == 0)
 				s_LOGGER.error("List of level is empty. Please check the resource file 'level.xml' for any errors concerning <levels>/<level> tags.");
 
+			/* Pour chaque balise <level> */
 			for (int index = 0; index < levelList.getLength(); ++index)
 			{
+				/* Gets the ID of the level. */
 				id = levelList.item(index).getAttributes().item(0).getTextContent();
+
+				/* Retrieves the tilespriteSheet. */
+				tileSpriteSheet = (String) xpath.compile(
+						"levels/level[@id='" + id + "']/tileSpriteSheet").evaluate(document,
+						XPathConstants.STRING);
 
 				/* Retrieves the Texture tile grid of the map */
 				tempString = StringUtils.removePattern(
@@ -144,7 +152,8 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 				}
 
 				/* Creates and add a new LevelProperties to this */
-				this.put(id, new LevelProperties(id, tileGrid, worldEntitiesConfiguration));
+				this.put(id, new LevelProperties(id, tileSpriteSheet, tileGrid,
+						worldEntitiesConfiguration));
 			}
 
 			s_LOGGER.debug("MapProperties created.\n{}", this.toString());
