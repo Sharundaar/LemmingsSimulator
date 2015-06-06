@@ -95,15 +95,15 @@ public class Map extends WorldEntity implements ITextureHandler
 				switch (getCellType(i, j, true))
 				{
 					case BACK_WALL:
-						drawCell(image, cellPos, Color.GRAY, 2, 0);
+						drawCell(image, cellPos, Color.GRAY, 0, 0);
 						break;
 					case DIRT:
-						drawCell(image, cellPos, Color.ORANGE, 0, 0); // TODO
+						drawCell(image, cellPos, Color.ORANGE, 4, 0); // TODO
 						break;
 					case GRASS:
-						drawCell(image, cellPos, Color.GREEN, 0, 0); // TODO
+						drawCell(image, cellPos, Color.GREEN, 5, 0); // TODO
 					case STONE:
-						drawCell(image, cellPos, Color.YELLOW, 0, 0); // TODO
+						drawCell(image, cellPos, Color.YELLOW, 3, 0); // TODO
 						break;
 					case TOXIC:
 						/* Dark green color otherwise. */
@@ -111,9 +111,9 @@ public class Map extends WorldEntity implements ITextureHandler
 					case PIT:
 						drawCell(image, cellPos, Color.PINK, 2, 0); // TODO
 					case ATTRACTIVE_FIELD:
-						drawCell(image, cellPos, Color.LIGHT_GRAY, 2, 0); // TODO
+						drawCell(image, cellPos, Color.LIGHT_GRAY, 6, 0); // TODO
 					case REPULSIVE_FIELD:
-						drawCell(image, cellPos, Color.DARK_GRAY, 2, 0); // TODO
+						drawCell(image, cellPos, Color.DARK_GRAY, 7, 0); // TODO
 						break;
 
 					default:
