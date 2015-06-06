@@ -149,5 +149,39 @@ public abstract class Body extends DynamicEntity implements IControllable
 		m_alive = true;
 	}
 	
+	public BodyState getState()
+	{
+		return m_state;
+	}
 	
+	public BodyStateProperty getStateProperty()
+	{
+		return m_stateProperty;
+	}
+	
+	public void setState(BodyState _state, BodyStateProperty _property)
+	{
+		if(_property == null)
+			return;
+		
+		m_state = _state;
+		switch(m_state)
+		{
+		case DEAD:
+			m_stateProperty.m_timeOfDeath = _property.m_timeOfDeath;
+			break;
+		case FALLING:
+			m_stateProperty.m_fallHeight = _property.m_fallHeight;
+			m_stateProperty.m_chuteOpen = _property.m_chuteOpen;
+			break;
+			
+		case CLIMBING:
+			break;
+		case NORMAL:
+			break;
+		default:
+			break;
+		
+		}
+	}
 }

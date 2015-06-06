@@ -28,7 +28,7 @@ import fr.utbm.vi51.group11.lemmings.utils.interfaces.IControllable;
 public class Simulation
 {
 	/** Logger of the class */
-	private final static Logger	s_LOGGER	= LoggerFactory.getLogger(Simulation.class);
+	public final static Logger	s_LOGGER	= LoggerFactory.getLogger(Simulation.class);
 
 	/** List of agents contained in the environment */
 	private final List<Agent>	m_agents;

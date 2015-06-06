@@ -16,6 +16,8 @@ import fr.utbm.vi51.group11.lemmings.model.agent.LemmingAgent;
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.DynamicEntity;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.Body;
+import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.BodyState;
+import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.BodyStateProperty;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
 import fr.utbm.vi51.group11.lemmings.model.map.Map;
 import fr.utbm.vi51.group11.lemmings.model.physics.PhysicEngine;
@@ -26,6 +28,7 @@ import fr.utbm.vi51.group11.lemmings.utils.configuration.level.WorldEntityConfig
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.factory.EntityFactory;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
+import fr.utbm.vi51.group11.lemmings.utils.statics.LemmingUtils;
 
 /**
  * 
@@ -196,8 +199,82 @@ public class Environment implements KeyListener
 		m_physicEngine.computeMovements(_dt);
 		m_physicEngine.updateQuadTree();
 		m_physicEngine.solveCollisions();
+		
+		updateBodyStates(bodies);
 
 		updateAnimations(_dt);
+	}
+	
+	/*----------------------------------------------*/
+	public void updateBodyStates(LinkedList<Body> _bodies)
+	{
+		for(Body body : _bodies)
+		{
+			switch(body.getState())
+			{
+			case CLIMBING:
+				if(m_physicEngine.isGrounded(body))
+				{
+					if(!m_physicEngine.isBlocked(body))
+						body.setState(BodyState.NORMAL, new BodyStateProperty());
+				}
+				else
+				{
+					if(!m_physicEngine.isBlocked(body))
+					{
+						BodyStateProperty fallingState = new BodyStateProperty();
+						fallingState.m_chuteOpen = false;
+						fallingState.m_fallHeight = body.getCoordinates().getY();
+						body.setState(BodyState.FALLING, fallingState);
+					}
+				}
+				break;
+				
+			case FALLING:
+				if(m_physicEngine.isGrounded(body))
+				{
+					if(body.getStateProperty().m_chuteOpen)
+					{
+						body.setState(BodyState.NORMAL, new BodyStateProperty());	
+					}
+					else if(body.getStateProperty().m_fallHeight - body.getCoordinates().getY() <= LemmingUtils.MAXIMUM_FALLING_HEIGHTS)
+					{
+						body.setState(BodyState.NORMAL, new BodyStateProperty());
+					}
+					else
+					{
+						BodyStateProperty deadState = new BodyStateProperty();
+						deadState.m_timeOfDeath = getEnvironmentTime();
+						body.setState(BodyState.DEAD, deadState);
+					}
+				}
+				break;
+				
+			case NORMAL:
+				if(m_physicEngine.isGrounded(body))
+				{
+					if(m_physicEngine.isBlocked(body))
+					{
+						body.setState(BodyState.CLIMBING, new BodyStateProperty());
+					}
+				}
+				else
+				{
+					BodyStateProperty fallingState = new BodyStateProperty();
+					fallingState.m_chuteOpen = false;
+					fallingState.m_fallHeight = body.getCoordinates().getY();
+					body.setState(BodyState.FALLING, fallingState);
+				}
+				break;
+				
+			// can't escape death for now
+			case DEAD:
+				break;
+			default:
+				break;
+			
+			}
+		}
 	}
 	
 	/*----------------------------------------------*/

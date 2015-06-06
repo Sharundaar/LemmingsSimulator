@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.arakhne.afc.math.continous.object2d.Vector2f;
 
+import fr.utbm.vi51.group11.lemmings.model.Simulation;
 import fr.utbm.vi51.group11.lemmings.utils.enums.InfluenceType;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
 import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
@@ -27,6 +28,8 @@ public class KeyboardAgent extends Agent implements KeyListener {
 			res = m_body.addInfluence(new Influence(InfluenceType.SPEED, new Vector2f(-LemmingUtils.s_lemmingMaxVelocity, 0)));
 		else
 			res = m_body.addInfluence(new Influence(InfluenceType.SPEED, new Vector2f(0, 0)));
+		
+		Simulation.s_LOGGER.debug("BodyState: {}.", m_body.getState());
 	}
 
 	@Override

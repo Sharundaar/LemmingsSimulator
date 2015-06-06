@@ -93,14 +93,4 @@ public class LemmingBody extends Body implements ICollidable
 		return false; // TODO
 	}
 	
-	public BodyState getState()
-	{
-		return m_state;
-	}
-	
-	public BodyStateProperty getStateProperty()
-	{
-		return m_stateProperty;
-	}
-	
 }

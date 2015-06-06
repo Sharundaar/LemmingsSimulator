@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.arakhne.afc.math.continous.object2d.Vector2f;
 
+import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.BodyState;
 import fr.utbm.vi51.group11.lemmings.utils.misc.Action;
 import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
 
@@ -46,4 +47,14 @@ public interface IControllable
 	 *            Influence to remove.
 	 */
 	public boolean removeInfluence(Influence _influence);
+	
+	/*----------------------------------------------*/
+
+	/**
+	 * Remove influence to the body.
+	 * 
+	 * @param _influence
+	 *            Influence to remove.
+	 */
+	public BodyState getState();
 }

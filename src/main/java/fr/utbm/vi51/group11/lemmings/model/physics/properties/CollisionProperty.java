@@ -58,7 +58,7 @@ public class CollisionProperty {
 		return m_dangerous;
 	}
 	
-	public boolean isActiable()
+	public boolean isActivable()
 	{
 		return m_activable;
 	}

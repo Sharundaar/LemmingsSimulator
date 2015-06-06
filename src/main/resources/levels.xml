@@ -29,13 +29,13 @@
 		
 			<!-- WorldEntity defined by an id, an x and a y coordinate -->
 			<worldEntity id="LEVEL_START">
-				<x>3</x>
-				<y>2</y>
+				<x>48</x>
+				<y>74</y>
 				<textureID>entitySpriteSheet</textureID>
 			</worldEntity>
 			<worldEntity id="LEVEL_END">
-				<x>22</x>
-				<y>17</y>
+				<x>692</x>
+				<y>522</y>
 				<textureID>entitySpriteSheet</textureID>
 			</worldEntity>
 			<worldEntity id="LEMMING_BODY">
@@ -44,7 +44,7 @@
 				<textureID>entitySpriteSheet</textureID>
 			</worldEntity>
 			<worldEntity id="LEMMING_BODY">
-				<x>50</x>
+				<x>64</x>
 				<y>135</y>
 				<textureID>entitySpriteSheet</textureID>
 			</worldEntity>

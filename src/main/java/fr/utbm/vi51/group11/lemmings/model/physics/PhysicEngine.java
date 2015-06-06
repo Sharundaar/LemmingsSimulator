@@ -8,11 +8,13 @@ import org.slf4j.LoggerFactory;
 
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.DynamicEntity;
+import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.Body;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
 import fr.utbm.vi51.group11.lemmings.model.map.Cell;
 import fr.utbm.vi51.group11.lemmings.model.map.Map;
 import fr.utbm.vi51.group11.lemmings.model.physics.collidingobjects.CollidingObjects;
 import fr.utbm.vi51.group11.lemmings.model.physics.collidingobjects.CollidingObjectsSet;
+import fr.utbm.vi51.group11.lemmings.model.physics.properties.CollisionProperty;
 import fr.utbm.vi51.group11.lemmings.model.physics.quadtree.QuadTree;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
@@ -35,6 +37,23 @@ public class PhysicEngine
 	private final LinkedList<CollisionShape> m_staticObjects = new LinkedList<>();
 	private final LinkedList<CollisionShape> m_dynamicObjects = new LinkedList<>();
 
+	public final LinkedList<SolvedCollisionProperty> m_groundedEntity = new LinkedList<>();
+	public final LinkedList<SolvedCollisionProperty> m_wallBlockedEntity = new LinkedList<>();
+	public final LinkedList<SolvedCollisionProperty> m_activeEntity = new LinkedList<>();
+	public final LinkedList<SolvedCollisionProperty> m_deadZoneEntity = new LinkedList<>();
+	
+	public class SolvedCollisionProperty
+	{
+		public SolvedCollisionProperty(DynamicEntity _entity, CollisionProperty _property)
+		{
+			m_entity = _entity;
+			m_property = _property;
+		}
+		
+		public DynamicEntity m_entity;
+		public CollisionProperty m_property;
+	}
+	
 	public PhysicEngine()
 	{
 		s_LOGGER.debug("Creation of the PhysicsEngine...");
@@ -136,6 +155,11 @@ public class PhysicEngine
 	
 	public void solveCollisions()
 	{
+		m_activeEntity.clear();
+		m_deadZoneEntity.clear();
+		m_groundedEntity.clear();
+		m_wallBlockedEntity.clear();
+		
 		CollidingObjectsSet objects = m_quadTree.getCollidingObjects(null);
 		for(CollidingObjects obj : objects)
 		{
@@ -174,6 +198,9 @@ public class PhysicEngine
 	
 	public void handleMapCollision(CollisionShape _static, CollisionShape _dynamic)
 	{
+		if(_static.getProperty() == null)
+			return;
+		
 		if(!_static.getProperty().isCrossable())
 		{
 			// lets see how we replace the entity
@@ -197,11 +224,13 @@ public class PhysicEngine
 					|| (P1.getX() < x2 && P1.getY() < y1 && P1.getX() > x1)) // replace north
 			{
 				ent.getCoordinates().setY(d.getCoordinates(true).getY());
+				m_groundedEntity.add(new SolvedCollisionProperty(ent, _static.getProperty()));
 			}
 			if((P1.getX() < x1 && P1.getY() > y1 && P1.getY() < y2)
 					|| (P3.getX() < x1 && P3.getY() > y1 && P3.getY() < y2)) // replace west
 			{
 				ent.getCoordinates().setX(d.getCoordinates(true).getX());
+				m_wallBlockedEntity.add(new SolvedCollisionProperty(ent, _static.getProperty()));
 			}
 			if((P3.getX() < x2 && P3.getY() > y2 && P3.getX() > x1)
 					|| (P4.getX() < x2 && P4.getY() > y2 && P4.getX() > x1)) // replace south
@@ -212,6 +241,23 @@ public class PhysicEngine
 					|| (P4.getX() > x2 && P4.getY() > y1 && P4.getY() < y2)) // replace east
 			{
 				ent.getCoordinates().setX(d.getCoordinates(true).getX());
+				m_wallBlockedEntity.add(new SolvedCollisionProperty(ent, _static.getProperty()));
+			}
+		}
+		
+		if(_static.getProperty().isDangerous())
+		{
+			if(_static.getProperty().getKillZone().collide(_dynamic))
+			{
+				m_deadZoneEntity.add(new SolvedCollisionProperty((Body)_dynamic.getProperty().getEntity(), _static.getProperty()));
+			}
+		}
+		
+		if(_static.getProperty().isActivable())
+		{
+			if(_static.getProperty().getActivationZone().collide(_dynamic))
+			{
+				m_activeEntity.add(new SolvedCollisionProperty((Body)_dynamic.getProperty().getEntity(), _static.getProperty()));
 			}
 		}
 	}
@@ -230,7 +276,46 @@ public class PhysicEngine
 			ent.getCoordinates().add(ent.getSpeed().getX() * _dt, ent.getSpeed().getY() * _dt);
 			ent.updateExterns();
 			// s_LOGGER.debug("Speed: {}\t{}", ent.getSpeed().getX(), ent.getSpeed().getY());
+		}	
+	}
+	
+	public boolean isGrounded(DynamicEntity _ent)
+	{
+		for(SolvedCollisionProperty prop : m_groundedEntity)
+		{
+			if(prop.m_entity == _ent)
+				return true;
 		}
-		
+		return false;
+	}
+	
+	public boolean isInDeadZone(DynamicEntity _ent)
+	{
+		for(SolvedCollisionProperty prop : m_deadZoneEntity)
+		{
+			if(prop.m_entity == _ent)
+				return true;
+		}
+		return false;
+	}
+	
+	public boolean isInActiveZone(DynamicEntity _ent)
+	{
+		for(SolvedCollisionProperty prop : m_activeEntity)
+		{
+			if(prop.m_entity == _ent)
+				return true;
+		}
+		return false;
+	}
+	
+	public boolean isBlocked(DynamicEntity _ent)
+	{
+		for(SolvedCollisionProperty prop : m_wallBlockedEntity)
+		{
+			if(prop.m_entity == _ent)
+				return true;
+		}
+		return false;
 	}
 }
