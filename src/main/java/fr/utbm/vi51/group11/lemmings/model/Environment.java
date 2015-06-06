@@ -38,7 +38,7 @@ import fr.utbm.vi51.group11.lemmings.utils.statics.LemmingUtils;
  * @author jnovak
  *
  */
-public class Environment implements KeyListener
+public class Environment
 {
 	/** Logger of the class */
 	private final static Logger		s_LOGGER	= LoggerFactory.getLogger(Environment.class);
@@ -171,16 +171,6 @@ public class Environment implements KeyListener
 	}
 
 	/*----------------------------------------------*/
-
-	public void applyExternForces(
-			final long _dt)
-	{
-
-	}
-
-	/*----------------------------------------------*/
-	private int	m_selectedEnt	= 3;
-
 	public void update(
 			final long _dt)
 	{
@@ -196,6 +186,7 @@ public class Environment implements KeyListener
 		m_influenceSolver.solveInfluence(bodies);
 		
 		m_physicEngine.applyExternForces(_dt);
+		updateSpeed(bodies);
 		m_physicEngine.computeMovements(_dt);
 		m_physicEngine.updateQuadTree();
 		m_physicEngine.solveCollisions();
@@ -206,17 +197,55 @@ public class Environment implements KeyListener
 	}
 	
 	/*----------------------------------------------*/
-	public void updateBodyStates(LinkedList<Body> _bodies)
+	public void updateSpeed(LinkedList<Body> _bodies)
 	{
 		for(Body body : _bodies)
 		{
 			switch(body.getState())
 			{
 			case CLIMBING:
+				break;
+			case DEAD:
+				body.getSpeed().setX(0);
+				if(body.getSpeed().getY() < 0)
+					body.getSpeed().setY(0);
+				break;
+			case FALLING:
+				body.getSpeed().setX(0);
+				break;
+			case NORMAL:
+				if(body.getSpeed().getY() < 0)
+					body.getSpeed().setY(0);
+				break;
+			default:
+				break;
+			
+			}
+		}
+	}
+	
+	/*----------------------------------------------*/
+	public void updateBodyStates(LinkedList<Body> _bodies)
+	{
+		for(Body body : _bodies)
+		{
+			if(m_physicEngine.isInDeadZone(body))
+			{
+				BodyStateProperty deadState = new BodyStateProperty();
+				deadState.m_timeOfDeath = getEnvironmentTime();
+				body.setState(BodyState.DEAD, deadState);
+			}
+			
+			switch(body.getState())
+			{
+			case CLIMBING:
 				if(m_physicEngine.isGrounded(body))
 				{
 					if(!m_physicEngine.isBlocked(body))
+					{
 						body.setState(BodyState.NORMAL, new BodyStateProperty());
+						body.setMass(LemmingUtils.LEMMING_MASS);
+					}
 				}
 				else
 				{
@@ -226,6 +255,7 @@ public class Environment implements KeyListener
 						fallingState.m_chuteOpen = false;
 						fallingState.m_fallHeight = body.getCoordinates().getY();
 						body.setState(BodyState.FALLING, fallingState);
+						body.setMass(LemmingUtils.LEMMING_MASS);
 					}
 				}
 				break;
@@ -256,6 +286,7 @@ public class Environment implements KeyListener
 					if(m_physicEngine.isBlocked(body))
 					{
 						body.setState(BodyState.CLIMBING, new BodyStateProperty());
+						body.setMass(-5);
 					}
 				}
 				else
@@ -326,54 +357,5 @@ public class Environment implements KeyListener
 	public PhysicEngine getPhysicEngine()
 	{
 		return m_physicEngine;
-	}
-
-	boolean	m_upPressed		= false;
-	boolean	m_downPressed	= false;
-	boolean	m_rightPressed	= false;
-	boolean	m_leftPressed	= false;
-
-	@Override
-	public void keyPressed(
-			final KeyEvent arg0)
-	{
-		// TODO Auto-generated method stub
-		if (arg0.getKeyCode() == KeyEvent.VK_UP)
-			m_upPressed = true;
-		if (arg0.getKeyCode() == KeyEvent.VK_RIGHT)
-			m_rightPressed = true;
-		if (arg0.getKeyCode() == KeyEvent.VK_LEFT)
-			m_leftPressed = true;
-		if (arg0.getKeyCode() == KeyEvent.VK_DOWN)
-			m_downPressed = true;
-
-		if (arg0.getKeyCode() == KeyEvent.VK_I)
-			m_selectedEnt++;
-
-		if (m_selectedEnt >= 4)
-			m_selectedEnt = 1;
-	}
-
-	@Override
-	public void keyReleased(
-			final KeyEvent arg0)
-	{
-		// TODO Auto-generated method stub
-		if (arg0.getKeyCode() == KeyEvent.VK_UP)
-			m_upPressed = false;
-		if (arg0.getKeyCode() == KeyEvent.VK_RIGHT)
-			m_rightPressed = false;
-		if (arg0.getKeyCode() == KeyEvent.VK_LEFT)
-			m_leftPressed = false;
-		if (arg0.getKeyCode() == KeyEvent.VK_DOWN)
-			m_downPressed = false;
-	}
-
-	@Override
-	public void keyTyped(
-			final KeyEvent arg0)
-	{
-		// TODO Auto-generated method stub
-
 	}
 }

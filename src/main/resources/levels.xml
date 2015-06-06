@@ -39,8 +39,8 @@
 				<textureID>entitySpriteSheet</textureID>
 			</worldEntity>
 			<worldEntity id="LEMMING_BODY">
-				<x>300</x>
-				<y>300</y>
+				<x>130</x>
+				<y>448</y>
 				<textureID>entitySpriteSheet</textureID>
 			</worldEntity>
 			<worldEntity id="LEMMING_BODY">

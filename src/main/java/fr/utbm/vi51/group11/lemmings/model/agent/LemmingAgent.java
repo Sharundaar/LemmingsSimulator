@@ -47,29 +47,12 @@ public class LemmingAgent extends Agent {
 	 */
 	@Override
 	public void live(long _dt) {
-		List<IPerceivable> surroundingEntities = getPerceptions();
+		List<IPerceivable> surroundingEntities = m_body.getPerception();
 
 		Vector2f newDirection = decide(surroundingEntities);
 
 		move(newDirection);
 
-	}
-
-	/*----------------------------------------------*/
-
-	/**
-	 * Method used to ask the environment (through the body) all the perceptions
-	 * its body can perceive.
-	 * 
-	 * @return List of perceivable objects from the environment, from the
-	 *         agent's body's frustrum.
-	 */
-	@Override
-	protected List<IPerceivable> getPerceptions() {
-		if(m_body != null)
-			return m_body.getPerception();
-		else 
-			return null;
 	}
 
 	/*----------------------------------------------*/

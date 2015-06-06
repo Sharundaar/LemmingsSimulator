@@ -42,6 +42,7 @@ public class PhysicEngine
 	public final LinkedList<SolvedCollisionProperty> m_activeEntity = new LinkedList<>();
 	public final LinkedList<SolvedCollisionProperty> m_deadZoneEntity = new LinkedList<>();
 	
+	//-------------------------------------------------------------------------------------------------------
 	public class SolvedCollisionProperty
 	{
 		public SolvedCollisionProperty(DynamicEntity _entity, CollisionProperty _property)
@@ -53,7 +54,8 @@ public class PhysicEngine
 		public DynamicEntity m_entity;
 		public CollisionProperty m_property;
 	}
-	
+
+	//-------------------------------------------------------------------------------------------------------
 	public PhysicEngine()
 	{
 		s_LOGGER.debug("Creation of the PhysicsEngine...");
@@ -63,12 +65,14 @@ public class PhysicEngine
 		s_LOGGER.debug("PhysicsEngine created.");
 	}
 
+	//-------------------------------------------------------------------------------------------------------
 	public boolean collide(CollisionMask _m1, CollisionMask _m2)
 	{
 		/** TODO */
 		return _m1.collide(_m2);
 	}
 	
+	//-------------------------------------------------------------------------------------------------------
 	public void addShape(CollisionShape _shape, PhysicType _type)
 	{
 		if(_shape == null)
@@ -90,6 +94,7 @@ public class PhysicEngine
 		m_quadTree.add(_shape);
 	}
 	
+	//-------------------------------------------------------------------------------------------------------
 	public void removeShape(CollisionShape _shape)
 	{
 		m_staticObjects.remove(_shape);
@@ -97,6 +102,7 @@ public class PhysicEngine
 		m_quadTree.remove(_shape);
 	}
 	
+	//-------------------------------------------------------------------------------------------------------
 	public LinkedList<CollisionShape> getCollidingEntities()
 	{
 		LinkedList<CollisionShape> result = new LinkedList<CollisionShape>();
@@ -111,15 +117,18 @@ public class PhysicEngine
 		return m_quadTree;
 	}
 
+	//-------------------------------------------------------------------------------------------------------
 	public void update() {
 		m_quadTree.updateElements(m_dynamicObjects);
 	}
 	
+	//-------------------------------------------------------------------------------------------------------
 	public void updateQuadTree()
 	{
 		m_quadTree.updateElements(m_dynamicObjects);
 	}
 	
+	//-------------------------------------------------------------------------------------------------------
 	public void applyExternForces(long _dt)
 	{
 		for(CollisionShape shape : m_dynamicObjects)
@@ -127,13 +136,15 @@ public class PhysicEngine
 			if(shape.getProperty() != null)
 			{
 				DynamicEntity ent = (DynamicEntity) shape.getProperty().getEntity();
-				applyGravity(ent, _dt);
+				if(ent.getMass() > 0)
+					applyGravity(ent, _dt);
 				
 				clampSpeed(ent);
 			}
 		}
 	}
 	
+	//-------------------------------------------------------------------------------------------------------
 	public void clampSpeed(DynamicEntity _ent)
 	{
 		if(_ent.getSpeed().getX() > LemmingUtils.s_lemmingMaxVelocity)
@@ -143,16 +154,18 @@ public class PhysicEngine
 		
 		if(_ent.getSpeed().getY() > LemmingUtils.MAXIMUM_FALLING_SPEED)
 			_ent.getSpeed().setY(LemmingUtils.MAXIMUM_FALLING_SPEED);
-		if(_ent.getSpeed().getY() < -LemmingUtils.MAXIMUM_FALLING_SPEED)
-			_ent.getSpeed().setY(-LemmingUtils.MAXIMUM_FALLING_SPEED);
+		if(_ent.getSpeed().getY() < -LemmingUtils.MAXIMUM_CLIMBING_SPEED)
+			_ent.getSpeed().setY(-LemmingUtils.MAXIMUM_CLIMBING_SPEED);
 	}
 	
+	//-------------------------------------------------------------------------------------------------------
 	public void applyGravity(DynamicEntity _ent, long _dt)
 	{
 		_ent.getSpeed().add(0, _dt * s_GRAVITY);
 		// s_LOGGER.debug("Speed: {}\t{}", ent.getSpeed().getX(), ent.getSpeed().getY());
 	}
 	
+	//-------------------------------------------------------------------------------------------------------
 	public void solveCollisions()
 	{
 		m_activeEntity.clear();
@@ -185,22 +198,45 @@ public class PhysicEngine
 		}
 	}
 	
+	//-------------------------------------------------------------------------------------------------------
 	public void handleStaticDynamicCollision(CollisionShape _static, CollisionShape _dynamic)
 	{
-		if(_static.getType() == CollisionShapeType.RECTANGLE && _static.getProperty().getEntity().getType() == WorldEntityEnum.MAP)
+		if(_static.getProperty().getEntity().getType() == WorldEntityEnum.MAP)
 		{
 			// We're against the map
 			handleMapCollision(_static, _dynamic);
+		}
+		else
+		{
+			handleOtherCollision(_static, _dynamic);
 		}
 		
 		_dynamic.getProperty().getEntity().updateExterns();
 	}
 	
+	//-------------------------------------------------------------------------------------------------------
+	public void handleOtherCollision(CollisionShape _static, CollisionShape _dynamic)
+	{
+		if(_static.getProperty().isDangerous())
+		{
+			if(_static.getProperty().getKillZone().collide(_dynamic))
+			{
+				m_deadZoneEntity.add(new SolvedCollisionProperty((Body)_dynamic.getProperty().getEntity(), _static.getProperty()));
+			}
+		}
+		
+		if(_static.getProperty().isActivable())
+		{
+			if(_static.getProperty().getActivationZone().collide(_dynamic))
+			{
+				m_activeEntity.add(new SolvedCollisionProperty((Body)_dynamic.getProperty().getEntity(), _static.getProperty()));
+			}
+		}
+	}
+	
+	//-------------------------------------------------------------------------------------------------------
 	public void handleMapCollision(CollisionShape _static, CollisionShape _dynamic)
 	{
-		if(_static.getProperty() == null)
-			return;
-		
 		if(!_static.getProperty().isCrossable())
 		{
 			// lets see how we replace the entity
@@ -262,11 +298,13 @@ public class PhysicEngine
 		}
 	}
 	
+	//-------------------------------------------------------------------------------------------------------
 	public void handleEndLevelCollision(WorldEntity _ent)
 	{
 		
 	}
 
+	//-------------------------------------------------------------------------------------------------------
 	public void computeMovements(long _dt) {
 		// TODO Auto-generated method stub
 		for(CollisionShape shape : m_dynamicObjects)
@@ -279,6 +317,7 @@ public class PhysicEngine
 		}	
 	}
 	
+	//-------------------------------------------------------------------------------------------------------
 	public boolean isGrounded(DynamicEntity _ent)
 	{
 		for(SolvedCollisionProperty prop : m_groundedEntity)
@@ -289,6 +328,7 @@ public class PhysicEngine
 		return false;
 	}
 	
+	//-------------------------------------------------------------------------------------------------------
 	public boolean isInDeadZone(DynamicEntity _ent)
 	{
 		for(SolvedCollisionProperty prop : m_deadZoneEntity)
@@ -299,6 +339,7 @@ public class PhysicEngine
 		return false;
 	}
 	
+	//-------------------------------------------------------------------------------------------------------
 	public boolean isInActiveZone(DynamicEntity _ent)
 	{
 		for(SolvedCollisionProperty prop : m_activeEntity)
@@ -309,6 +350,7 @@ public class PhysicEngine
 		return false;
 	}
 	
+	//-------------------------------------------------------------------------------------------------------
 	public boolean isBlocked(DynamicEntity _ent)
 	{
 		for(SolvedCollisionProperty prop : m_wallBlockedEntity)

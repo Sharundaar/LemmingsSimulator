@@ -27,18 +27,7 @@ public abstract class Agent
 	 * 				time span since last call to live, in milliseconds.
 	 */
 	public abstract void live(long _dt);
-
-	/*----------------------------------------------*/
-
-	/**
-	 * Method used to ask the environment (through the body) all the perceptions
-	 * its body can perceive.
-	 * 
-	 * @return List of perceivable objects from the environment, from the
-	 *         agent's body's frustrum.
-	 */
-	protected abstract List<IPerceivable> getPerceptions();
-
+	
 	/*----------------------------------------------*/
 
 	/**

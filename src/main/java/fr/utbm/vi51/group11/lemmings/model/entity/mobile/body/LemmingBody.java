@@ -59,6 +59,9 @@ public class LemmingBody extends Body implements ICollidable
 		m_stateProperty = new BodyStateProperty();
 		
 		m_influences = new LinkedList<Influence>();
+		
+		m_mass = LemmingUtils.LEMMING_MASS;
+		
 		s_LOGGER.debug("Lemming Body created.");
 	}
 

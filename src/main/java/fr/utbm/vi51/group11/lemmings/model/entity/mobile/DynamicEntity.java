@@ -33,6 +33,9 @@ public abstract class DynamicEntity extends WorldEntity
 	/** Saved position */
 	protected Vector2f m_savedPosition;
 	
+	/** */
+	protected float m_mass;
+	
 	/*----------------------------------------------*/
 
 	/**
@@ -121,6 +124,16 @@ public abstract class DynamicEntity extends WorldEntity
 	public Vector2f getSavedPosition()
 	{
 		return m_savedPosition;
+	}
+	
+	public float getMass()
+	{
+		return m_mass;
+	}
+	
+	public void setMass(float _mass)
+	{
+		m_mass = _mass;
 	}
 
 }

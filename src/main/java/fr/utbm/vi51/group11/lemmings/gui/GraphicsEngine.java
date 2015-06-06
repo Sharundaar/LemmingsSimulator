@@ -47,8 +47,6 @@ public class GraphicsEngine extends JPanel
 	{
 		super();
 		
-		this.addKeyListener(_environnement);
-		
 		m_environnement = _environnement;
 		m_affineTransform = new AffineTransform();
 		

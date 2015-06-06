@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import fr.utbm.vi51.group11.lemmings.model.agent.Agent;
 import fr.utbm.vi51.group11.lemmings.model.agent.KeyboardAgent;
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
+import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelProperties;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelPropertiesMap;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
@@ -121,6 +122,15 @@ public class Simulation
 	/*----------------------------------------------*/
 	public void updateAgents(long _dt)
 	{
+		for(WorldEntity ent : m_environment.m_worldEntities)
+		{
+			if(ent.getType() == WorldEntityEnum.LEMMING_BODY)
+			{
+				LemmingBody body = (LemmingBody) ent;
+				body.getInfluences().clear();
+			}
+		}
+		
 		for(Agent ag : m_agents)
 		{
 			ag.live(_dt);

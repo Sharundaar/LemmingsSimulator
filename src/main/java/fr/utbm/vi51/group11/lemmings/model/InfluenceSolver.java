@@ -19,7 +19,25 @@ public class InfluenceSolver {
 			for(Influence inf : body.getInfluences())
 			{
 				if(inf.getType() == InfluenceType.SPEED && inf.getSpeed() != null)
-					body.getSpeed().set(inf.getSpeed());
+				{
+					body.getSpeed().set(0, 0);
+					switch(body.getState())
+					{
+					case CLIMBING:
+						body.getSpeed().set(inf.getSpeed());
+						break;
+					case DEAD:
+						break;
+					case FALLING:
+						break;
+					case NORMAL:
+						body.getSpeed().setX(inf.getSpeed().getX());
+						break;
+					default:
+						break;
+					
+					}
+				}
 			}
 		}
 	}

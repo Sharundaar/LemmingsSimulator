@@ -21,21 +21,18 @@ public class KeyboardAgent extends Agent implements KeyListener {
 	
 	@Override
 	public void live(long _dt) {
-		boolean res = false;
-		if(m_rightPressed)
-			res = m_body.addInfluence(new Influence(InfluenceType.SPEED, new Vector2f(LemmingUtils.s_lemmingMaxVelocity, 0)));
-		else if(m_leftPressed)
-			res = m_body.addInfluence(new Influence(InfluenceType.SPEED, new Vector2f(-LemmingUtils.s_lemmingMaxVelocity, 0)));
-		else
-			res = m_body.addInfluence(new Influence(InfluenceType.SPEED, new Vector2f(0, 0)));
+		Vector2f speed = new Vector2f();
 		
+		if(m_rightPressed)
+			speed.setX(LemmingUtils.s_lemmingMaxVelocity);
+		else if(m_leftPressed)
+			speed.setX(-LemmingUtils.s_lemmingMaxVelocity);
+		
+		if(m_upPressed)
+			speed.setY(-LemmingUtils.MAXIMUM_CLIMBING_SPEED);
+		
+		m_body.addInfluence(new Influence(InfluenceType.SPEED, speed));
 		Simulation.s_LOGGER.debug("BodyState: {}.", m_body.getState());
-	}
-
-	@Override
-	protected List<IPerceivable> getPerceptions() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -56,6 +53,8 @@ public class KeyboardAgent extends Agent implements KeyListener {
 			m_rightPressed = true;
 		if(arg0.getKeyCode() == KeyEvent.VK_LEFT)
 			m_leftPressed = true;
+		if(arg0.getKeyCode() == KeyEvent.VK_UP)
+			m_upPressed = true;
 	}
 
 	@Override
@@ -64,6 +63,8 @@ public class KeyboardAgent extends Agent implements KeyListener {
 			m_rightPressed = false;
 		if(arg0.getKeyCode() == KeyEvent.VK_LEFT)
 			m_leftPressed = false;
+		if(arg0.getKeyCode() == KeyEvent.VK_UP)
+			m_upPressed = false;
 	}
 
 	@Override
