@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import fr.utbm.vi51.group11.lemmings.gui.texture.Sprite;
 import fr.utbm.vi51.group11.lemmings.gui.texture.Texture;
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
+import fr.utbm.vi51.group11.lemmings.model.physics.properties.CollisionProperty;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
@@ -185,7 +186,7 @@ public class Map extends WorldEntity
 	private void updateCollisionMask()
 	{
 		m_collisionMask = new CollisionMask(m_worldCoords);
-		m_collisionMask.setData(this);
+		// m_collisionMask.setData(this);
 		for(int i=0; i<m_grid.getHeight(); ++i)
 		{
 			int start = 0, end = -1;
@@ -206,7 +207,11 @@ public class Map extends WorldEntity
 					{
 						RectangleShape rect = new RectangleShape(start*CELL_SIZE, i*CELL_SIZE, ((end+1)-start)*CELL_SIZE, CELL_SIZE, m_collisionMask);
 						m_collisionMask.addChild(rect);
-						rect.setData(this);
+						// rect.setData(this);
+						CollisionProperty prop = new CollisionProperty();
+						prop.setCrossable(false);
+						prop.setEntity(this);
+						rect.setProperty(prop);
 						
 						start = end+2;
 						end = -1;
@@ -222,6 +227,10 @@ public class Map extends WorldEntity
 			{
 				RectangleShape rect = new RectangleShape(start*CELL_SIZE, i*CELL_SIZE, ((end+1)-start)*CELL_SIZE, CELL_SIZE, m_collisionMask);
 				m_collisionMask.addChild(rect);
+				CollisionProperty prop = new CollisionProperty();
+				prop.setCrossable(false);
+				prop.setEntity(this);
+				rect.setProperty(prop);
 			}
 		}
 	}

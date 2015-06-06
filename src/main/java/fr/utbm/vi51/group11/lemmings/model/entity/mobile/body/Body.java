@@ -40,6 +40,12 @@ public abstract class Body extends DynamicEntity implements IControllable
 
 	/** Influences given by the agent to perform */
 	protected Set<Influence>	m_influences;
+	
+	/** State */
+	protected BodyState 		m_state;
+	
+	/** State property */
+	protected BodyStateProperty	m_stateProperty;
 
 	/*----------------------------------------------*/
 
@@ -101,59 +107,11 @@ public abstract class Body extends DynamicEntity implements IControllable
 	{
 		return m_influences.remove(_influence);
 	}
-
+	
 	/*----------------------------------------------*/
-
-	/**
-	 * Method used to add a speed influence to the body.
-	 * 
-	 * @param _speed
-	 *            Speed influence of the body.
-	 */
-	@Override
-	public void influenceSpeed(
-			final Vector2f _speed)
+	public Set<Influence> getInfluences()
 	{
-		if (!filterInfluence())
-		{
-			// m_influences.add(new Influence(InfluenceType.SPEED, _speed));
-		}
-	}
-
-	/*----------------------------------------------*/
-
-	/**
-	 * Method used to add an acceleration influence to the body.
-	 * 
-	 * @param _acceleration
-	 *            Acceleration influence of the body.
-	 */
-	@Override
-	public void influenceAcceleration(
-			final Vector2f _acceleration)
-	{
-		if (!filterInfluence())
-		{
-			m_influences.add(new Influence(InfluenceType.ACCELERATION, _acceleration));
-		}
-	}
-
-	/*----------------------------------------------*/
-
-	/**
-	 * Method used to add an Action influence to the body.
-	 * 
-	 * @param _action
-	 *            Action influence to perform for the body.
-	 */
-	@Override
-	public void influenceAction(
-			final Action _action)
-	{
-		if (!filterInfluence())
-		{
-			m_influences.add(new Influence(InfluenceType.ACTION, _action));
-		}
+		return m_influences;
 	}
 
 	/*----------------------------------------------*/
@@ -174,6 +132,8 @@ public abstract class Body extends DynamicEntity implements IControllable
 	 */
 	public void kill()
 	{
+		m_state = BodyState.DEAD;
+		m_stateProperty.m_timeOfDeath = m_environment.getEnvironmentTime();
 		m_alive = false;
 	}
 
@@ -184,6 +144,9 @@ public abstract class Body extends DynamicEntity implements IControllable
 	 */
 	public void revive()
 	{
+		m_state = BodyState.NORMAL;
 		m_alive = true;
 	}
+	
+	
 }

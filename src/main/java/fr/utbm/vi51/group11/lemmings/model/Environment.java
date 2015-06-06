@@ -3,6 +3,7 @@ package fr.utbm.vi51.group11.lemmings.model;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import fr.utbm.vi51.group11.lemmings.gui.MainFrame;
 import fr.utbm.vi51.group11.lemmings.model.agent.Agent;
 import fr.utbm.vi51.group11.lemmings.model.agent.LemmingAgent;
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
+import fr.utbm.vi51.group11.lemmings.model.entity.mobile.DynamicEntity;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.Body;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
 import fr.utbm.vi51.group11.lemmings.model.map.Map;
@@ -39,8 +41,8 @@ public class Environment implements KeyListener
 	/** Logger of the class */
 	private final static Logger	s_LOGGER	= LoggerFactory.getLogger(Environment.class);
 
-	/** Time of the environment */
-	private final long			m_environmentTime;
+	/** Time of the environment in milliseconds */
+	private long			m_environmentTime;
 
 	/** The Map */
 	private final Map			m_map;
@@ -56,6 +58,9 @@ public class Environment implements KeyListener
 
 	/** List containing all of the world entities of the simulation */
 	public ArrayList<WorldEntity>	m_worldEntities;
+	
+	/** Influence solver */
+	private InfluenceSolver m_influenceSolver;
 
 	/*----------------------------------------------*/
 
@@ -64,7 +69,7 @@ public class Environment implements KeyListener
 		s_LOGGER.debug("Creation of the environment...");
 
 		/* Instantiates attributes */
-		m_environmentTime = System.currentTimeMillis();
+		m_environmentTime = 0;
 		m_map = new Map(_currentLevelProperties);
 		m_physicEngine = new PhysicEngine();
 		m_gui = new MainFrame(this);
@@ -97,6 +102,8 @@ public class Environment implements KeyListener
 		{
 			m_physicEngine.addShape(_shape, PhysicType.STATIC);
 		}
+		
+		m_influenceSolver = new InfluenceSolver();
 		
 		s_LOGGER.debug("Environment created.");
 	}
@@ -174,36 +181,43 @@ public class Environment implements KeyListener
 	public void update(long _dt)
 	{
 		// TODO
-		WorldEntity controlledEnt = m_worldEntities.get(m_selectedEnt);
-		if(m_upPressed)
-			controlledEnt.getCoordinates().addY(-0.1f *_dt);
-		if(m_downPressed)
-			controlledEnt.getCoordinates().addY(0.1f *_dt);
-		if(m_leftPressed)
-			controlledEnt.getCoordinates().addX(-0.1f *_dt);
-		if(m_rightPressed)
-			controlledEnt.getCoordinates().addX(0.1f *_dt);
+		m_environmentTime += _dt;
 		
+		LinkedList<Body> bodies = new LinkedList<Body>();
 		for(WorldEntity ent : m_worldEntities)
 		{
-			ent.updateExterns();
+			if(ent.getType() == WorldEntityEnum.LEMMING_BODY)
+				bodies.add((Body)ent);
 		}
+		m_influenceSolver.solveInfluence(bodies);
 		
 		m_physicEngine.applyExternForces(_dt);
 		m_physicEngine.computeMovements(_dt);
 		m_physicEngine.updateQuadTree();
 		m_physicEngine.solveCollisions();
 		
+		updateAnimations(_dt);
+	}
+	
+	/*----------------------------------------------*/
+	
+	/**
+	 * Ask entities to update their animation states
+	 */
+	public void updateAnimations(long _dt)
+	{
+		for(WorldEntity ent : m_worldEntities)
+			ent.updateAnimation(_dt);
 	}
 
 	/*----------------------------------------------*/
 
 	/**
-	 * @return The environment Time since the beginning of the simulation.
+	 * @return The environment Time since the beginning of the simulation in milliseconds.
 	 */
 	public long getEnvironmentTime()
 	{
-		return System.currentTimeMillis() - m_environmentTime;
+		return m_environmentTime;
 	}
 
 	/*----------------------------------------------*/

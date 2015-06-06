@@ -5,6 +5,7 @@ import java.util.List;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
 
 import fr.utbm.vi51.group11.lemmings.utils.misc.Action;
+import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
 
 /**
  * 
@@ -29,34 +30,20 @@ public interface IControllable
 	/*----------------------------------------------*/
 
 	/**
-	 * Method used to add a speed influence to the body.
+	 * Add influence to the body.
 	 * 
-	 * @param _speed
-	 *            Speed influence of the body.
+	 * @param _influence
+	 *            Influence to add.
 	 */
-	public void influenceSpeed(
-			Vector2f _speed);
+	public boolean addInfluence(Influence _influence);
 
 	/*----------------------------------------------*/
 
 	/**
-	 * Method used to add an acceleration influence to the body.
+	 * Remove influence to the body.
 	 * 
-	 * @param _acceleration
-	 *            Acceleration influence of the body.
+	 * @param _influence
+	 *            Influence to remove.
 	 */
-	public void influenceAcceleration(
-			Vector2f _acceleration);
-
-	/*----------------------------------------------*/
-
-	/**
-	 * Method used to add an Action influence to the body.
-	 * 
-	 * @param _action
-	 *            Action influence to perform for the body.
-	 */
-	public void influenceAction(
-			Action _action);
-
+	public boolean removeInfluence(Influence _influence);
 }

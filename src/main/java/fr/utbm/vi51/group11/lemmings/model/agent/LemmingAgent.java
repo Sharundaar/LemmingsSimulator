@@ -7,7 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
+import fr.utbm.vi51.group11.lemmings.utils.enums.InfluenceType;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
+import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
 
 /**
  * 
@@ -93,7 +95,7 @@ public class LemmingAgent extends Agent {
 	 */
 	@Override
 	protected void move(final Vector2f _direction) {
-		m_body.influenceSpeed(_direction);
+		m_body.addInfluence(new Influence(InfluenceType.SPEED, _direction));
 	}
 
 }

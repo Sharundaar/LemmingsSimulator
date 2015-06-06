@@ -55,9 +55,17 @@ public class Simulation
 	}
 
 	/*----------------------------------------------*/
+	public void initialize()
+	{
+		
+	}
+	
+	/*----------------------------------------------*/
 	public void loop()
 	{
 		s_LOGGER.debug("Loop start.");
+		
+		initialize();
 		
 		m_running = true;
 		

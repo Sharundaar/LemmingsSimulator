@@ -117,5 +117,10 @@ public abstract class DynamicEntity extends WorldEntity
 		if(m_savedPosition != null && m_worldCoords != null)
 			this.m_worldCoords.set(m_savedPosition);
 	}
+	
+	public Vector2f getSavedPosition()
+	{
+		return m_savedPosition;
+	}
 
 }

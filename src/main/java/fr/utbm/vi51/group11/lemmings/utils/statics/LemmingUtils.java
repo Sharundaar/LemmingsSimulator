@@ -14,12 +14,12 @@ public class LemmingUtils
 	public final static float LEMMING_DEFAULT_HEIGHT = 20;
 	
 	/** Default size of the entry */
-	public final static float ENTRY_DEFAULT_WIDTH = 5;
-	public final static float ENTRY_DEFAULT_HEIGHT = 5;
+	public final static float ENTRY_DEFAULT_WIDTH = 60;
+	public final static float ENTRY_DEFAULT_HEIGHT = 22;
 	
 	/** Default size of the entry */
-	public final static float EXIT_DEFAULT_WIDTH = 5;
-	public final static float EXIT_DEFAULT_HEIGHT = 5;
+	public final static float EXIT_DEFAULT_WIDTH = 60;
+	public final static float EXIT_DEFAULT_HEIGHT = 22;
 
 	/** Default maximum velocity of the lemmings */
 	public final static float	s_lemmingMaxVelocity		= 12.0f / 1000.0f;

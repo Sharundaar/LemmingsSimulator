@@ -7,6 +7,8 @@ import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.continous.object2d.Rectangle2f;
 import org.arakhne.afc.math.continous.object2d.Shape2f;
 
+import fr.utbm.vi51.group11.lemmings.model.physics.properties.CollisionProperty;
+
 public abstract class CollisionShape {
 	
 	private CollisionShapeType m_type;
@@ -21,7 +23,7 @@ public abstract class CollisionShape {
 	
 	protected Point2f m_computedCoordinates = new Point2f();
 	
-	protected Object m_data;
+	protected CollisionProperty m_property = null;
 	
 	protected CollisionShape(CollisionShapeType _type, CollisionShape _parent)
 	{
@@ -158,14 +160,14 @@ public abstract class CollisionShape {
 		m_phyType = _type;
 	}
 	
-	public void setData(Object _data)
+	public CollisionProperty getProperty()
 	{
-		m_data = _data;
+		return m_property;
 	}
 	
-	public Object getData()
+	public void setProperty(CollisionProperty _property)
 	{
-		return m_data;
+		m_property = _property;
 	}
 	
 	public abstract void updateShape();

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.DynamicEntity;
+import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
 import fr.utbm.vi51.group11.lemmings.model.map.Cell;
 import fr.utbm.vi51.group11.lemmings.model.map.Map;
 import fr.utbm.vi51.group11.lemmings.model.physics.collidingobjects.CollidingObjects;
@@ -15,6 +16,7 @@ import fr.utbm.vi51.group11.lemmings.model.physics.collidingobjects.CollidingObj
 import fr.utbm.vi51.group11.lemmings.model.physics.quadtree.QuadTree;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
+import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape.CollisionShapeType;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape.PhysicType;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
@@ -103,10 +105,13 @@ public class PhysicEngine
 	{
 		for(CollisionShape shape : m_dynamicObjects)
 		{
-			DynamicEntity ent = (DynamicEntity) shape.getData();
-			applyGravity(ent, _dt);
-			
-			clampSpeed(ent);
+			if(shape.getProperty() != null)
+			{
+				DynamicEntity ent = (DynamicEntity) shape.getProperty().getEntity();
+				applyGravity(ent, _dt);
+				
+				clampSpeed(ent);
+			}
 		}
 	}
 	
@@ -125,7 +130,7 @@ public class PhysicEngine
 	
 	public void applyGravity(DynamicEntity _ent, long _dt)
 	{
-		// _ent.getSpeed().add(0, _dt * s_GRAVITY);
+		_ent.getSpeed().add(0, _dt * s_GRAVITY);
 		// s_LOGGER.debug("Speed: {}\t{}", ent.getSpeed().getX(), ent.getSpeed().getY());
 	}
 	
@@ -134,18 +139,21 @@ public class PhysicEngine
 		CollidingObjectsSet objects = m_quadTree.getCollidingObjects(null);
 		for(CollidingObjects obj : objects)
 		{
+			if(obj.m_s1.getProperty() == null || obj.m_s2.getProperty() == null)
+				continue;
+			
 			if(obj.m_s1.getPhysicType() == PhysicType.STATIC && obj.m_s2.getPhysicType() == PhysicType.STATIC)
 				continue; // if both objects are static we skip
 			
 			if(obj.m_s1.getPhysicType() == PhysicType.STATIC && obj.m_s2.getPhysicType() == PhysicType.DYNAMIC)		
 			{
 				// if one is static and the other is dynamic
-				handleCollision((WorldEntity)obj.m_s1.getData(), (WorldEntity)obj.m_s2.getData());
+				handleStaticDynamicCollision(obj.m_s1, obj.m_s2);
 			} 
 			else if(obj.m_s1.getPhysicType() == PhysicType.DYNAMIC && obj.m_s2.getPhysicType() == PhysicType.STATIC)
 			{
 				// if one is static and the other is dynamic
-				handleCollision((WorldEntity)obj.m_s2.getData(), (WorldEntity)obj.m_s1.getData());
+				handleStaticDynamicCollision(obj.m_s2, obj.m_s1);
 			}
 			
 			if(obj.m_s1.getPhysicType() == PhysicType.DYNAMIC && obj.m_s2.getPhysicType() == PhysicType.DYNAMIC)
@@ -153,57 +161,57 @@ public class PhysicEngine
 		}
 	}
 	
-	public void handleCollision(WorldEntity _static, WorldEntity _dynamic)
+	public void handleStaticDynamicCollision(CollisionShape _static, CollisionShape _dynamic)
 	{
-		if(_static.getType() == WorldEntityEnum.MAP)
-			handleMapCollision((Map)_static, (DynamicEntity)_dynamic);
-		else if(_static.getType() == WorldEntityEnum.LEVEL_END)
-			handleEndLevelCollision(_dynamic);
+		if(_static.getType() == CollisionShapeType.RECTANGLE && _static.getProperty().getEntity().getType() == WorldEntityEnum.MAP)
+		{
+			// We're against the map
+			handleMapCollision(_static, _dynamic);
+		}
+		
+		_dynamic.getProperty().getEntity().updateExterns();
 	}
 	
-	public void handleMapCollision(Map _map, DynamicEntity _ent)
+	public void handleMapCollision(CollisionShape _static, CollisionShape _dynamic)
 	{
-		LinkedList<Cell> cells = _map.getCellInArea(_ent.getCoordinates(), _ent.getCollisionMask());
-		for(Cell cell : cells)
+		if(!_static.getProperty().isCrossable())
 		{
-			if(!cell.getCellType().isCrossable() && !cell.getCellType().isDangerous())
+			// lets see how we replace the entity
+			LemmingBody ent = (LemmingBody)_dynamic.getProperty().getEntity();
+			RectangleShape dnew = (RectangleShape)ent.getCollisionMask().getChilds().getFirst();
+			RectangleShape d = new RectangleShape(ent.getSavedPosition().getX(), ent.getSavedPosition().getY(), dnew.getWidth(), dnew.getHeight(), null);
+			d.updateShape();
+			RectangleShape s = (RectangleShape) _static;
+			
+			Point2f P1 = d.getUpperLeft();
+			Point2f P2 = d.getUpperRight();
+			Point2f P3 = d.getBottomLeft();
+			Point2f P4 = d.getBottomRight();
+			
+			float x1 = s.getCoordinates(true).getX();
+			float y1 = s.getCoordinates(true).getY();
+			float x2 = s.getCoordinates(true).getX() + s.getWidth();
+			float y2 = s.getCoordinates(true).getY() + s.getHeight();
+			
+			if((P2.getX() < x2 && P2.getY() < y1 && P2.getX() > x1)
+					|| (P1.getX() < x2 && P1.getY() < y1 && P1.getX() > x1)) // replace north
 			{
-				// lets see how we replace the entity
-				RectangleShape d = (RectangleShape)_ent.getCollisionMask().getChilds().getFirst();
-				RectangleShape s = cell.getRectangle();
-				
-				Point2f P1 = d.getUpperLeft();
-				Point2f P2 = d.getUpperRight();
-				Point2f P3 = d.getBottomLeft();
-				Point2f P4 = d.getBottomRight();
-				
-				float x1 = s.getCoordinates(true).getX();
-				float y1 = s.getCoordinates(true).getY();
-				float x2 = s.getCoordinates(true).getX() + s.getWidth();
-				float y2 = s.getCoordinates(true).getY() + s.getHeight();
-				
-				if((P2.getX() < x2 && P2.getY() < y1 && P2.getX() > x1)
-						|| (P1.getX() < x2 && P1.getY() < y1 && P1.getX() > x1)) // replace north
-				{
-					_ent.getCoordinates().setY(y1 - d.getHeight());
-				}
-				else if((P1.getX() < x1 && P1.getY() > y1 && P1.getY() < y2)
-						|| (P3.getX() < x1 && P3.getY() > y1 && P3.getY() < y2)) // replace west
-				{
-					_ent.getCoordinates().setX(x1 - d.getWidth());
-				}
-				else if((P3.getX() < x2 && P3.getY() > y2 && P3.getX() > x1)
-						|| (P4.getX() < x2 && P4.getY() > y2 && P4.getX() > x1)) // replace south
-				{
-					_ent.getCoordinates().setY(y2);
-				}
-				else if((P2.getX() > x2 && P2.getY() > y1 && P2.getY() < y2)
-						|| (P4.getX() > x2 && P4.getY() > y1 && P4.getY() < y2)) // replace east
-				{
-					_ent.getCoordinates().setX(x2);
-				}
-				
-				_ent.updateExterns();
+				ent.getCoordinates().setY(d.getCoordinates(true).getY());
+			}
+			if((P1.getX() < x1 && P1.getY() > y1 && P1.getY() < y2)
+					|| (P3.getX() < x1 && P3.getY() > y1 && P3.getY() < y2)) // replace west
+			{
+				ent.getCoordinates().setX(d.getCoordinates(true).getX());
+			}
+			if((P3.getX() < x2 && P3.getY() > y2 && P3.getX() > x1)
+					|| (P4.getX() < x2 && P4.getY() > y2 && P4.getX() > x1)) // replace south
+			{
+				ent.getCoordinates().setY(d.getCoordinates(true).getY());
+			}
+			if((P2.getX() > x2 && P2.getY() > y1 && P2.getY() < y2)
+					|| (P4.getX() > x2 && P4.getY() > y1 && P4.getY() < y2)) // replace east
+			{
+				ent.getCoordinates().setX(d.getCoordinates(true).getX());
 			}
 		}
 	}
@@ -217,7 +225,7 @@ public class PhysicEngine
 		// TODO Auto-generated method stub
 		for(CollisionShape shape : m_dynamicObjects)
 		{
-			DynamicEntity ent = (DynamicEntity) shape.getData();
+			DynamicEntity ent = (DynamicEntity) shape.getProperty().getEntity();
 			ent.savePosition();
 			ent.getCoordinates().add(ent.getSpeed().getX() * _dt, ent.getSpeed().getY() * _dt);
 			ent.updateExterns();
