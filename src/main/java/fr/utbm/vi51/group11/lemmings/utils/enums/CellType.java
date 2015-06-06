@@ -14,9 +14,9 @@ public enum CellType
 	GRASS(2, false, false),
 	STONE(3, false, false),
 	TOXIC(4, true, true),
-	PIT(5, true, true),
-	ATTRACTIVE_FIELD(6, true, false),
-	REPULSIVE_FIELD(7, true, false), ;
+	PIT(5, true, false),
+	ATTRACTIVE_FIELD(6, false, false),
+	REPULSIVE_FIELD(7, false, false), ;
 
 	/*----------------------------------------------*/
 

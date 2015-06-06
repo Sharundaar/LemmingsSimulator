@@ -25,7 +25,7 @@ public class MainFrame extends GUI
 	public MainFrame(final Environment _environnement)
 	{
 		super();
-		setSize(500, 500);
+		setSize(800, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		m_graphicsEngine = new GraphicsEngine(_environnement);

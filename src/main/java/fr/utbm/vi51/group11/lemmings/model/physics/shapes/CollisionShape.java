@@ -27,7 +27,7 @@ public abstract class CollisionShape {
 	
 	protected CollisionShape(CollisionShapeType _type, CollisionShape _parent)
 	{
-		m_parent = _parent;
+		setParent(_parent);
 		m_type = _type;
 		
 		m_coordinates = new Point2f();

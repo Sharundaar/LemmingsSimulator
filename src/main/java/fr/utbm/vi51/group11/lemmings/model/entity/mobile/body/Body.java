@@ -1,5 +1,6 @@
 package fr.utbm.vi51.group11.lemmings.model.entity.mobile.body;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -39,7 +40,7 @@ public abstract class Body extends DynamicEntity implements IControllable
 	protected Frustrum			m_frustrum;
 
 	/** Influences given by the agent to perform */
-	protected Set<Influence>	m_influences;
+	protected LinkedList<Influence>	m_influences;
 	
 	/** State */
 	protected BodyState 		m_state;
@@ -109,7 +110,7 @@ public abstract class Body extends DynamicEntity implements IControllable
 	}
 	
 	/*----------------------------------------------*/
-	public Set<Influence> getInfluences()
+	public LinkedList<Influence> getInfluences()
 	{
 		return m_influences;
 	}

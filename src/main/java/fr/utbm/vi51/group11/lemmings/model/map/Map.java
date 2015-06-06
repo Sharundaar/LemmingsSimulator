@@ -94,13 +94,13 @@ public class Map extends WorldEntity
 					case DIRT:
 					case GRASS:
 					case STONE:
+						m_imageGraphics.setColor(Color.GREEN);
+						break;
 					case TOXIC:
 					case PIT:
 					case ATTRACTIVE_FIELD:
 					case REPULSIVE_FIELD:
-						m_imageGraphics.setColor(Color.GREEN);
-						break;
-
+						m_imageGraphics.setColor(Color.YELLOW);
 					default:
 						break;
 
@@ -186,10 +186,10 @@ public class Map extends WorldEntity
 	private void updateCollisionMask()
 	{
 		m_collisionMask = new CollisionMask(m_worldCoords);
-		// m_collisionMask.setData(this);
 		for(int i=0; i<m_grid.getHeight(); ++i)
 		{
 			int start = 0, end = -1;
+			boolean thisisasecretboolean = false;
 			for(int j=0; j<m_grid.getWidth(); ++j)
 			{
 				CellType tcell = this.getCellType(j, i, true);
@@ -197,21 +197,39 @@ public class Map extends WorldEntity
 				if(!tcell.isCrossable() || tcell.isDangerous())
 				{
 					if(end < 0)
+					{
 						end = start;
+						if(!tcell.isCrossable())
+							thisisasecretboolean = false;
+						else if(tcell.isDangerous())
+							thisisasecretboolean = true;		
+					}
 					else
-						end++;
+					{
+						if((!tcell.isCrossable() && thisisasecretboolean) || (tcell.isDangerous() && !thisisasecretboolean))
+						{
+							RectangleShape rect = buildRectangleShape(start, end, i);
+							m_collisionMask.addChild(rect);
+							
+							start = j;
+							end = start;
+							if(!tcell.isCrossable())
+								thisisasecretboolean = false;
+							else if(tcell.isDangerous())
+								thisisasecretboolean = true;	
+						}
+						else
+						{
+							end++;
+						}
+					}
 				}
 				else 
 				{
 					if(end >= 0) // two cases, or end >= 0 in which case we need to create a collision box of at least 1 cell
 					{
-						RectangleShape rect = new RectangleShape(start*CELL_SIZE, i*CELL_SIZE, ((end+1)-start)*CELL_SIZE, CELL_SIZE, m_collisionMask);
+						RectangleShape rect = buildRectangleShape(start, end, i);
 						m_collisionMask.addChild(rect);
-						// rect.setData(this);
-						CollisionProperty prop = new CollisionProperty();
-						prop.setCrossable(false);
-						prop.setEntity(this);
-						rect.setProperty(prop);
 						
 						start = end+2;
 						end = -1;
@@ -225,14 +243,52 @@ public class Map extends WorldEntity
 			
 			if(end != -1)
 			{
-				RectangleShape rect = new RectangleShape(start*CELL_SIZE, i*CELL_SIZE, ((end+1)-start)*CELL_SIZE, CELL_SIZE, m_collisionMask);
+				RectangleShape rect = buildRectangleShape(start, end, i);
 				m_collisionMask.addChild(rect);
-				CollisionProperty prop = new CollisionProperty();
-				prop.setCrossable(false);
-				prop.setEntity(this);
-				rect.setProperty(prop);
 			}
 		}
+		
+		m_collisionMask.updateShape();
+	}
+	
+	private RectangleShape buildRectangleShape(int _start, int _end, int _height)
+	{
+		RectangleShape rect = new RectangleShape(_start * CELL_SIZE, _height * CELL_SIZE, ((_end+1)-_start) * CELL_SIZE, CELL_SIZE, m_collisionMask);
+		CollisionProperty prop = new CollisionProperty();
+		switch(this.getCellType(_start, _height, true))
+		{
+		case DIRT:
+		case GRASS:
+		case STONE:
+			prop.setCrossable(false);
+			break;
+		case TOXIC:
+			prop.setCrossable(true);
+			RectangleShape killZone = new RectangleShape(0, 12, rect.getWidth(), rect.getHeight()-12, rect);
+			prop.setDangerous(true, killZone);
+			rect.addChild(killZone);
+			killZone.updateShape();
+			break;
+		
+		// These ones should not generate collision boxes
+		case BACK_WALL:
+			break;
+		case PIT:
+			break;
+			
+		// no property for now
+		case ATTRACTIVE_FIELD:
+			break;
+		case REPULSIVE_FIELD:
+			break;
+			
+		default:
+			break;
+		}
+		
+		prop.setEntity(this);
+		rect.setProperty(prop);
+		return rect;
 	}
 	
 	public LinkedList<Cell> getCellInArea(Point2f _position, CollisionShape _area)

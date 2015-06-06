@@ -84,7 +84,7 @@ public class Environment implements KeyListener
 				if (WorldEntityEnum.LEMMING_BODY.equals(key))
 				{
 					worldEntity = EntityFactory.getInstance().createLemmingBody(c, this);
-					_agents.add(new LemmingAgent((LemmingBody) worldEntity));
+					// _agents.add(new LemmingAgent((LemmingBody) worldEntity));
 				} else if (WorldEntityEnum.LEVEL_START.equals(key))
 				{
 					worldEntity = EntityFactory.getInstance().createLevelStart(c);

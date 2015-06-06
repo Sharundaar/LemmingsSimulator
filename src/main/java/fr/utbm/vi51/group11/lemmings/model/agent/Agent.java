@@ -73,4 +73,14 @@ public abstract class Agent
 	{
 		return m_body;
 	}
+	
+	/*----------------------------------------------*/
+
+	/**
+	 * Set agent body
+	 */
+	public void setBody(IControllable _body)
+	{
+		m_body = _body;
+	}
 }

@@ -18,8 +18,8 @@ public class InfluenceSolver {
 		{
 			for(Influence inf : body.getInfluences())
 			{
-				if(inf.getType() == InfluenceType.SPEED)
-					body.getSpeed().add(inf.getSpeed());
+				if(inf.getType() == InfluenceType.SPEED && inf.getSpeed() != null)
+					body.getSpeed().set(inf.getSpeed());
 			}
 		}
 	}

@@ -22,7 +22,7 @@ public class LemmingUtils
 	public final static float EXIT_DEFAULT_HEIGHT = 22;
 
 	/** Default maximum velocity of the lemmings */
-	public final static float	s_lemmingMaxVelocity		= 12.0f / 1000.0f;
+	public final static float	s_lemmingMaxVelocity		= 35.0f / 1000.0f;
 	
 	/** Default maximum acceleration of a lemming */
 	public final static float 	s_lemmingMaxAcceleration	= 1;

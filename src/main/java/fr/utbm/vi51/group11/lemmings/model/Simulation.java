@@ -7,8 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.utbm.vi51.group11.lemmings.model.agent.Agent;
+import fr.utbm.vi51.group11.lemmings.model.agent.KeyboardAgent;
+import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelProperties;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelPropertiesMap;
+import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
+import fr.utbm.vi51.group11.lemmings.utils.interfaces.IControllable;
 
 /**
  * Class designed to be the simulation of the project. Contains the list of
@@ -57,7 +61,18 @@ public class Simulation
 	/*----------------------------------------------*/
 	public void initialize()
 	{
+		KeyboardAgent ka = new KeyboardAgent();
+		for(WorldEntity ent : m_environment.m_worldEntities)
+		{
+			if(ent.getType() == WorldEntityEnum.LEMMING_BODY)
+			{
+				ka.setBody((IControllable)ent);
+				break;
+			}
+		}
 		
+		m_environment.getGraphicsEngine().addKeyListener(ka);
+		m_agents.add(ka);
 	}
 	
 	/*----------------------------------------------*/

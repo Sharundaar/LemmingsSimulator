@@ -66,7 +66,10 @@ public class LemmingAgent extends Agent {
 	 */
 	@Override
 	protected List<IPerceivable> getPerceptions() {
-		return m_body.getPerception();
+		if(m_body != null)
+			return m_body.getPerception();
+		else 
+			return null;
 	}
 
 	/*----------------------------------------------*/
@@ -95,7 +98,8 @@ public class LemmingAgent extends Agent {
 	 */
 	@Override
 	protected void move(final Vector2f _direction) {
-		m_body.addInfluence(new Influence(InfluenceType.SPEED, _direction));
+		if(m_body != null)
+			m_body.addInfluence(new Influence(InfluenceType.SPEED, _direction));
 	}
 
 }

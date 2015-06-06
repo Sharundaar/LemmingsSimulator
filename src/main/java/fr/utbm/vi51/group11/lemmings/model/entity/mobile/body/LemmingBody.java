@@ -1,6 +1,9 @@
 package fr.utbm.vi51.group11.lemmings.model.entity.mobile.body;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.slf4j.Logger;
@@ -14,6 +17,7 @@ import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.ICollidable;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
+import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
 import fr.utbm.vi51.group11.lemmings.utils.statics.LemmingUtils;
 
 public class LemmingBody extends Body implements ICollidable
@@ -53,6 +57,8 @@ public class LemmingBody extends Body implements ICollidable
 		
 		m_state = BodyState.NORMAL;
 		m_stateProperty = new BodyStateProperty();
+		
+		m_influences = new LinkedList<Influence>();
 		s_LOGGER.debug("Lemming Body created.");
 	}
 
