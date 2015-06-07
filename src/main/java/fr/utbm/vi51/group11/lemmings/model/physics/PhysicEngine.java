@@ -296,29 +296,25 @@ public class PhysicEngine
 			float y2 = s.getCoordinates(true).getY() + s.getHeight();
 
 			if (((P2.getX() < x2) && (P2.getY() < y1) && (P2.getX() > x1))
-					|| ((P1.getX() < x2) && (P1.getY() < y1) && (P1.getX() > x1))) // replace
-																					// north
+					|| ((P1.getX() < x2) && (P1.getY() < y1) && (P1.getX() > x1))) // replace north
 			{
 				float y = y1 - (d.getCoordinates(true).getY() + d.getHeight());
 				ent.getCoordinates().setY(d.getCoordinates(true).getY() + y);
 				m_groundedEntity.add(new SolvedCollisionProperty(ent, _static.getProperty()));
 			}
 			if (((P1.getX() < x1) && (P1.getY() > y1) && (P1.getY() < y2))
-					|| ((P3.getX() < x1) && (P3.getY() > y1) && (P3.getY() < y2))) // replace
-																					// west
+					|| ((P3.getX() < x1) && (P3.getY() > y1) && (P3.getY() < y2))) // replace west
 			{
 				ent.getCoordinates().setX(d.getCoordinates(true).getX());
 				m_wallBlockedEntity.add(new SolvedCollisionProperty(ent, _static.getProperty()));
 			}
 			if (((P3.getX() < x2) && (P3.getY() > y2) && (P3.getX() > x1))
-					|| ((P4.getX() < x2) && (P4.getY() > y2) && (P4.getX() > x1))) // replace
-																					// south
+					|| ((P4.getX() < x2) && (P4.getY() > y2) && (P4.getX() > x1))) // replace south
 			{
 				ent.getCoordinates().setY(d.getCoordinates(true).getY());
 			}
 			if (((P2.getX() > x2) && (P2.getY() > y1) && (P2.getY() < y2))
-					|| ((P4.getX() > x2) && (P4.getY() > y1) && (P4.getY() < y2))) // replace
-																					// east
+					|| ((P4.getX() > x2) && (P4.getY() > y1) && (P4.getY() < y2))) // replace east
 			{
 				ent.getCoordinates().setX(d.getCoordinates(true).getX());
 				m_wallBlockedEntity.add(new SolvedCollisionProperty(ent, _static.getProperty()));

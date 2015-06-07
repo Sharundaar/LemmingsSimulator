@@ -75,32 +75,4 @@ public class LemmingAgent extends Agent
 		return new Influence(InfluenceType.SPEED, new Vector2f(-1, 0));
 		// return null;// TODO TODO
 	}
-
-	/*----------------------------------------------*/
-
-	/**
-	 * Method used to influence the agent's body.
-	 * 
-	 * @param _influence
-	 *            Influence to give to the body.
-	 */
-	@Override
-	protected void influenceBody(
-			final Influence _influence)
-	{
-		switch (_influence.getType())
-		{
-			case ACCELERATION:
-				m_body.influenceAcceleration(_influence.getAcceleration());
-				break;
-			case SPEED:
-				m_body.influenceSpeed(_influence.getSpeed());
-				break;
-			case ACTION:
-				m_body.influenceAction(_influence.getAction());
-				break;
-			default:
-				break;
-		}
-	}
 }

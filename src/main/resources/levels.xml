@@ -37,7 +37,7 @@
 			</worldEntity>
 			<worldEntity id="LEVEL_END">
 				<x>654</x>
-				<y>500</y>
+				<y>512</y>
 				<textureID>worldEntitySpriteSheet</textureID>
 			</worldEntity>
 			<worldEntity id="LEMMING_BODY">

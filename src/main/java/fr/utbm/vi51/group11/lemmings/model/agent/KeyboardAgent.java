@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.arakhne.afc.math.continous.object2d.Vector2f;
 
+import fr.utbm.vi51.group11.lemmings.model.Simulation;
 import fr.utbm.vi51.group11.lemmings.utils.enums.InfluenceType;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
 import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
@@ -37,7 +38,7 @@ public class KeyboardAgent extends Agent implements KeyListener
 			speed.setY(-UtilsLemmings.s_maximumClimbingSpeed);
 
 		m_body.addInfluence(new Influence(InfluenceType.SPEED, speed));
-		// Simulation.s_LOGGER.debug("BodyState: {}.", m_body.getState());
+		Simulation.s_LOGGER.debug("BodyState: {}.", m_body.getState());
 	}
 
 	@Override
@@ -46,14 +47,6 @@ public class KeyboardAgent extends Agent implements KeyListener
 	{
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	protected void influenceBody(
-			final Influence _influence)
-	{
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

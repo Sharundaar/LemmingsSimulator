@@ -5,7 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.utbm.vi51.group11.lemmings.gui.texture.Sprite;
+import fr.utbm.vi51.group11.lemmings.model.Environment;
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
+import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
 import fr.utbm.vi51.group11.lemmings.model.physics.properties.CollisionProperty;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
@@ -20,7 +22,14 @@ public class LevelStart extends WorldEntity implements ICollidable, IPerceivable
 	@SuppressWarnings("unused")
 	private final static Logger	s_LOGGER	= LoggerFactory.getLogger(LevelStart.class);
 
-	public LevelStart(final String _textureID, final Point2f _worldCoords)
+	private int m_stashedLemmingCount;
+	private long m_spawnLemmingTimer = 0;
+	private long m_spawnRate = 2000;
+	private Point2f m_spawnPoint;
+	
+	private Environment m_environment;
+	
+	public LevelStart(final String _textureID, final Point2f _worldCoords, Environment _environment)
 	{
 		m_worldCoords = _worldCoords;
 		m_type = WorldEntityEnum.LEVEL_START;
@@ -33,5 +42,27 @@ public class LevelStart extends WorldEntity implements ICollidable, IPerceivable
 				UtilsLemmings.s_entryDefaultHeight, null));
 		m_collisionMask.setProperty(new CollisionProperty());
 		m_collisionMask.getProperty().setEntity(this);
+		
+		m_spawnPoint = new Point2f(_worldCoords.getX() + UtilsLemmings.s_entryDefaultWidth / 2.0f, _worldCoords.getY());
+		
+		m_stashedLemmingCount = 10;
+		
+		m_environment = _environment;
+	}
+	
+	public void update(long _dt)
+	{
+		m_spawnLemmingTimer += _dt;
+		if(m_spawnLemmingTimer >= m_spawnRate)
+		{
+			m_spawnLemmingTimer = 0;
+			spawnLemming();
+		}
+	}
+	
+	public void spawnLemming()
+	{
+		LemmingBody lemming = new LemmingBody("entitySpriteSheet", new Point2f(m_spawnPoint), m_environment);
+		m_environment.addWorldEntity(lemming);
 	}
 }

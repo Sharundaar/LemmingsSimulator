@@ -60,37 +60,4 @@ public interface IControllable
 	 */
 	public BodyState getState();
 
-	/*----------------------------------------------*/
-
-	/**
-	 * Method used to add a speed influence to the body.
-	 * 
-	 * @param _speed
-	 *            Speed influence of the body.
-	 */
-	public void influenceSpeed(
-			Vector2f _speed);
-
-	/*----------------------------------------------*/
-
-	/**
-	 * Method used to add an acceleration influence to the body.
-	 * 
-	 * @param _acceleration
-	 *            Acceleration influence of the body.
-	 */
-	public void influenceAcceleration(
-			Vector2f _acceleration);
-
-	/*----------------------------------------------*/
-
-	/**
-	 * Method used to add an Action influence to the body.
-	 * 
-	 * @param _action
-	 *            Action influence to perform for the body.
-	 */
-	public void influenceAction(
-			Action _action);
-
 }

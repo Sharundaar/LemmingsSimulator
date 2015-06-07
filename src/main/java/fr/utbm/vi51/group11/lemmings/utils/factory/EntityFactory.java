@@ -60,13 +60,14 @@ public class EntityFactory
 	/*----------------------------------------------*/
 
 	public LevelStart createLevelStart(
-			final WorldEntityConfiguration _worldEntityConfiguration)
+			final WorldEntityConfiguration _worldEntityConfiguration,
+			final Environment _environment)
 	{
 		s_LOGGER.debug("Creating LevelStart in ({},{}).", _worldEntityConfiguration
 				.getWorldCoords().x(), _worldEntityConfiguration.getWorldCoords().y());
 
 		return new LevelStart(_worldEntityConfiguration.getTextureID(),
-				_worldEntityConfiguration.getWorldCoords());
+				_worldEntityConfiguration.getWorldCoords(), _environment);
 	}
 
 	/*----------------------------------------------*/

@@ -19,7 +19,7 @@ public class UtilsLemmings
 	public final static int		s_tileHeight					= 32;
 
 	/** Default maximum velocity of the lemmings */
-	public final static float	s_lemmingMaxVelocity			= 12.0f / 1000.0f;
+	public final static float	s_lemmingMaxVelocity			= 35.0f / 1000.0f;
 
 	/** Default maximum acceleration of a lemming */
 	public final static float	s_lemmingMaxAcceleration		= 1;

@@ -103,11 +103,4 @@ public class LemmingBody extends Body implements ICollidable
 
 		return false; // TODO
 	}
-
-	@Override
-	public BodyState getState()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

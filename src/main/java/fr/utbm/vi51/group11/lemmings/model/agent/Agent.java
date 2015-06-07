@@ -42,18 +42,13 @@ public abstract class Agent
 	 */
 	protected abstract Influence decide(
 			List<IPerceivable> _surroundingEntities);
-
-	/*----------------------------------------------*/
-
-	/**
-	 * Method used to make the agent take an .
-	 * 
-	 * @param _action
-	 *            Direction to take for the next move.
-	 */
-	protected abstract void influenceBody(
-			Influence _influence);
-
+	
+	protected void influenceBody(
+			final Influence _influence)
+	{
+		m_body.addInfluence(_influence);
+	}
+	
 	/*----------------------------------------------*/
 	public void kill()
 	{

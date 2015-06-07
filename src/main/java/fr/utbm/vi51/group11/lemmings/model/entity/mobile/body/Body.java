@@ -150,61 +150,7 @@ public abstract class Body extends DynamicEntity implements IControllable
 	{
 		return m_influences.remove(_influence);
 	}
-
-	/*----------------------------------------------*/
-
-	/**
-	 * Method used to add a speed influence to the body.
-	 * 
-	 * @param _speed
-	 *            Speed influence of the body.
-	 */
-	@Override
-	public void influenceSpeed(
-			final Vector2f _speed)
-	{
-		if (!filterInfluence())
-		{
-			// m_influences.add(new Influence(InfluenceType.SPEED, _speed));
-		}
-	}
-
-	/*----------------------------------------------*/
-
-	/**
-	 * Method used to add an acceleration influence to the body.
-	 * 
-	 * @param _acceleration
-	 *            Acceleration influence of the body.
-	 */
-	@Override
-	public void influenceAcceleration(
-			final Vector2f _acceleration)
-	{
-		if (!filterInfluence())
-		{
-			m_influences.add(new Influence(InfluenceType.ACCELERATION, _acceleration));
-		}
-	}
-
-	/*----------------------------------------------*/
-
-	/**
-	 * Method used to add an Action influence to the body.
-	 * 
-	 * @param _action
-	 *            Action influence to perform for the body.
-	 */
-	@Override
-	public void influenceAction(
-			final Action _action)
-	{
-		if (!filterInfluence())
-		{
-			m_influences.add(new Influence(InfluenceType.ACTION, _action));
-		}
-	}
-
+	
 	/*----------------------------------------------*/
 
 	/**
