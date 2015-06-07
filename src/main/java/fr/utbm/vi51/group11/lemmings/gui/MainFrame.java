@@ -44,6 +44,10 @@ public class MainFrame extends GUI implements ActionListener
 			final int _rowNb, final int _colNb)
 	{
 		super();
+
+		createMenuBar();
+		this.setJMenuBar(m_menuBar);
+
 		int width = (UtilsLemmings.s_tileWidth * _colNb) + (getInsets().bottom + getInsets().top);
 		int height = (UtilsLemmings.s_tileHeight * _rowNb) + (getInsets().right + getInsets().left)
 				+ (m_menuBar.getHeight());
@@ -64,8 +68,7 @@ public class MainFrame extends GUI implements ActionListener
 		setLayout(m_mainLayout);
 		setLocationRelativeTo(null);
 
-		createMenuBar();
-		this.setJMenuBar(m_menuBar);
+		createSpeedButton();
 
 		this.getContentPane().add(m_graphicsEngine, BorderLayout.CENTER);
 		this.getContentPane().add(m_PSpeedButtonPanel, BorderLayout.SOUTH);

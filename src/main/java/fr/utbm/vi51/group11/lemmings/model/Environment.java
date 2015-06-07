@@ -22,7 +22,9 @@ import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelProperties;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.WorldEntityConfiguration;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.factory.EntityFactory;
+import fr.utbm.vi51.group11.lemmings.utils.interfaces.IEntityDestroyedListener;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
+import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 
 /**
  * 
@@ -268,7 +270,7 @@ public class Environment
 						if (!m_physicEngine.isBlocked(body))
 						{
 							body.setState(BodyState.NORMAL, new BodyStateProperty());
-							body.setMass(LemmingUtils.LEMMING_MASS);
+							body.setMass(UtilsLemmings.s_lemmingMass);
 						}
 					} else
 					{
@@ -278,7 +280,7 @@ public class Environment
 							fallingState.m_chuteOpen = false;
 							fallingState.m_fallHeight = body.getCoordinates().getY();
 							body.setState(BodyState.FALLING, fallingState);
-							body.setMass(LemmingUtils.LEMMING_MASS);
+							body.setMass(UtilsLemmings.s_lemmingMass);
 						}
 					}
 					break;
@@ -290,7 +292,7 @@ public class Environment
 						{
 							body.setState(BodyState.NORMAL, new BodyStateProperty());
 						} else if ((body.getStateProperty().m_fallHeight - body.getCoordinates()
-								.getY()) <= LemmingUtils.MAXIMUM_FALLING_HEIGHTS)
+								.getY()) <= UtilsLemmings.s_maximumFallingHeight)
 						{
 							body.setState(BodyState.NORMAL, new BodyStateProperty());
 						} else
@@ -339,24 +341,6 @@ public class Environment
 	{
 		for (WorldEntity ent : m_worldEntities)
 			ent.updateAnimation(_dt);
-
-		/*
-		 * TODO
-		 * if (ent instanceof Body)
-		 * {
-		 * Body body = (Body) ent;
-		 * if (body.getCurrentAnimationState() ==
-		 * body.getPreviousAnimationState())
-		 * if (!body.getAnimations().get(body.getCurrentAnimationState())
-		 * .incrementTime(_dt))
-		 * {
-		 * Vector2i spritePos = body.getAnimations()
-		 * .get(body.getCurrentAnimationState()).getCoords();
-		 * body.getSprite().setTextureRect(spritePos.x(), spritePos.y(), 27,
-		 * 26);
-		 * }
-		 * }
-		 */
 	}
 
 	/*----------------------------------------------*/

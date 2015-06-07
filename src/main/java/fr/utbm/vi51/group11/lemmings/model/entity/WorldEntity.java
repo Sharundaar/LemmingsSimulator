@@ -1,8 +1,10 @@
 package fr.utbm.vi51.group11.lemmings.model.entity;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
+import org.arakhne.afc.math.discrete.object2d.Vector2i;
 
 import fr.utbm.vi51.group11.lemmings.gui.texture.Sprite;
+import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.Body;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
@@ -109,6 +111,7 @@ public abstract class WorldEntity implements IPerceivable
 	{
 		m_sprite = _sprite;
 	}
+
 	/*----------------------------------------------*/
 
 	/**
@@ -124,23 +127,36 @@ public abstract class WorldEntity implements IPerceivable
 	/**
 	 * Temporary function, update the collision mask and the sprite coordinates.
 	 */
-	public void updateExterns() {
+	public void updateExterns()
+	{
 		// TODO Auto-generated method stub
 		m_collisionMask.getCoordinates().set(m_worldCoords);
 		m_collisionMask.updateShape();
 		m_sprite.setWorldCoords(this.m_worldCoords);
 	}
-	
+
 	/**
 	 * Used to update the animation.
 	 */
-	public void updateAnimation(long _dt) {
-
+	public void updateAnimation(
+			final long _dt)
+	{
+		if (this instanceof Body)
+		{
+			Body body = (Body) this;
+			if (body.getCurrentAnimationState() == body.getPreviousAnimationState())
+				if (!body.getAnimations().get(body.getCurrentAnimationState()).incrementTime(_dt))
+				{
+					Vector2i spritePos = body.getAnimations().get(body.getCurrentAnimationState())
+							.getCoords();
+					body.getSprite().setTextureRect(spritePos.x(), spritePos.y(), 27, 26);
+				}
+		}
 	}
-	
+
 	/*----------------------------------------------*/
 	public void kill()
 	{
-		
+
 	}
 }

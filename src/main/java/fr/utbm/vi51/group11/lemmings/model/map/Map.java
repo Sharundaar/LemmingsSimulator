@@ -78,13 +78,13 @@ public class Map extends WorldEntity implements ITextureHandler
 
 		updateCollisionMask();
 	}
-	
+
 	/*----------------------------------------------*/
 	public int getGridWidth()
 	{
 		return m_grid.getWidth();
 	}
-	
+
 	/*----------------------------------------------*/
 	public int getGridHeight()
 	{
@@ -252,8 +252,7 @@ public class Map extends WorldEntity implements ITextureHandler
 							thisisasecretboolean = false;
 						else if (tcell.isDangerous())
 							thisisasecretboolean = true;
-					}
-
+					} else
 					{
 						if ((!tcell.isCrossable() && thisisasecretboolean)
 								|| (tcell.isDangerous() && !thisisasecretboolean))

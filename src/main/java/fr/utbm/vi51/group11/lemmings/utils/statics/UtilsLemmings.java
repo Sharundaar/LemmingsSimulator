@@ -26,6 +26,9 @@ public class UtilsLemmings
 
 	public final static float	s_lemmingMass					= 1;
 
+	/** Default maximum fall tolerence of the lemmings */
+	public final static float	s_maximumFallingHeight			= 65.0f;
+
 	public final static float	s_maximumFallingSpeed			= 100.0f / 1000.0f;
 	public final static float	s_maximumClimbingSpeed			= 35.0f / 1000.0f;
 
