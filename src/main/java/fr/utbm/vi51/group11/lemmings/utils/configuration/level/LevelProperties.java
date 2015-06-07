@@ -1,7 +1,5 @@
 package fr.utbm.vi51.group11.lemmings.utils.configuration.level;
 
-import java.util.Iterator;
-
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.slf4j.Logger;
@@ -17,6 +15,9 @@ public class LevelProperties
 	/** ID of the Level */
 	private final String											m_id;
 
+	/** String name of the sprite sheet containing the tiles. */
+	private final String											m_tileSpriteSheet;
+
 	/** Matrix representing the texture for each cell of the grid of the map */
 	private final int[][]											m_tileGrid;
 
@@ -25,10 +26,12 @@ public class LevelProperties
 
 	/*----------------------------------------------*/
 
-	public LevelProperties(final String _id, final int[][] _tileGrid,
+	public LevelProperties(final String _id, final String _tileSpriteSheet,
+			final int[][] _tileGrid,
 			final MultivaluedMap<String, WorldEntityConfiguration> worldEntities)
 	{
 		m_id = _id;
+		m_tileSpriteSheet = _tileSpriteSheet;
 		m_tileGrid = _tileGrid;
 		m_worldEntitiesConfiguration = worldEntities;
 	}
@@ -45,6 +48,13 @@ public class LevelProperties
 	public int getNbCol()
 	{
 		return m_tileGrid.length;
+	}
+
+	/*----------------------------------------------*/
+
+	public String getTileSpriteSheet()
+	{
+		return m_tileSpriteSheet;
 	}
 
 	/*----------------------------------------------*/
@@ -71,6 +81,7 @@ public class LevelProperties
 		String disp = "";
 		disp += "\n************************************";
 		disp += "\n*   LevelProperties ID : '" + m_id + "'";
+		disp += "\n*   Associated SpriteSheet : '" + m_tileSpriteSheet + "'";
 		disp += "\n*   Size (w*h) : " + nbCol + "*" + nbRow;
 		disp += "\n*   TileGrid   : ";
 
@@ -85,19 +96,10 @@ public class LevelProperties
 		disp += "\n*";
 		disp += "\n*   WorldEntities : ";
 
-		Iterator<String> iterator = m_worldEntitiesConfiguration.keySet().iterator();
-		String key = iterator.next();
-		String oldKey = key;
-		disp += key + " - " + m_worldEntitiesConfiguration.get(key);
-
-		while (iterator.hasNext())
+		for (String key : m_worldEntitiesConfiguration.keySet())
 		{
-			key = iterator.next();
 			disp += "\n*                   ";
-			if (!oldKey.equals(key))
-				disp += key + " - ";
-			else
-				disp += "   ";
+			disp += m_worldEntitiesConfiguration.get(key).size() + " " + key + " - ";
 			disp += m_worldEntitiesConfiguration.get(key);
 		}
 		disp += "\n*";

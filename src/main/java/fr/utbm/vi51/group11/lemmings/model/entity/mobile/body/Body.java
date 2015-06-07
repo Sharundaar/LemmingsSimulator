@@ -2,12 +2,19 @@ package fr.utbm.vi51.group11.lemmings.model.entity.mobile.body;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
+import org.arakhne.afc.math.continous.object2d.Vector2f;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.utbm.vi51.group11.lemmings.gui.texture.Animation;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.DynamicEntity;
+import fr.utbm.vi51.group11.lemmings.utils.enums.AnimationState;
+import fr.utbm.vi51.group11.lemmings.utils.enums.InfluenceType;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IControllable;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
+import fr.utbm.vi51.group11.lemmings.utils.misc.Action;
 import fr.utbm.vi51.group11.lemmings.utils.misc.Frustrum;
 import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
 
@@ -26,22 +33,27 @@ public abstract class Body extends DynamicEntity implements IControllable
 {
 	/** Logger of the class */
 	@SuppressWarnings("unused")
-	private final static Logger	s_LOGGER	= LoggerFactory.getLogger(Body.class);
+	private final static Logger					s_LOGGER	= LoggerFactory.getLogger(Body.class);
 
 	/** Tells of the body is alive or not. */
-	protected boolean			m_alive;
+	protected boolean							m_alive;
 
 	/** Field of perception of the body */
-	protected Frustrum			m_frustrum;
+	protected Frustrum							m_frustrum;
 
 	/** Influences given by the agent to perform */
-	protected LinkedList<Influence>	m_influences;
-	
+	protected LinkedList<Influence>				m_influences;
+
 	/** State */
-	protected BodyState 		m_state;
-	
+	protected BodyState							m_state;
+
 	/** State property */
-	protected BodyStateProperty	m_stateProperty;
+	protected BodyStateProperty					m_stateProperty;
+
+	protected Map<AnimationState, Animation>	m_animations;
+
+	protected AnimationState					m_currentAnimationState;
+	protected AnimationState					m_previousAnimationState;
 
 	/*----------------------------------------------*/
 
@@ -80,6 +92,39 @@ public abstract class Body extends DynamicEntity implements IControllable
 		return perception;
 	}
 
+	public Map<AnimationState, Animation> getAnimations()
+	{
+		return m_animations;
+	}
+
+	/*----------------------------------------------*/
+	public LinkedList<Influence> getInfluences()
+	{
+		return m_influences;
+	}
+
+	public AnimationState getCurrentAnimationState()
+	{
+		return m_currentAnimationState;
+	}
+
+	public void setCurrentAnimationState(
+			final AnimationState _animationState)
+	{
+		m_currentAnimationState = _animationState;
+	}
+
+	public AnimationState getPreviousAnimationState()
+	{
+		return m_previousAnimationState;
+	}
+
+	public void setPreviousAnimationState(
+			final AnimationState _animationState)
+	{
+		m_previousAnimationState = _animationState;
+	}
+
 	/*----------------------------------------------*/
 
 	/**
@@ -92,22 +137,72 @@ public abstract class Body extends DynamicEntity implements IControllable
 	protected abstract boolean filterPerception(
 			List<IPerceivable> _perception);
 
+	@Override
 	public boolean addInfluence(
 			final Influence _influence)
 	{
 		return m_influences.add(_influence);
 	}
 
+	@Override
 	public boolean removeInfluence(
 			final Influence _influence)
 	{
 		return m_influences.remove(_influence);
 	}
-	
+
 	/*----------------------------------------------*/
-	public LinkedList<Influence> getInfluences()
+
+	/**
+	 * Method used to add a speed influence to the body.
+	 * 
+	 * @param _speed
+	 *            Speed influence of the body.
+	 */
+	@Override
+	public void influenceSpeed(
+			final Vector2f _speed)
 	{
-		return m_influences;
+		if (!filterInfluence())
+		{
+			// m_influences.add(new Influence(InfluenceType.SPEED, _speed));
+		}
+	}
+
+	/*----------------------------------------------*/
+
+	/**
+	 * Method used to add an acceleration influence to the body.
+	 * 
+	 * @param _acceleration
+	 *            Acceleration influence of the body.
+	 */
+	@Override
+	public void influenceAcceleration(
+			final Vector2f _acceleration)
+	{
+		if (!filterInfluence())
+		{
+			m_influences.add(new Influence(InfluenceType.ACCELERATION, _acceleration));
+		}
+	}
+
+	/*----------------------------------------------*/
+
+	/**
+	 * Method used to add an Action influence to the body.
+	 * 
+	 * @param _action
+	 *            Action influence to perform for the body.
+	 */
+	@Override
+	public void influenceAction(
+			final Action _action)
+	{
+		if (!filterInfluence())
+		{
+			m_influences.add(new Influence(InfluenceType.ACTION, _action));
+		}
 	}
 
 	/*----------------------------------------------*/
@@ -126,10 +221,9 @@ public abstract class Body extends DynamicEntity implements IControllable
 	/**
 	 * Method used to kill the body.
 	 */
+	@Override
 	public void kill()
 	{
-		m_state = BodyState.DEAD;
-		m_stateProperty.m_timeOfDeath = m_environment.getEnvironmentTime();
 		m_alive = false;
 	}
 
@@ -140,43 +234,6 @@ public abstract class Body extends DynamicEntity implements IControllable
 	 */
 	public void revive()
 	{
-		m_state = BodyState.NORMAL;
 		m_alive = true;
-	}
-	
-	public BodyState getState()
-	{
-		return m_state;
-	}
-	
-	public BodyStateProperty getStateProperty()
-	{
-		return m_stateProperty;
-	}
-	
-	public void setState(BodyState _state, BodyStateProperty _property)
-	{
-		if(_property == null)
-			return;
-		
-		m_state = _state;
-		switch(m_state)
-		{
-		case DEAD:
-			m_stateProperty.m_timeOfDeath = _property.m_timeOfDeath;
-			break;
-		case FALLING:
-			m_stateProperty.m_fallHeight = _property.m_fallHeight;
-			m_stateProperty.m_chuteOpen = _property.m_chuteOpen;
-			break;
-			
-		case CLIMBING:
-			break;
-		case NORMAL:
-			break;
-		default:
-			break;
-		
-		}
 	}
 }

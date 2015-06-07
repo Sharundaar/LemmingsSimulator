@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
 import org.arakhne.afc.vmutil.Resources;
 
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.ITextureHandler;
-import fr.utbm.vi51.group11.lemmings.utils.statics.FileUtils1;
+import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsFile;
 
 public class TextureBank
 {
@@ -44,8 +44,8 @@ public class TextureBank
 		for (String key : _textureIDs)
 			loadTexture(
 					key,
-					Resources.getResourceAsStream(Paths.get(FileUtils1.TEXTURE_DIR_NAME)
-							.resolve(key + FileUtils1.SPRITESHEET_FILE_EXTENSION).toString()));
+					Resources.getResourceAsStream(Paths.get(UtilsFile.TEXTURE_DIR_NAME)
+							.resolve(key + UtilsFile.SPRITESHEET_FILE_EXTENSION).toString()));
 		// FileUtils1.TEXTURE_DIR.resolve(key +
 		// FileUtils1.SPRITESHEET_FILE_EXTENSION)); // TODO
 
@@ -58,6 +58,7 @@ public class TextureBank
 		m_handlers.clear();
 	}
 
+	@SuppressWarnings("unused")
 	private void loadTexture(
 			final String _key,
 			final Path _path) throws IOException

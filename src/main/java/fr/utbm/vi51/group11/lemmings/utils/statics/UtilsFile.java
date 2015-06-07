@@ -13,11 +13,11 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
 import ch.qos.logback.core.joran.spi.JoranException;
 
-public class FileUtils1
+public class UtilsFile
 {
 	/** Logger of the class */
 	private final static Logger	LOGGER						= LoggerFactory
-																	.getLogger(FileUtils1.class);
+																	.getLogger(UtilsFile.class);
 
 	/** FilePath referencing the resource dir */
 	public static final Path	RESOURCES_DIR				= Paths.get("resources");

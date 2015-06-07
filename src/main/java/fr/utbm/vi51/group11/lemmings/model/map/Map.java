@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import fr.utbm.vi51.group11.lemmings.gui.texture.Sprite;
 import fr.utbm.vi51.group11.lemmings.gui.texture.Texture;
+import fr.utbm.vi51.group11.lemmings.gui.texture.TextureBank;
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
 import fr.utbm.vi51.group11.lemmings.model.physics.properties.CollisionProperty;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
@@ -21,8 +22,10 @@ import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelProperties;
 import fr.utbm.vi51.group11.lemmings.utils.enums.CellType;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
+import fr.utbm.vi51.group11.lemmings.utils.interfaces.ITextureHandler;
+import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 
-public class Map extends WorldEntity
+public class Map extends WorldEntity implements ITextureHandler
 {
 	/** Logger of the class */
 	@SuppressWarnings("unused")
@@ -31,9 +34,9 @@ public class Map extends WorldEntity
 	/** Discrete Grid of cells containing the environment */
 	private final Grid			m_grid;
 
-	public 	final static int	CELL_SIZE	= 32;
 	private final static int	TYPE_ARGB	= 2;
 
+	private Texture				m_spriteSheet;
 	private final Texture		m_texture;
 	private final BufferedImage	m_image;
 	private final Graphics2D	m_imageGraphics;
@@ -55,18 +58,24 @@ public class Map extends WorldEntity
 
 		this.m_worldCoords = new Point2f(0, 0);
 
-		m_image = new BufferedImage(_levelProperties.getNbCol() * CELL_SIZE,
-				_levelProperties.getNbRow() * CELL_SIZE, TYPE_ARGB);
+		TextureBank.getInstance().getTexture(_levelProperties.getTileSpriteSheet(), this);
+
+		m_image = new BufferedImage(_levelProperties.getNbCol() * UtilsLemmings.s_tileWidth,
+				_levelProperties.getNbRow() * UtilsLemmings.s_tileHeight, TYPE_ARGB);
 		m_imageGraphics = m_image.createGraphics();
 		m_texture = new Texture("Map", m_image);
+
+		this.m_sprite = new Sprite(
+		/* world coordinates */
+		m_worldCoords.getX(), m_worldCoords.getY(), m_grid.getWidth() * UtilsLemmings.s_tileWidth,
+				m_grid.getHeight() * UtilsLemmings.s_tileHeight,
+				/* texture coordinates */
+				0, 0, m_grid.getWidth() * UtilsLemmings.s_tileWidth, m_grid.getHeight()
+						* UtilsLemmings.s_tileHeight,
+				/* associated Texture. */
+				m_texture);
 		m_type = WorldEntityEnum.MAP;
-		
-		this.m_sprite = new Sprite(m_worldCoords.getX(), m_worldCoords.getY(), m_grid.getWidth()
-				* CELL_SIZE, m_grid.getHeight() * CELL_SIZE, // world components
-				0, 0, m_grid.getWidth() * CELL_SIZE, m_grid.getHeight() * CELL_SIZE, // texture
-																						// components
-				m_texture); // image
-		
+
 		updateCollisionMask();
 	}
 
@@ -77,6 +86,7 @@ public class Map extends WorldEntity
 	 */
 	public void redrawMap()
 	{
+		BufferedImage image = null;
 		m_imageGraphics.clearRect(0, 0, m_image.getWidth(), m_image.getHeight());
 
 		for (int i = 0; i < m_grid.getWidth(); ++i)
@@ -87,25 +97,53 @@ public class Map extends WorldEntity
 				switch (getCellType(i, j, true))
 				{
 					case BACK_WALL:
-						m_imageGraphics.setColor(Color.GRAY);
+						drawCell(image, cellPos, Color.GRAY, 0, 0);
 						break;
 					case DIRT:
+						drawCell(image, cellPos, Color.ORANGE, 4, 0); // TODO
+						break;
 					case GRASS:
+						drawCell(image, cellPos, Color.GREEN, 5, 0); // TODO
 					case STONE:
-						m_imageGraphics.setColor(Color.GREEN);
+						drawCell(image, cellPos, Color.YELLOW, 3, 0); // TODO
 						break;
 					case TOXIC:
+						/* Dark green color otherwise. */
+						drawCell(image, cellPos, Color.getHSBColor(120, 100, 50), 1, 0);
 					case PIT:
+						drawCell(image, cellPos, Color.PINK, 2, 0); // TODO
 					case ATTRACTIVE_FIELD:
+						drawCell(image, cellPos, Color.LIGHT_GRAY, 6, 0); // TODO
 					case REPULSIVE_FIELD:
-						m_imageGraphics.setColor(Color.YELLOW);
+						drawCell(image, cellPos, Color.DARK_GRAY, 7, 0); // TODO
+						break;
+
 					default:
 						break;
 
 				}
-
-				m_imageGraphics.fillRect(cellPos.x(), cellPos.y(), CELL_SIZE, CELL_SIZE);
 			}
+		}
+	}
+
+	private void drawCell(
+			BufferedImage _image,
+			final Vector2f _cellPos,
+			final Color _color,
+			final int _xTexCoord,
+			final int _yTexCoord)
+	{
+		if (m_spriteSheet == null)
+		{
+			m_imageGraphics.setColor(_color);
+			m_imageGraphics.fillRect(_cellPos.x(), _cellPos.y(), UtilsLemmings.s_tileWidth,
+					UtilsLemmings.s_tileHeight);
+		} else
+		{
+			_image = m_spriteSheet.getImage().getSubimage(_xTexCoord * UtilsLemmings.s_tileWidth,
+					_yTexCoord * UtilsLemmings.s_tileHeight, UtilsLemmings.s_tileWidth,
+					UtilsLemmings.s_tileHeight);
+			m_imageGraphics.drawImage(_image, _cellPos.x(), _cellPos.y(), null);
 		}
 	}
 
@@ -155,8 +193,8 @@ public class Map extends WorldEntity
 		float mapY = _y - this.m_worldCoords.getY();
 
 		/* Then from map space to grid space */
-		int gridX = (int) Math.floor((_x / CELL_SIZE));
-		int gridY = (int) Math.floor(_y / CELL_SIZE);
+		int gridX = (int) Math.floor((_x / UtilsLemmings.s_tileWidth));
+		int gridY = (int) Math.floor(_y / UtilsLemmings.s_tileHeight);
 
 		return new Vector2i(gridX, gridY);
 	}
@@ -177,138 +215,154 @@ public class Map extends WorldEntity
 			final int _y)
 	{
 
-		return new Vector2f(m_worldCoords.getX() + (_x * CELL_SIZE), m_worldCoords.getY()
-				+ (_y * CELL_SIZE));
+		return new Vector2f(m_worldCoords.getX() + (_x * UtilsLemmings.s_tileWidth),
+				m_worldCoords.getY() + (_y * UtilsLemmings.s_tileHeight));
 	}
-	
+
 	private void updateCollisionMask()
 	{
 		m_collisionMask = new CollisionMask(m_worldCoords);
-		for(int i=0; i<m_grid.getHeight(); ++i)
+		for (int i = 0; i < m_grid.getHeight(); ++i)
 		{
 			int start = 0, end = -1;
 			boolean thisisasecretboolean = false;
-			for(int j=0; j<m_grid.getWidth(); ++j)
+			for (int j = 0; j < m_grid.getWidth(); ++j)
 			{
 				CellType tcell = this.getCellType(j, i, true);
-				// we wan't to test collision in these two cases (not crossable or dangerous)
-				if(!tcell.isCrossable() || tcell.isDangerous())
+				// we wan't to test collision in these two cases (not crossable
+				// or dangerous)
+				if (!tcell.isCrossable() || tcell.isDangerous())
 				{
-					if(end < 0)
+					if (end < 0)
 					{
 						end = start;
-						if(!tcell.isCrossable())
+						if (!tcell.isCrossable())
 							thisisasecretboolean = false;
-						else if(tcell.isDangerous())
-							thisisasecretboolean = true;		
+						else if (tcell.isDangerous())
+							thisisasecretboolean = true;
 					}
-					else
+
 					{
-						if((!tcell.isCrossable() && thisisasecretboolean) || (tcell.isDangerous() && !thisisasecretboolean))
+						if ((!tcell.isCrossable() && thisisasecretboolean)
+								|| (tcell.isDangerous() && !thisisasecretboolean))
 						{
 							RectangleShape rect = buildRectangleShape(start, end, i);
 							m_collisionMask.addChild(rect);
-							
+
 							start = j;
 							end = start;
-							if(!tcell.isCrossable())
+							if (!tcell.isCrossable())
 								thisisasecretboolean = false;
-							else if(tcell.isDangerous())
-								thisisasecretboolean = true;	
-						}
-						else
+							else if (tcell.isDangerous())
+								thisisasecretboolean = true;
+						} else
 						{
 							end++;
 						}
 					}
-				}
-				else 
+				} else
 				{
-					if(end >= 0) // two cases, or end >= 0 in which case we need to create a collision box of at least 1 cell
+					if (end >= 0) // two cases, or end >= 0 in which case we
+									// need to create a collision box of at
+									// least 1 cell
 					{
 						RectangleShape rect = buildRectangleShape(start, end, i);
 						m_collisionMask.addChild(rect);
-						
-						start = end+2;
+
+						start = end + 2;
 						end = -1;
-					}
-					else // or we're not creating a collision box so we move start point
+					} else
+					// or we're not creating a collision box so we move start
+					// point
 					{
 						start++;
 					}
 				}
 			}
-			
-			if(end != -1)
+
+			if (end != -1)
 			{
 				RectangleShape rect = buildRectangleShape(start, end, i);
 				m_collisionMask.addChild(rect);
 			}
 		}
-		
+
 		m_collisionMask.updateShape();
 	}
-	
-	private RectangleShape buildRectangleShape(int _start, int _end, int _height)
+
+	private RectangleShape buildRectangleShape(
+			final int _start,
+			final int _end,
+			final int _height)
 	{
-		RectangleShape rect = new RectangleShape(_start * CELL_SIZE, _height * CELL_SIZE, ((_end+1)-_start) * CELL_SIZE, CELL_SIZE, m_collisionMask);
+		RectangleShape rect = new RectangleShape(_start * UtilsLemmings.s_tileWidth, _height
+				* UtilsLemmings.s_tileHeight, ((_end + 1) - _start) * UtilsLemmings.s_tileWidth,
+				UtilsLemmings.s_tileHeight, m_collisionMask);
 		CollisionProperty prop = new CollisionProperty();
-		switch(this.getCellType(_start, _height, true))
+		switch (this.getCellType(_start, _height, true))
 		{
-		case DIRT:
-		case GRASS:
-		case STONE:
-			prop.setCrossable(false);
-			break;
-		case TOXIC:
-			prop.setCrossable(true);
-			RectangleShape killZone = new RectangleShape(0, 12, rect.getWidth(), rect.getHeight()-12, rect);
-			prop.setDangerous(true, killZone);
-			rect.addChild(killZone);
-			killZone.updateShape();
-			break;
-		
-		// These ones should not generate collision boxes
-		case BACK_WALL:
-			break;
-		case PIT:
-			break;
-			
-		// no property for now
-		case ATTRACTIVE_FIELD:
-			break;
-		case REPULSIVE_FIELD:
-			break;
-			
-		default:
-			break;
+			case DIRT:
+			case GRASS:
+			case STONE:
+				prop.setCrossable(false);
+				break;
+			case TOXIC:
+				prop.setCrossable(true);
+				RectangleShape killZone = new RectangleShape(0, 12, rect.getWidth(),
+						rect.getHeight() - 12, rect);
+				prop.setDangerous(true, killZone);
+				rect.addChild(killZone);
+				killZone.updateShape();
+				break;
+
+			// These ones should not generate collision boxes
+			case BACK_WALL:
+				break;
+			case PIT:
+				break;
+
+			// no property for now
+			case ATTRACTIVE_FIELD:
+				break;
+			case REPULSIVE_FIELD:
+				break;
+
+			default:
+				break;
 		}
-		
+
 		prop.setEntity(this);
 		rect.setProperty(prop);
 		return rect;
 	}
-	
-	public LinkedList<Cell> getCellInArea(Point2f _position, CollisionShape _area)
+
+	public LinkedList<Cell> getCellInArea(
+			final Point2f _position,
+			final CollisionShape _area)
 	{
 		LinkedList<Cell> result = new LinkedList<Cell>();
-		
-		
+
 		Vector2i mapPos = continueToDiscreteCoordinates(_position.getX(), _position.getY());
-		int i=mapPos.x();
-		int j=mapPos.y();
-		while(i<m_grid.getWidth() && _area.collide(m_grid.getCell(i, j).getRectangle()))
+		int i = mapPos.x();
+		int j = mapPos.y();
+		while ((i < m_grid.getWidth()) && _area.collide(m_grid.getCell(i, j).getRectangle()))
 		{
-			while(j<m_grid.getHeight() && _area.collide(m_grid.getCell(i, j).getRectangle()))
+			while ((j < m_grid.getHeight()) && _area.collide(m_grid.getCell(i, j).getRectangle()))
 			{
 				result.add(m_grid.getCell(i, j));
 				++j;
 			}
-			j=mapPos.y();
+			j = mapPos.y();
 			++i;
 		}
-		
-		
+
 		return result;
+	}
+
+	@Override
+	public void receiveTexture(
+			final Texture _texture)
+	{
+		m_spriteSheet = _texture;
 	}
 }

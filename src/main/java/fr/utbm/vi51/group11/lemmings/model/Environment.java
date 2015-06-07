@@ -22,9 +22,7 @@ import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelProperties;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.WorldEntityConfiguration;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.factory.EntityFactory;
-import fr.utbm.vi51.group11.lemmings.utils.interfaces.IEntityDestroyedListener;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
-import fr.utbm.vi51.group11.lemmings.utils.statics.LemmingUtils;
 
 /**
  * 
@@ -37,42 +35,47 @@ import fr.utbm.vi51.group11.lemmings.utils.statics.LemmingUtils;
 public class Environment
 {
 	/** Logger of the class */
-	private final static Logger		s_LOGGER	= LoggerFactory.getLogger(Environment.class);
+	private final static Logger							s_LOGGER					= LoggerFactory
+																							.getLogger(Environment.class);
 
 	/** Time of the environment in milliseconds */
-	private long			m_environmentTime;
+	private final long									m_environmentTime;
 
 	/** The Map */
-	private final Map				m_map;
+	private final Map									m_map;
 
 	/** Graphical User Interface of the simulation */
-	private final MainFrame			m_gui;
+	private final MainFrame								m_gui;
 
 	/**
 	 * PhyicsEngine of the environment that handles all matters related to
 	 * collisions, physics, etc ...
 	 */
-	private final PhysicEngine		m_physicEngine;
+	private final PhysicEngine							m_physicEngine;
 
 	/** List containing all of the world entities of the simulation */
-	public ArrayList<WorldEntity>	m_worldEntities;
-	
+	public ArrayList<WorldEntity>						m_worldEntities;
+
 	/** Influence solver */
-	private InfluenceSolver m_influenceSolver;
-	
-	private LinkedList<IEntityDestroyedListener> m_entityDestroyedListener = new LinkedList<IEntityDestroyedListener>();
+	private final InfluenceSolver						m_influenceSolver;
+
+	private final LinkedList<IEntityDestroyedListener>	m_entityDestroyedListener	= new LinkedList<IEntityDestroyedListener>();
 
 	/*----------------------------------------------*/
 
-	public Environment(final LevelProperties _currentLevelProperties, final List<Agent> _agents, final Simulation _simulator)
+	public Environment(final LevelProperties _currentLevelProperties, final List<Agent> _agents,
+			final Simulation _simulator)
 	{
 		s_LOGGER.debug("Creation of the environment...");
+
+		int rowNb = _currentLevelProperties.getNbRow();
+		int colNb = _currentLevelProperties.getNbCol();
 
 		/* Instantiates attributes */
 		m_environmentTime = 0;
 		m_map = new Map(_currentLevelProperties);
-		m_physicEngine = new PhysicEngine();
-		m_gui = new MainFrame(_simulator, this);
+		m_physicEngine = new PhysicEngine(rowNb, colNb);
+		m_gui = new MainFrame(_simulator, this, rowNb, colNb);
 
 		m_worldEntities = new ArrayList<WorldEntity>();
 
@@ -104,21 +107,23 @@ public class Environment
 		}
 
 		m_influenceSolver = new InfluenceSolver();
-		
+
 		s_LOGGER.debug("Environment created.");
 	}
-	
+
 	/*----------------------------------------------*/
-	public void sendEntityDetroyedEvent(WorldEntity _ent)
+	public void sendEntityDetroyedEvent(
+			final WorldEntity _ent)
 	{
-		for(IEntityDestroyedListener listener : m_entityDestroyedListener)
+		for (IEntityDestroyedListener listener : m_entityDestroyedListener)
 			listener.onEntityDestroyed(_ent);
 	}
-	
+
 	/*----------------------------------------------*/
-	public void addEntityDestroyedListener(IEntityDestroyedListener _listener)
+	public void addEntityDestroyedListener(
+			final IEntityDestroyedListener _listener)
 	{
-		if(!m_entityDestroyedListener.contains(_listener))
+		if (!m_entityDestroyedListener.contains(_listener))
 			m_entityDestroyedListener.add(_listener);
 	}
 
@@ -164,9 +169,10 @@ public class Environment
 
 		addWorldEntity(_worldEntity);
 	}
-	
+
 	/*----------------------------------------------*/
-	public void destroyEntity(WorldEntity _worldEntity)
+	public void destroyEntity(
+			final WorldEntity _worldEntity)
 	{
 		_worldEntity.kill();
 		m_worldEntities.remove(_worldEntity);
@@ -196,154 +202,168 @@ public class Environment
 			final long _dt)
 	{
 		// TODO
-		m_environmentTime += _dt;
-		
 		LinkedList<Body> bodies = new LinkedList<Body>();
-		for(WorldEntity ent : m_worldEntities)
+		for (WorldEntity ent : m_worldEntities)
 		{
-			if(ent.getType() == WorldEntityEnum.LEMMING_BODY)
-				bodies.add((Body)ent);
+			ent.updateExterns();
 		}
-		m_influenceSolver.solveInfluence(bodies);
-		
+
 		m_physicEngine.applyExternForces(_dt);
-		updateSpeed(bodies);
 		m_physicEngine.computeMovements(_dt);
 		m_physicEngine.updateQuadTree();
 		m_physicEngine.solveCollisions();
-		
+
 		updateBodyStates(bodies);
 
 		updateAnimations(_dt);
 	}
-	
+
 	/*----------------------------------------------*/
-	public void updateSpeed(LinkedList<Body> _bodies)
+	public void updateSpeed(
+			final LinkedList<Body> _bodies)
 	{
-		for(Body body : _bodies)
+		for (Body body : _bodies)
 		{
-			switch(body.getState())
+			switch (body.getState())
 			{
-			case CLIMBING:
-				break;
-			case DEAD:
-				body.getSpeed().setX(0);
-				if(body.getSpeed().getY() < 0)
-					body.getSpeed().setY(0);
-				break;
-			case FALLING:
-				body.getSpeed().setX(0);
-				break;
-			case NORMAL:
-				if(body.getSpeed().getY() < 0)
-					body.getSpeed().setY(0);
-				break;
-			default:
-				break;
-			
+				case CLIMBING:
+					break;
+				case DEAD:
+					body.getSpeed().setX(0);
+					if (body.getSpeed().getY() < 0)
+						body.getSpeed().setY(0);
+					break;
+				case FALLING:
+					body.getSpeed().setX(0);
+					break;
+				case NORMAL:
+					if (body.getSpeed().getY() < 0)
+						body.getSpeed().setY(0);
+					break;
+				default:
+					break;
+
 			}
 		}
 	}
-	
+
 	/*----------------------------------------------*/
-	public void updateBodyStates(LinkedList<Body> _bodies)
+	public void updateBodyStates(
+			final LinkedList<Body> _bodies)
 	{
-		for(Body body : _bodies)
+		for (Body body : _bodies)
 		{
-			if(m_physicEngine.isInDeadZone(body))
+			if (m_physicEngine.isInDeadZone(body))
 			{
 				BodyStateProperty deadState = new BodyStateProperty();
 				deadState.m_timeOfDeath = getEnvironmentTime();
 				body.setState(BodyState.DEAD, deadState);
 			}
-			
-			switch(body.getState())
+
+			switch (body.getState())
 			{
-			case CLIMBING:
-				if(m_physicEngine.isGrounded(body))
-				{
-					if(!m_physicEngine.isBlocked(body))
+				case CLIMBING:
+					if (m_physicEngine.isGrounded(body))
 					{
-						body.setState(BodyState.NORMAL, new BodyStateProperty());
-						body.setMass(LemmingUtils.LEMMING_MASS);
+						if (!m_physicEngine.isBlocked(body))
+						{
+							body.setState(BodyState.NORMAL, new BodyStateProperty());
+							body.setMass(LemmingUtils.LEMMING_MASS);
+						}
+					} else
+					{
+						if (!m_physicEngine.isBlocked(body))
+						{
+							BodyStateProperty fallingState = new BodyStateProperty();
+							fallingState.m_chuteOpen = false;
+							fallingState.m_fallHeight = body.getCoordinates().getY();
+							body.setState(BodyState.FALLING, fallingState);
+							body.setMass(LemmingUtils.LEMMING_MASS);
+						}
 					}
-				}
-				else
-				{
-					if(!m_physicEngine.isBlocked(body))
+					break;
+
+				case FALLING:
+					if (m_physicEngine.isGrounded(body))
+					{
+						if (body.getStateProperty().m_chuteOpen)
+						{
+							body.setState(BodyState.NORMAL, new BodyStateProperty());
+						} else if ((body.getStateProperty().m_fallHeight - body.getCoordinates()
+								.getY()) <= LemmingUtils.MAXIMUM_FALLING_HEIGHTS)
+						{
+							body.setState(BodyState.NORMAL, new BodyStateProperty());
+						} else
+						{
+							BodyStateProperty deadState = new BodyStateProperty();
+							deadState.m_timeOfDeath = getEnvironmentTime();
+							body.setState(BodyState.DEAD, deadState);
+						}
+					}
+					break;
+
+				case NORMAL:
+					if (m_physicEngine.isGrounded(body))
+					{
+						if (m_physicEngine.isBlocked(body))
+						{
+							body.setState(BodyState.CLIMBING, new BodyStateProperty());
+							body.setMass(-5);
+						}
+					} else
 					{
 						BodyStateProperty fallingState = new BodyStateProperty();
 						fallingState.m_chuteOpen = false;
 						fallingState.m_fallHeight = body.getCoordinates().getY();
 						body.setState(BodyState.FALLING, fallingState);
-						body.setMass(LemmingUtils.LEMMING_MASS);
 					}
-				}
-				break;
-				
-			case FALLING:
-				if(m_physicEngine.isGrounded(body))
-				{
-					if(body.getStateProperty().m_chuteOpen)
-					{
-						body.setState(BodyState.NORMAL, new BodyStateProperty());	
-					}
-					else if(body.getStateProperty().m_fallHeight - body.getCoordinates().getY() <= LemmingUtils.MAXIMUM_FALLING_HEIGHTS)
-					{
-						body.setState(BodyState.NORMAL, new BodyStateProperty());
-					}
-					else
-					{
-						BodyStateProperty deadState = new BodyStateProperty();
-						deadState.m_timeOfDeath = getEnvironmentTime();
-						body.setState(BodyState.DEAD, deadState);
-					}
-				}
-				break;
-				
-			case NORMAL:
-				if(m_physicEngine.isGrounded(body))
-				{
-					if(m_physicEngine.isBlocked(body))
-					{
-						body.setState(BodyState.CLIMBING, new BodyStateProperty());
-						body.setMass(-5);
-					}
-				}
-				else
-				{
-					BodyStateProperty fallingState = new BodyStateProperty();
-					fallingState.m_chuteOpen = false;
-					fallingState.m_fallHeight = body.getCoordinates().getY();
-					body.setState(BodyState.FALLING, fallingState);
-				}
-				break;
-				
-			// can't escape death for now
-			case DEAD:
-				break;
-			default:
-				break;
-			
+					break;
+
+				// can't escape death for now
+				case DEAD:
+					break;
+				default:
+					break;
+
 			}
 		}
 	}
-	
+
 	/*----------------------------------------------*/
-	
+
 	/**
 	 * Ask entities to update their animation states
 	 */
-	public void updateAnimations(long _dt)
+	public void updateAnimations(
+			final long _dt)
 	{
-		for(WorldEntity ent : m_worldEntities)
+		for (WorldEntity ent : m_worldEntities)
 			ent.updateAnimation(_dt);
+
+		/*
+		 * TODO
+		 * if (ent instanceof Body)
+		 * {
+		 * Body body = (Body) ent;
+		 * if (body.getCurrentAnimationState() ==
+		 * body.getPreviousAnimationState())
+		 * if (!body.getAnimations().get(body.getCurrentAnimationState())
+		 * .incrementTime(_dt))
+		 * {
+		 * Vector2i spritePos = body.getAnimations()
+		 * .get(body.getCurrentAnimationState()).getCoords();
+		 * body.getSprite().setTextureRect(spritePos.x(), spritePos.y(), 27,
+		 * 26);
+		 * }
+		 * }
+		 */
 	}
 
 	/*----------------------------------------------*/
 
 	/**
-	 * @return The environment Time since the beginning of the simulation in milliseconds.
+	 * @return The environment Time since the beginning of the simulation in
+	 *         milliseconds.
 	 */
 	public long getEnvironmentTime()
 	{

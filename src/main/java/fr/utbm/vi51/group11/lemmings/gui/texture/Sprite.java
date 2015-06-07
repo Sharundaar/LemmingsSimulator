@@ -13,24 +13,33 @@ public class Sprite implements ITextureHandler
 
 	private final Rectangle2i	m_spriteRect;
 
-	private Rectangle2f			m_worldRect;
+	private final Rectangle2f	m_worldRect;
 
-	public Sprite(final float _worldX, final float _worldY, final float _worldWidth, final float _worldHeight, 
-			final int _textureX, final int _textureY, final int _textureWidth, final int _textureHeight, 
-			final String _textureID)
+	public Sprite(final float _worldX, final float _worldY, final float _worldWidth,
+			final float _worldHeight, final int _textureX, final int _textureY,
+			final int _textureWidth, final int _textureHeight, final String _textureID)
 	{
 		m_spriteRect = new Rectangle2i(_textureX, _textureY, _textureWidth, _textureHeight);
 		m_worldRect = new Rectangle2f(_worldX, _worldY, _worldWidth, _worldHeight); // TODO
 		TextureBank.getInstance().getTexture(_textureID, this);
 	}
-	
-	public Sprite(final float _worldX, final float _worldY, final float _worldWidth, final float _worldHeight, 
-			final int _textureX, final int _textureY, final int _textureWidth, final int _textureHeight,
-			Texture _texture)
+
+	public Sprite(final float _worldX, final float _worldY, final float _worldWidth,
+			final float _worldHeight, final int _textureX, final int _textureY,
+			final int _textureWidth, final int _textureHeight, final Texture _texture)
 	{
 		m_spriteRect = new Rectangle2i(_textureX, _textureY, _textureWidth, _textureHeight);
 		m_worldRect = new Rectangle2f(_worldX, _worldY, _worldWidth, _worldHeight); // TODO
 		m_texture = _texture;
+	}
+
+	public void setTextureRect(
+			final int _textureX,
+			final int _textureY,
+			final int _textureWidth,
+			final int _textureHeight)
+	{
+		m_spriteRect.set(_textureX, _textureY, _textureWidth, _textureHeight);
 	}
 
 	public Rectangle2i getSpriteRect()
@@ -83,7 +92,7 @@ public class Sprite implements ITextureHandler
 	{
 		m_worldRect.set(_coords.x(), _coords.y(), m_worldRect.getWidth(), m_worldRect.getHeight());
 	}
-	
+
 	public Rectangle2f getWorldRect()
 	{
 		return m_worldRect;
@@ -94,6 +103,7 @@ public class Sprite implements ITextureHandler
 		return m_texture;
 	}
 
+	@Override
 	public void receiveTexture(
 			final Texture _texture)
 	{

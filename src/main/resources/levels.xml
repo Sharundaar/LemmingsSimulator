@@ -2,6 +2,8 @@
 <levels>
 	<level id="levelTest">
 
+		<tileSpriteSheet>levelSpriteSheet</tileSpriteSheet>
+
 		<!-- List of tiles Texture for the grid -->
 		<tileGrid>
 		3	3	3	3	3	3	3	3	3	3	3	3	3	3	3	3	3	3	3	3	3	3	3	3	3
@@ -29,27 +31,27 @@
 		
 			<!-- WorldEntity defined by an id, an x and a y coordinate -->
 			<worldEntity id="LEVEL_START">
-				<x>48</x>
-				<y>74</y>
-				<textureID>entitySpriteSheet</textureID>
+				<x>170</x>
+				<y>64</y>
+				<textureID>worldEntitySpriteSheet</textureID>
 			</worldEntity>
 			<worldEntity id="LEVEL_END">
-				<x>692</x>
-				<y>522</y>
+				<x>654</x>
+				<y>500</y>
+				<textureID>worldEntitySpriteSheet</textureID>
+			</worldEntity>
+			<worldEntity id="LEMMING_BODY">
+				<x>79</x>
+				<y>80</y>
 				<textureID>entitySpriteSheet</textureID>
 			</worldEntity>
 			<worldEntity id="LEMMING_BODY">
-				<x>130</x>
-				<y>448</y>
+				<x>352</x>
+				<y>84</y>
 				<textureID>entitySpriteSheet</textureID>
 			</worldEntity>
 			<worldEntity id="LEMMING_BODY">
-				<x>64</x>
-				<y>135</y>
-				<textureID>entitySpriteSheet</textureID>
-			</worldEntity>
-			<worldEntity id="LEMMING_BODY">
-				<x>50</x>
+				<x>500</x>
 				<y>332</y>
 				<textureID>entitySpriteSheet</textureID>
 			</worldEntity>

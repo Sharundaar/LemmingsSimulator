@@ -18,7 +18,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import fr.utbm.vi51.group11.lemmings.utils.enums.GlobalConfigurationEnum;
-import fr.utbm.vi51.group11.lemmings.utils.statics.FileUtils1;
+import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsFile;
 
 public class GlobalConfiguration extends HashMap<GlobalConfigurationEnum, Object>
 {
@@ -43,8 +43,8 @@ public class GlobalConfiguration extends HashMap<GlobalConfigurationEnum, Object
 			documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
 			/* Parses the file containing the configuration of the maps */
-			Document document = documentBuilder.parse(FileUtils1.RESOURCES_DIR.resolve(
-					FileUtils1.LEVEL_CONF_FILENAME).toString());
+			Document document = documentBuilder.parse(UtilsFile.RESOURCES_DIR.resolve(
+					UtilsFile.LEVEL_CONF_FILENAME).toString());
 			// Document document =
 			// documentBuilder.parse("resources/configuration.xml");
 			XPath xpath = XPathFactory.newInstance().newXPath();

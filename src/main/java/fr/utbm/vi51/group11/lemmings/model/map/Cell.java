@@ -2,6 +2,7 @@ package fr.utbm.vi51.group11.lemmings.model.map;
 
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 import fr.utbm.vi51.group11.lemmings.utils.enums.CellType;
+import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 
 /**
  * 
@@ -15,15 +16,15 @@ import fr.utbm.vi51.group11.lemmings.utils.enums.CellType;
 public class Cell
 {
 	/** x coordinate of the cell */
-	private final int	m_x;
+	private final int				m_x;
 
 	/** y coordinate of the cell */
-	private final int	m_y;
+	private final int				m_y;
 
 	/** Type defining the cell */
-	private CellType	m_type;
-	
-	private RectangleShape m_rectangle;
+	private CellType				m_type;
+
+	private final RectangleShape	m_rectangle;
 
 	/*----------------------------------------------*/
 
@@ -40,8 +41,10 @@ public class Cell
 	{
 		this.m_x = _x;
 		this.m_y = _y;
-		
-		m_rectangle = new RectangleShape(_x*Map.CELL_SIZE, _y*Map.CELL_SIZE, Map.CELL_SIZE, Map.CELL_SIZE, null);
+
+		m_rectangle = new RectangleShape(_x * UtilsLemmings.s_tileWidth, _y
+				* UtilsLemmings.s_tileHeight, UtilsLemmings.s_tileWidth,
+				UtilsLemmings.s_tileHeight, null);
 		m_rectangle.updateShape();
 	}
 
@@ -88,7 +91,7 @@ public class Cell
 	{
 		this.m_type = _type;
 	}
-	
+
 	/*----------------------------------------------*/
 	public RectangleShape getRectangle()
 	{

@@ -2,10 +2,9 @@ package fr.utbm.vi51.group11.lemmings.model.agent;
 
 import java.util.List;
 
-import org.arakhne.afc.math.continous.object2d.Vector2f;
-
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IControllable;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
+import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
 
 /**
  * Class designed to be the mind of a world entity. Possesses a physical body
@@ -18,17 +17,19 @@ public abstract class Agent
 
 	/** Physical body of the agent */
 	protected IControllable	m_body;
-	protected boolean m_alive;
+	protected boolean		m_alive;
 
 	/*----------------------------------------------*/
 
 	/**
 	 * Method used to tell the agent to start its cycle of life.
+	 * 
 	 * @param _dt
-	 * 				time span since last call to live, in milliseconds.
+	 *            time span since last call to live, in milliseconds.
 	 */
-	public abstract void live(long _dt);
-	
+	public abstract void live(
+			long _dt);
+
 	/*----------------------------------------------*/
 
 	/**
@@ -39,20 +40,19 @@ public abstract class Agent
 	 *            List of perceived WorldEntities by the agent's body's
 	 *            frustrum.
 	 */
-	protected abstract Vector2f decide(
+	protected abstract Influence decide(
 			List<IPerceivable> _surroundingEntities);
 
 	/*----------------------------------------------*/
 
 	/**
-	 * Method used to move the agent's body with the direction passed as
-	 * parameter.
+	 * Method used to make the agent take an .
 	 * 
-	 * @param _direction
+	 * @param _action
 	 *            Direction to take for the next move.
 	 */
-	protected abstract void move(
-			Vector2f _direction);
+	protected abstract void influenceBody(
+			Influence _influence);
 
 	/*----------------------------------------------*/
 	public void kill()
@@ -60,19 +60,20 @@ public abstract class Agent
 		m_body = null;
 		m_alive = false;
 	}
-	
+
 	/*----------------------------------------------*/
-	public void enable(boolean _alive)
+	public void enable(
+			final boolean _alive)
 	{
 		m_alive = _alive;
 	}
-	
+
 	/*----------------------------------------------*/
 	public boolean isAlive()
 	{
 		return m_alive;
 	}
-	
+
 	/*----------------------------------------------*/
 
 	/**
@@ -82,13 +83,14 @@ public abstract class Agent
 	{
 		return m_body;
 	}
-	
+
 	/*----------------------------------------------*/
 
 	/**
 	 * Set agent body
 	 */
-	public void setBody(IControllable _body)
+	public void setBody(
+			final IControllable _body)
 	{
 		m_body = _body;
 	}

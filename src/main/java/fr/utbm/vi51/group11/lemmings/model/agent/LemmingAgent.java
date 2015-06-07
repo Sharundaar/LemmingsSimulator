@@ -18,11 +18,11 @@ import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
  * @author jnovak
  *
  */
-public class LemmingAgent extends Agent {
+public class LemmingAgent extends Agent
+{
 
 	/** Logger of the class */
-	private final static Logger s_LOGGER = LoggerFactory
-			.getLogger(LemmingAgent.class);
+	private final static Logger	s_LOGGER	= LoggerFactory.getLogger(LemmingAgent.class);
 
 	/*----------------------------------------------*/
 
@@ -32,7 +32,8 @@ public class LemmingAgent extends Agent {
 	 * @param _lemmingBody
 	 *            Body of the LemmingAgent.
 	 */
-	public LemmingAgent(final LemmingBody _lemmingBody) {
+	public LemmingAgent(final LemmingBody _lemmingBody)
+	{
 		s_LOGGER.debug("Creation of the Lemming Agent...");
 
 		m_body = _lemmingBody;
@@ -46,12 +47,14 @@ public class LemmingAgent extends Agent {
 	 * Method used to tell the agent to start its cycle of life.
 	 */
 	@Override
-	public void live(long _dt) {
+	public void live(
+			final long _dt)
+	{
 		List<IPerceivable> surroundingEntities = m_body.getPerception();
 
-		Vector2f newDirection = decide(surroundingEntities);
+		Influence influence = decide(surroundingEntities);
 
-		move(newDirection);
+		influenceBody(influence);
 
 	}
 
@@ -66,23 +69,38 @@ public class LemmingAgent extends Agent {
 	 *            frustrum.
 	 */
 	@Override
-	protected Vector2f decide(final List<IPerceivable> _surroundingEntities) {
-		return null;// TODO
+	protected Influence decide(
+			final List<IPerceivable> _surroundingEntities)
+	{
+		return new Influence(InfluenceType.SPEED, new Vector2f(-1, 0));
+		// return null;// TODO TODO
 	}
 
 	/*----------------------------------------------*/
 
 	/**
-	 * Method used to move the agent's body with the direction passed as
-	 * parameter.
+	 * Method used to influence the agent's body.
 	 * 
-	 * @param _direction
-	 *            Direction to take for the next move.
+	 * @param _influence
+	 *            Influence to give to the body.
 	 */
 	@Override
-	protected void move(final Vector2f _direction) {
-		if(m_body != null)
-			m_body.addInfluence(new Influence(InfluenceType.SPEED, _direction));
+	protected void influenceBody(
+			final Influence _influence)
+	{
+		switch (_influence.getType())
+		{
+			case ACCELERATION:
+				m_body.influenceAcceleration(_influence.getAcceleration());
+				break;
+			case SPEED:
+				m_body.influenceSpeed(_influence.getSpeed());
+				break;
+			case ACTION:
+				m_body.influenceAction(_influence.getAction());
+				break;
+			default:
+				break;
+		}
 	}
-
 }

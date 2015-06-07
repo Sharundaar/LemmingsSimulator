@@ -18,6 +18,7 @@ import fr.utbm.vi51.group11.lemmings.controller.KeyboardController;
 import fr.utbm.vi51.group11.lemmings.gui.GraphicsEngine.DebugOption;
 import fr.utbm.vi51.group11.lemmings.model.Environment;
 import fr.utbm.vi51.group11.lemmings.model.Simulation;
+import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 
 public class MainFrame extends GUI implements ActionListener
 {
@@ -27,28 +28,34 @@ public class MainFrame extends GUI implements ActionListener
 	private static final long		serialVersionUID	= 1L;
 
 	private final GraphicsEngine	m_graphicsEngine;
-	private Environment m_environment;
-	private Simulation m_simulator;
-	
-	private JMenuBar m_menuBar;
-	
-	private JPanel m_PSpeedButtonPanel;
-	private JButton m_BHalfSpeed;
-	private JButton m_BNormalSpeed;
-	private JButton m_BDoubleSpeed;
-	
-	private BorderLayout m_mainLayout;
+	private final Environment		m_environment;
+	private final Simulation		m_simulator;
 
-	public MainFrame(final Simulation _simulator, final Environment _environnement)
+	private JMenuBar				m_menuBar;
+
+	private JPanel					m_PSpeedButtonPanel;
+	private JButton					m_BHalfSpeed;
+	private JButton					m_BNormalSpeed;
+	private JButton					m_BDoubleSpeed;
+
+	private final BorderLayout		m_mainLayout;
+
+	public MainFrame(final Simulation _simulator, final Environment _environnement,
+			final int _rowNb, final int _colNb)
 	{
 		super();
-		setSize(1024, 780);
+		int width = (UtilsLemmings.s_tileWidth * _colNb) + (getInsets().bottom + getInsets().top);
+		int height = (UtilsLemmings.s_tileHeight * _rowNb) + (getInsets().right + getInsets().left)
+				+ (m_menuBar.getHeight());
+
+		setSize(width, height);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		m_graphicsEngine = new GraphicsEngine(_environnement);
+		m_graphicsEngine = new GraphicsEngine(_environnement, width, height);
+
 		m_simulator = _simulator;
 		m_environment = _environnement;
-		
+
 		KeyboardController.getInstance().updateJPanelKeyboardMaps(m_graphicsEngine);
 
 		m_graphicsEngine.setFocusable(true);
@@ -56,66 +63,73 @@ public class MainFrame extends GUI implements ActionListener
 		m_mainLayout = new BorderLayout();
 		setLayout(m_mainLayout);
 		setLocationRelativeTo(null);
-		
+
 		createMenuBar();
 		this.setJMenuBar(m_menuBar);
-		
-		createSpeedButton();
-		
+
 		this.getContentPane().add(m_graphicsEngine, BorderLayout.CENTER);
 		this.getContentPane().add(m_PSpeedButtonPanel, BorderLayout.SOUTH);
-		
+
+		pack();
+
 		setVisible(true);
 	}
-	
+
 	public void createSpeedButton()
 	{
 		m_PSpeedButtonPanel = new JPanel();
-		
+
 		m_BHalfSpeed = new JButton("* 0.5");
 		m_BNormalSpeed = new JButton("* 1.0");
 		m_BDoubleSpeed = new JButton("* 2.0");
-		
+
 		m_BHalfSpeed.addActionListener(this);
 		m_BNormalSpeed.addActionListener(this);
 		m_BDoubleSpeed.addActionListener(this);
-		
+
 		m_PSpeedButtonPanel.add(m_BHalfSpeed);
 		m_PSpeedButtonPanel.add(m_BNormalSpeed);
 		m_PSpeedButtonPanel.add(m_BDoubleSpeed);
-		((FlowLayout)m_PSpeedButtonPanel.getLayout()).setAlignment(FlowLayout.LEADING);
+		((FlowLayout) m_PSpeedButtonPanel.getLayout()).setAlignment(FlowLayout.LEADING);
 	}
-	
+
 	public void createMenuBar()
 	{
 		m_menuBar = new JMenuBar();
-		
+
 		JMenu debugMenu = new JMenu("Debug Options");
 		final JCheckBoxMenuItem showQuadTree = new JCheckBoxMenuItem("Show QuadTree");
-		showQuadTree.addChangeListener(new ChangeListener() {
+		showQuadTree.addChangeListener(new ChangeListener()
+		{
 
 			@Override
-			public void stateChanged(ChangeEvent arg0) {
+			public void stateChanged(
+					final ChangeEvent arg0)
+			{
 				// TODO Auto-generated method stub
-				m_graphicsEngine.enableDebugOption(DebugOption.SHOW_QUAD_TREE, showQuadTree.getState());
+				m_graphicsEngine.enableDebugOption(DebugOption.SHOW_QUAD_TREE,
+						showQuadTree.getState());
 			}
-			
-		
+
 		});
 		final JCheckBoxMenuItem showCollisionBox = new JCheckBoxMenuItem("Show Collision Boxes");
-		showCollisionBox.addChangeListener(new ChangeListener() {
-			
+		showCollisionBox.addChangeListener(new ChangeListener()
+		{
+
 			@Override
-			public void stateChanged(ChangeEvent arg0) {
+			public void stateChanged(
+					final ChangeEvent arg0)
+			{
 				// TODO Auto-generated method stub
-				m_graphicsEngine.enableDebugOption(DebugOption.SHOW_COLLISION_BOX, showCollisionBox.getState());
+				m_graphicsEngine.enableDebugOption(DebugOption.SHOW_COLLISION_BOX,
+						showCollisionBox.getState());
 			}
-			
+
 		});
-		
+
 		debugMenu.add(showCollisionBox);
 		debugMenu.add(showQuadTree);
-		
+
 		m_menuBar.add(debugMenu);
 	}
 
@@ -125,21 +139,23 @@ public class MainFrame extends GUI implements ActionListener
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(
+			final ActionEvent arg0)
+	{
 		// TODO Auto-generated method stub
-		if(arg0.getSource() == m_BHalfSpeed)
+		if (arg0.getSource() == m_BHalfSpeed)
 		{
 			m_simulator.setSpeedMultiplicator(0.5f);
 		}
-		if(arg0.getSource() == m_BNormalSpeed)
+		if (arg0.getSource() == m_BNormalSpeed)
 		{
 			m_simulator.setSpeedMultiplicator(1.0f);
 		}
-		if(arg0.getSource() == m_BDoubleSpeed)
+		if (arg0.getSource() == m_BDoubleSpeed)
 		{
 			m_simulator.setSpeedMultiplicator(2.0f);
 		}
-		
+
 		m_graphicsEngine.requestFocus();
 	}
 }

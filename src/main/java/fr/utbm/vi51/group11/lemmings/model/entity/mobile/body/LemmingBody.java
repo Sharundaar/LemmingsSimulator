@@ -1,21 +1,25 @@
 package fr.utbm.vi51.group11.lemmings.model.entity.mobile.body;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+
 import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.utbm.vi51.group11.lemmings.gui.texture.Animation;
 import fr.utbm.vi51.group11.lemmings.gui.texture.Sprite;
 import fr.utbm.vi51.group11.lemmings.model.Environment;
 import fr.utbm.vi51.group11.lemmings.model.physics.properties.CollisionProperty;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
+import fr.utbm.vi51.group11.lemmings.utils.enums.AnimationState;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.ICollidable;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
 import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
-import fr.utbm.vi51.group11.lemmings.utils.statics.LemmingUtils;
+import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 
 public class LemmingBody extends Body implements ICollidable
 {
@@ -34,31 +38,38 @@ public class LemmingBody extends Body implements ICollidable
 
 		m_type = WorldEntityEnum.LEMMING_BODY;
 
+		m_animations = new HashMap<AnimationState, Animation>();
+		for (AnimationState state : AnimationState.values())
+			m_animations.put(state, new Animation(state));
+		m_currentAnimationState = AnimationState.BLOCK;
+		m_previousAnimationState = AnimationState.BLOCK;
+
 		m_alive = false;
 		m_worldCoords = _worldCoords;
-		
+
 		m_collisionMask = new CollisionMask(m_worldCoords);
-		m_collisionMask.addChild(new RectangleShape(LemmingUtils.LEMMING_DEFAULT_WIDTH, LemmingUtils.LEMMING_DEFAULT_HEIGHT, null));
-		
+		m_collisionMask.addChild(new RectangleShape(UtilsLemmings.s_lemmingDefaultWidth,
+				UtilsLemmings.s_LemmingDefaultHeight, null));
+
 		CollisionProperty cp = new CollisionProperty();
 		cp.setEntity(this);
 		m_collisionMask.setProperty(cp);
-		
+
 		// TODO lemming frustrum
-		m_maxSpeed = LemmingUtils.s_lemmingMaxVelocity;
+		m_maxSpeed = UtilsLemmings.s_lemmingMaxVelocity;
 		m_environment = _environment;
 		// TODO world entity shapes
 		m_sprite = new Sprite(m_worldCoords.x(), m_worldCoords.y(),
-				LemmingUtils.LEMMING_DEFAULT_WIDTH, LemmingUtils.LEMMING_DEFAULT_HEIGHT, 0, 0, 27,
-				26, _textureID);
-		
+				UtilsLemmings.s_lemmingDefaultWidth, UtilsLemmings.s_LemmingDefaultHeight, 0, 0,
+				27, 26, _textureID);
+
 		m_state = BodyState.NORMAL;
 		m_stateProperty = new BodyStateProperty();
-		
+
 		m_influences = new LinkedList<Influence>();
-		
-		m_mass = LemmingUtils.LEMMING_MASS;
-		
+
+		m_mass = UtilsLemmings.s_lemmingMass;
+
 		s_LOGGER.debug("Lemming Body created.");
 	}
 
@@ -92,5 +103,11 @@ public class LemmingBody extends Body implements ICollidable
 
 		return false; // TODO
 	}
-	
+
+	@Override
+	public BodyState getState()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -104,7 +104,11 @@ public abstract class WorldEntity implements IPerceivable
 		this.m_worldCoords.setY(_y);
 	}
 
-	
+	public void setSprite(
+			final Sprite _sprite)
+	{
+		m_sprite = _sprite;
+	}
 	/*----------------------------------------------*/
 
 	/**
@@ -117,9 +121,6 @@ public abstract class WorldEntity implements IPerceivable
 		return m_sprite;
 	}
 
-	
-	/*----------------------------------------------*/
-
 	/**
 	 * Temporary function, update the collision mask and the sprite coordinates.
 	 */
@@ -129,7 +130,7 @@ public abstract class WorldEntity implements IPerceivable
 		m_collisionMask.updateShape();
 		m_sprite.setWorldCoords(this.m_worldCoords);
 	}
-
+	
 	/**
 	 * Used to update the animation.
 	 */
