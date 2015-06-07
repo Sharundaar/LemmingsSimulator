@@ -78,6 +78,18 @@ public class Map extends WorldEntity implements ITextureHandler
 
 		updateCollisionMask();
 	}
+	
+	/*----------------------------------------------*/
+	public int getGridWidth()
+	{
+		return m_grid.getWidth();
+	}
+	
+	/*----------------------------------------------*/
+	public int getGridHeight()
+	{
+		return m_grid.getHeight();
+	}
 
 	/*----------------------------------------------*/
 
