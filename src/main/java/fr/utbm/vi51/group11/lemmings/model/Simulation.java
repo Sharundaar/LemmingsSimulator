@@ -32,6 +32,8 @@ public class Simulation implements IEntityDestroyedListener
 	/** Logger of the class */
 	public final static Logger	s_LOGGER	= LoggerFactory.getLogger(Simulation.class);
 
+	public final static long MAXIMUM_DELTA_TIME = 60;
+	
 	/** List of agents contained in the environment */
 	private final List<Agent>	m_agents;
 
@@ -41,6 +43,7 @@ public class Simulation implements IEntityDestroyedListener
 	private boolean m_running = false;
 	
 	private float m_speedMultiplicator = 1.0f;
+	
 
 	/*----------------------------------------------*/
 
@@ -104,7 +107,6 @@ public class Simulation implements IEntityDestroyedListener
 		while(m_running)
 		{
 			start = System.currentTimeMillis();
-			updateAgents((long)(m_speedMultiplicator*dt));
 			update((long)(m_speedMultiplicator*dt));
 			draw();
 			
@@ -152,6 +154,12 @@ public class Simulation implements IEntityDestroyedListener
 	/*----------------------------------------------*/
 	public void update(long _dt)
 	{
+		if(_dt > MAXIMUM_DELTA_TIME)
+		{
+			s_LOGGER.debug("Maximum delta reach (dt: {}) safety clamping delta.", _dt);
+			_dt = MAXIMUM_DELTA_TIME;
+		}
+		updateAgents(_dt);
 		m_environment.update(_dt);
 	}
 	
