@@ -1,17 +1,25 @@
 package fr.utbm.vi51.group11.lemmings.gui;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import fr.utbm.vi51.group11.lemmings.controller.KeyboardController;
 import fr.utbm.vi51.group11.lemmings.gui.GraphicsEngine.DebugOption;
 import fr.utbm.vi51.group11.lemmings.model.Environment;
+import fr.utbm.vi51.group11.lemmings.model.Simulation;
 
-public class MainFrame extends GUI
+public class MainFrame extends GUI implements ActionListener
 {
 	/**
 	 * 
@@ -19,28 +27,63 @@ public class MainFrame extends GUI
 	private static final long		serialVersionUID	= 1L;
 
 	private final GraphicsEngine	m_graphicsEngine;
+	private Environment m_environment;
+	private Simulation m_simulator;
 	
 	private JMenuBar m_menuBar;
+	
+	private JPanel m_PSpeedButtonPanel;
+	private JButton m_BHalfSpeed;
+	private JButton m_BNormalSpeed;
+	private JButton m_BDoubleSpeed;
+	
+	private BorderLayout m_mainLayout;
 
-	public MainFrame(final Environment _environnement)
+	public MainFrame(final Simulation _simulator, final Environment _environnement)
 	{
 		super();
-		setSize(800, 600);
+		setSize(1024, 780);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		m_graphicsEngine = new GraphicsEngine(_environnement);
-
+		m_simulator = _simulator;
+		m_environment = _environnement;
+		
 		KeyboardController.getInstance().updateJPanelKeyboardMaps(m_graphicsEngine);
 
 		m_graphicsEngine.setFocusable(true);
 
-		setContentPane(m_graphicsEngine);
+		m_mainLayout = new BorderLayout();
+		setLayout(m_mainLayout);
 		setLocationRelativeTo(null);
 		
 		createMenuBar();
 		this.setJMenuBar(m_menuBar);
 		
+		createSpeedButton();
+		
+		this.getContentPane().add(m_graphicsEngine, BorderLayout.CENTER);
+		this.getContentPane().add(m_PSpeedButtonPanel, BorderLayout.SOUTH);
+		
 		setVisible(true);
+	}
+	
+	public void createSpeedButton()
+	{
+		m_PSpeedButtonPanel = new JPanel();
+		
+		m_BHalfSpeed = new JButton("* 0.5");
+		m_BNormalSpeed = new JButton("* 1.0");
+		m_BDoubleSpeed = new JButton("* 2.0");
+		
+		m_BHalfSpeed.addActionListener(this);
+		m_BNormalSpeed.addActionListener(this);
+		m_BDoubleSpeed.addActionListener(this);
+		
+		m_PSpeedButtonPanel.add(m_BHalfSpeed);
+		m_PSpeedButtonPanel.add(m_BNormalSpeed);
+		m_PSpeedButtonPanel.add(m_BDoubleSpeed);
+		((FlowLayout)m_PSpeedButtonPanel.getLayout()).setAlignment(FlowLayout.LEADING);
 	}
 	
 	public void createMenuBar()
@@ -79,5 +122,24 @@ public class MainFrame extends GUI
 	public GraphicsEngine getGraphicsEngine()
 	{
 		return m_graphicsEngine;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		if(arg0.getSource() == m_BHalfSpeed)
+		{
+			m_simulator.setSpeedMultiplicator(0.5f);
+		}
+		if(arg0.getSource() == m_BNormalSpeed)
+		{
+			m_simulator.setSpeedMultiplicator(1.0f);
+		}
+		if(arg0.getSource() == m_BDoubleSpeed)
+		{
+			m_simulator.setSpeedMultiplicator(2.0f);
+		}
+		
+		m_graphicsEngine.requestFocus();
 	}
 }

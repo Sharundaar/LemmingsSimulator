@@ -10,15 +10,12 @@ import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.DynamicEntity;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.Body;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
-import fr.utbm.vi51.group11.lemmings.model.map.Cell;
-import fr.utbm.vi51.group11.lemmings.model.map.Map;
 import fr.utbm.vi51.group11.lemmings.model.physics.collidingobjects.CollidingObjects;
 import fr.utbm.vi51.group11.lemmings.model.physics.collidingobjects.CollidingObjectsSet;
 import fr.utbm.vi51.group11.lemmings.model.physics.properties.CollisionProperty;
 import fr.utbm.vi51.group11.lemmings.model.physics.quadtree.QuadTree;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
-import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape.CollisionShapeType;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape.PhysicType;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
@@ -259,7 +256,8 @@ public class PhysicEngine
 			if((P2.getX() < x2 && P2.getY() < y1 && P2.getX() > x1)
 					|| (P1.getX() < x2 && P1.getY() < y1 && P1.getX() > x1)) // replace north
 			{
-				ent.getCoordinates().setY(d.getCoordinates(true).getY());
+				float y = y1 - (d.getCoordinates(true).getY() + d.getHeight());
+				ent.getCoordinates().setY(d.getCoordinates(true).getY() + y);
 				m_groundedEntity.add(new SolvedCollisionProperty(ent, _static.getProperty()));
 			}
 			if((P1.getX() < x1 && P1.getY() > y1 && P1.getY() < y2)

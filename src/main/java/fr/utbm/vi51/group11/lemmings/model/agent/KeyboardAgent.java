@@ -21,6 +21,9 @@ public class KeyboardAgent extends Agent implements KeyListener {
 	
 	@Override
 	public void live(long _dt) {
+		if(m_body == null)
+			return;
+		
 		Vector2f speed = new Vector2f();
 		
 		if(m_rightPressed)
@@ -32,7 +35,7 @@ public class KeyboardAgent extends Agent implements KeyListener {
 			speed.setY(-LemmingUtils.MAXIMUM_CLIMBING_SPEED);
 		
 		m_body.addInfluence(new Influence(InfluenceType.SPEED, speed));
-		Simulation.s_LOGGER.debug("BodyState: {}.", m_body.getState());
+		// Simulation.s_LOGGER.debug("BodyState: {}.", m_body.getState());
 	}
 
 	@Override

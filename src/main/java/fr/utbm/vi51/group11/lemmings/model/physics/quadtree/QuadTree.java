@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import fr.utbm.vi51.group11.lemmings.model.physics.collidingobjects.CollidingObjects;
 import fr.utbm.vi51.group11.lemmings.model.physics.collidingobjects.CollidingObjectsSet;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
-import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 
 public class QuadTree

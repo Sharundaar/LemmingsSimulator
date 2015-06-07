@@ -18,6 +18,7 @@ public abstract class Agent
 
 	/** Physical body of the agent */
 	protected IControllable	m_body;
+	protected boolean m_alive;
 
 	/*----------------------------------------------*/
 
@@ -53,6 +54,25 @@ public abstract class Agent
 	protected abstract void move(
 			Vector2f _direction);
 
+	/*----------------------------------------------*/
+	public void kill()
+	{
+		m_body = null;
+		m_alive = false;
+	}
+	
+	/*----------------------------------------------*/
+	public void enable(boolean _alive)
+	{
+		m_alive = _alive;
+	}
+	
+	/*----------------------------------------------*/
+	public boolean isAlive()
+	{
+		return m_alive;
+	}
+	
 	/*----------------------------------------------*/
 
 	/**

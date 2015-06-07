@@ -14,6 +14,7 @@ import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelProperties;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelPropertiesMap;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IControllable;
+import fr.utbm.vi51.group11.lemmings.utils.interfaces.IEntityDestroyedListener;
 
 /**
  * Class designed to be the simulation of the project. Contains the list of
@@ -26,7 +27,7 @@ import fr.utbm.vi51.group11.lemmings.utils.interfaces.IControllable;
  * @author jnovak
  *
  */
-public class Simulation
+public class Simulation implements IEntityDestroyedListener
 {
 	/** Logger of the class */
 	public final static Logger	s_LOGGER	= LoggerFactory.getLogger(Simulation.class);
@@ -38,6 +39,8 @@ public class Simulation
 	private final Environment	m_environment;
 	
 	private boolean m_running = false;
+	
+	private float m_speedMultiplicator = 1.0f;
 
 	/*----------------------------------------------*/
 
@@ -53,10 +56,17 @@ public class Simulation
 		LevelProperties currentLevelProperties = LevelPropertiesMap.getInstance().get(
 				_environmentID);
 		m_agents = new ArrayList<Agent>();
-		m_environment = new Environment(currentLevelProperties, m_agents);
+		m_environment = new Environment(currentLevelProperties, m_agents, this);
 
 		s_LOGGER.debug("Simulation created.");
 		loop();
+	}
+	
+	/*----------------------------------------------*/
+	public void setSpeedMultiplicator(float _mul)
+	{
+		if(_mul >= 0)
+			m_speedMultiplicator = _mul;
 	}
 
 	/*----------------------------------------------*/
@@ -68,6 +78,7 @@ public class Simulation
 			if(ent.getType() == WorldEntityEnum.LEMMING_BODY)
 			{
 				ka.setBody((IControllable)ent);
+				ka.enable(true);
 				break;
 			}
 		}
@@ -93,8 +104,8 @@ public class Simulation
 		while(m_running)
 		{
 			start = System.currentTimeMillis();
-			updateAgents(dt);
-			update(dt);
+			updateAgents((long)(m_speedMultiplicator*dt));
+			update((long)(m_speedMultiplicator*dt));
 			draw();
 			
 			try {
@@ -133,7 +144,8 @@ public class Simulation
 		
 		for(Agent ag : m_agents)
 		{
-			ag.live(_dt);
+			if(ag.isAlive())
+				ag.live(_dt);
 		}
 	}
 	
@@ -178,5 +190,24 @@ public class Simulation
 	public void destroy()
 	{
 		m_agents.clear();
+	}
+
+	@Override
+	public void onEntityDestroyed(WorldEntity _ent) {
+		Agent ag = null;
+		for(Agent a : m_agents)
+		{
+			if(a.getBody() == _ent)
+			{
+				ag = a;
+				break;
+			}
+		}
+		
+		if(ag != null)
+		{
+			ag.kill();
+			m_agents.remove(ag);
+		}
 	}
 }

@@ -4,7 +4,7 @@ import org.arakhne.afc.math.continous.object2d.Vector2f;
 
 import fr.utbm.vi51.group11.lemmings.utils.enums.InfluenceType;
 
-public class Influence implements Comparable
+public class Influence
 {
 	private final InfluenceType	m_type;
 
@@ -69,11 +69,4 @@ public class Influence implements Comparable
 	{
 		return m_action;
 	}
-
-	@Override
-	public int compareTo(Object arg0) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 }

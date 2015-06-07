@@ -136,4 +136,10 @@ public abstract class WorldEntity implements IPerceivable
 	public void updateAnimation(long _dt) {
 
 	}
+	
+	/*----------------------------------------------*/
+	public void kill()
+	{
+		
+	}
 }

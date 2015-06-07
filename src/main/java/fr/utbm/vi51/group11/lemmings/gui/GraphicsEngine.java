@@ -19,7 +19,6 @@ import fr.utbm.vi51.group11.lemmings.model.physics.collidingobjects.CollidingObj
 import fr.utbm.vi51.group11.lemmings.model.physics.quadtree.QuadTree;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CircleShape;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
-import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape.CollisionShapeType;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 
 public class GraphicsEngine extends JPanel
@@ -57,7 +56,6 @@ public class GraphicsEngine extends JPanel
 	public void paint(
 			final Graphics _g)
 	{
-
 		_g.clearRect(0, 0, getWidth(), getHeight());
 
 		drawMap(_g);

@@ -2,9 +2,6 @@ package fr.utbm.vi51.group11.lemmings.model.entity.mobile.body;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,7 +1,5 @@
 package fr.utbm.vi51.group11.lemmings.model;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,13 +10,10 @@ import org.slf4j.LoggerFactory;
 import fr.utbm.vi51.group11.lemmings.gui.GraphicsEngine;
 import fr.utbm.vi51.group11.lemmings.gui.MainFrame;
 import fr.utbm.vi51.group11.lemmings.model.agent.Agent;
-import fr.utbm.vi51.group11.lemmings.model.agent.LemmingAgent;
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
-import fr.utbm.vi51.group11.lemmings.model.entity.mobile.DynamicEntity;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.Body;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.BodyState;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.BodyStateProperty;
-import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
 import fr.utbm.vi51.group11.lemmings.model.map.Map;
 import fr.utbm.vi51.group11.lemmings.model.physics.PhysicEngine;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
@@ -27,6 +22,7 @@ import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelProperties;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.WorldEntityConfiguration;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.factory.EntityFactory;
+import fr.utbm.vi51.group11.lemmings.utils.interfaces.IEntityDestroyedListener;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
 import fr.utbm.vi51.group11.lemmings.utils.statics.LemmingUtils;
 
@@ -63,10 +59,12 @@ public class Environment
 	
 	/** Influence solver */
 	private InfluenceSolver m_influenceSolver;
+	
+	private LinkedList<IEntityDestroyedListener> m_entityDestroyedListener = new LinkedList<IEntityDestroyedListener>();
 
 	/*----------------------------------------------*/
 
-	public Environment(final LevelProperties _currentLevelProperties, final List<Agent> _agents)
+	public Environment(final LevelProperties _currentLevelProperties, final List<Agent> _agents, final Simulation _simulator)
 	{
 		s_LOGGER.debug("Creation of the environment...");
 
@@ -74,7 +72,7 @@ public class Environment
 		m_environmentTime = 0;
 		m_map = new Map(_currentLevelProperties);
 		m_physicEngine = new PhysicEngine();
-		m_gui = new MainFrame(this);
+		m_gui = new MainFrame(_simulator, this);
 
 		m_worldEntities = new ArrayList<WorldEntity>();
 
@@ -108,6 +106,20 @@ public class Environment
 		m_influenceSolver = new InfluenceSolver();
 		
 		s_LOGGER.debug("Environment created.");
+	}
+	
+	/*----------------------------------------------*/
+	public void sendEntityDetroyedEvent(WorldEntity _ent)
+	{
+		for(IEntityDestroyedListener listener : m_entityDestroyedListener)
+			listener.onEntityDestroyed(_ent);
+	}
+	
+	/*----------------------------------------------*/
+	public void addEntityDestroyedListener(IEntityDestroyedListener _listener)
+	{
+		if(!m_entityDestroyedListener.contains(_listener))
+			m_entityDestroyedListener.add(_listener);
 	}
 
 	/*----------------------------------------------*/
@@ -151,6 +163,15 @@ public class Environment
 		_worldEntity.updateExterns();
 
 		addWorldEntity(_worldEntity);
+	}
+	
+	/*----------------------------------------------*/
+	public void destroyEntity(WorldEntity _worldEntity)
+	{
+		_worldEntity.kill();
+		m_worldEntities.remove(_worldEntity);
+		m_physicEngine.removeShape(_worldEntity.getCollisionMask());
+		sendEntityDetroyedEvent(_worldEntity);
 	}
 
 	/*----------------------------------------------*/

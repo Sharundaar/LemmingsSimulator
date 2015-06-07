@@ -6,8 +6,6 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
-import org.arakhne.afc.math.continous.object2d.Rectangle2f;
-import org.arakhne.afc.math.continous.object2d.Shape2f;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
 import org.arakhne.afc.math.discrete.object2d.Vector2i;
 import org.slf4j.Logger;

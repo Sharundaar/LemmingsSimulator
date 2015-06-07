@@ -1,10 +1,6 @@
 package fr.utbm.vi51.group11.lemmings.model.physics.shapes;
 
-import java.util.LinkedList;
-
 import org.arakhne.afc.math.continous.object2d.Point2f;
-
-import fr.utbm.vi51.group11.lemmings.model.physics.properties.CollisionProperty;
 
 public class CollisionMask extends CollisionShape
 {	

@@ -2,17 +2,12 @@ package fr.utbm.vi51.group11.lemmings.model.entity.mobile.body;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-
-import org.arakhne.afc.math.continous.object2d.Vector2f;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.DynamicEntity;
-import fr.utbm.vi51.group11.lemmings.utils.enums.InfluenceType;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IControllable;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
-import fr.utbm.vi51.group11.lemmings.utils.misc.Action;
 import fr.utbm.vi51.group11.lemmings.utils.misc.Frustrum;
 import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
 

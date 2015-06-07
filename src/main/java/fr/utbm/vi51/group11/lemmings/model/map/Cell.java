@@ -1,7 +1,5 @@
 package fr.utbm.vi51.group11.lemmings.model.map;
 
-import org.arakhne.afc.math.continous.object2d.Rectangle2f;
-
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 import fr.utbm.vi51.group11.lemmings.utils.enums.CellType;
 
