@@ -6,4 +6,4 @@ RemoteSystemsTempFiles/
 /target/
 .settings/
 .project
-/src/
+*.orig
