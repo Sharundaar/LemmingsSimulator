@@ -26,11 +26,18 @@ public class MainFrame extends GUI
 	public MainFrame(final Environment _environnement, final int _rowNb, final int _colNb)
 	{
 		super();
-		setSize((int) UtilsLemmings.s_tileWidth * _colNb, (int) UtilsLemmings.s_tileHeight * _rowNb);
+
+		createMenuBar();
+		this.setJMenuBar(m_menuBar);
+
+		int width = (UtilsLemmings.s_tileWidth * _colNb) + (getInsets().bottom + getInsets().top);
+		int height = (UtilsLemmings.s_tileHeight * _rowNb) + (getInsets().right + getInsets().left)
+				+ (m_menuBar.getHeight());
+
+		setSize(width, height);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		m_graphicsEngine = new GraphicsEngine(_environnement, (int) UtilsLemmings.s_tileWidth
-				* _colNb, (int) UtilsLemmings.s_tileHeight * _rowNb);
+		m_graphicsEngine = new GraphicsEngine(_environnement, width, height);
 
 		KeyboardController.getInstance().updateJPanelKeyboardMaps(m_graphicsEngine);
 
@@ -39,8 +46,7 @@ public class MainFrame extends GUI
 		setContentPane(m_graphicsEngine);
 		setLocationRelativeTo(null);
 
-		createMenuBar();
-		this.setJMenuBar(m_menuBar);
+		pack();
 
 		setVisible(true);
 	}

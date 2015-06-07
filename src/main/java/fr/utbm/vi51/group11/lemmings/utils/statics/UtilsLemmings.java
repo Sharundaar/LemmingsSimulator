@@ -3,8 +3,8 @@ package fr.utbm.vi51.group11.lemmings.utils.statics;
 public class UtilsLemmings
 {
 	/** Default size of a lemming */
-	public final static int		s_lemmingDefaultWidth			= 20;
-	public final static int		s_LemmingDefaultHeight			= 20;
+	public final static int		s_lemmingDefaultWidth			= 30;
+	public final static int		s_LemmingDefaultHeight			= 30;
 
 	/** Default size of the entry */
 	public final static int		s_entryDefaultWidth				= 64;

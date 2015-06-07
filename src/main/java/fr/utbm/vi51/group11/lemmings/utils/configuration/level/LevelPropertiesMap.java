@@ -73,6 +73,7 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 			// FileUtils1.LEVEL_CONF_FILENAME).toString()); TODO change path
 			Document document = documentBuilder.parse(Resources
 					.getResourceAsStream(UtilsFile.LEVEL_CONF_FILENAME));
+
 			XPath xpath = XPathFactory.newInstance().newXPath();
 
 			levelList = (NodeList) xpath.compile("levels/level").evaluate(document,
@@ -98,7 +99,7 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 						(String) xpath.compile("levels/level[@id='" + id + "']/tileGrid").evaluate(
 								document, XPathConstants.STRING), "\t\t");
 				nbRow = StringUtils.countMatches(tempString, "\n") - 1;
-				nbCol = (StringUtils.countMatches(tempString, "\t") / nbRow) - 1;
+				nbCol = (StringUtils.countMatches(tempString, "\t") / nbRow) + 1;
 
 				tileGrid = new int[nbCol][nbRow];
 

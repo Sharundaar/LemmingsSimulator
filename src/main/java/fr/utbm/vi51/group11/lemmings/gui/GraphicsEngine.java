@@ -44,13 +44,13 @@ public class GraphicsEngine extends JPanel
 
 	private final EnumSet<DebugOption>	m_debugOptions;
 
-	public GraphicsEngine(final Environment _environnement, final int _rowNb, final int _colNb)
+	public GraphicsEngine(final Environment _environnement, final int _width, final int _height)
 	{
 		super();
 
 		this.addKeyListener(_environnement);
 
-		setPreferredSize(new Dimension(_colNb, _rowNb));
+		setPreferredSize(new Dimension(_width, _height));
 
 		m_environnement = _environnement;
 		m_affineTransform = new AffineTransform();
