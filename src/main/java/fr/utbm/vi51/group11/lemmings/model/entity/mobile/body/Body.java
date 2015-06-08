@@ -4,19 +4,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.arakhne.afc.math.continous.object2d.Vector2f;
+import org.arakhne.afc.math.discrete.object2d.Vector2i;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.utbm.vi51.group11.lemmings.gui.texture.Animation;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.DynamicEntity;
 import fr.utbm.vi51.group11.lemmings.utils.enums.AnimationState;
-import fr.utbm.vi51.group11.lemmings.utils.enums.InfluenceType;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IControllable;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
-import fr.utbm.vi51.group11.lemmings.utils.misc.Action;
 import fr.utbm.vi51.group11.lemmings.utils.misc.Frustrum;
 import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
+import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 
 /**
  * 
@@ -150,7 +149,7 @@ public abstract class Body extends DynamicEntity implements IControllable
 	{
 		return m_influences.remove(_influence);
 	}
-	
+
 	/*----------------------------------------------*/
 
 	/**
@@ -220,5 +219,19 @@ public abstract class Body extends DynamicEntity implements IControllable
 				break;
 
 		}
+	}
+
+	@Override
+	public void updateAnimation(
+			final long _dt)
+	{
+		if (m_currentAnimationState == m_previousAnimationState)
+			if (!m_animations.get(m_currentAnimationState).incrementTime(_dt))
+			{
+				Vector2i spritePos = m_animations.get(m_currentAnimationState).getCoords();
+				m_sprite.setTextureRect(spritePos.x(), spritePos.y(),
+						UtilsLemmings.s_lemmingEntityWidth, UtilsLemmings.s_LemmingEntityHeight);
+			}
+
 	}
 }

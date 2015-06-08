@@ -1,10 +1,8 @@
 package fr.utbm.vi51.group11.lemmings.model.entity;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
-import org.arakhne.afc.math.discrete.object2d.Vector2i;
 
 import fr.utbm.vi51.group11.lemmings.gui.texture.Sprite;
-import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.Body;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
@@ -141,17 +139,6 @@ public abstract class WorldEntity implements IPerceivable
 	public void updateAnimation(
 			final long _dt)
 	{
-		if (this instanceof Body)
-		{
-			Body body = (Body) this;
-			if (body.getCurrentAnimationState() == body.getPreviousAnimationState())
-				if (!body.getAnimations().get(body.getCurrentAnimationState()).incrementTime(_dt))
-				{
-					Vector2i spritePos = body.getAnimations().get(body.getCurrentAnimationState())
-							.getCoords();
-					body.getSprite().setTextureRect(spritePos.x(), spritePos.y(), 27, 26);
-				}
-		}
 	}
 
 	/*----------------------------------------------*/

@@ -48,8 +48,8 @@ public class LemmingBody extends Body implements ICollidable
 		m_worldCoords = _worldCoords;
 
 		m_collisionMask = new CollisionMask(m_worldCoords);
-		m_collisionMask.addChild(new RectangleShape(UtilsLemmings.s_lemmingDefaultWidth,
-				UtilsLemmings.s_LemmingDefaultHeight, null));
+		m_collisionMask.addChild(new RectangleShape(UtilsLemmings.s_lemmingEntityWidth,
+				UtilsLemmings.s_LemmingEntityHeight, null));
 
 		CollisionProperty cp = new CollisionProperty();
 		cp.setEntity(this);
@@ -60,8 +60,8 @@ public class LemmingBody extends Body implements ICollidable
 		m_environment = _environment;
 		// TODO world entity shapes
 		m_sprite = new Sprite(m_worldCoords.x(), m_worldCoords.y(),
-				UtilsLemmings.s_lemmingDefaultWidth, UtilsLemmings.s_LemmingDefaultHeight, 0, 0,
-				27, 26, _textureID);
+				UtilsLemmings.s_lemmingEntityWidth, UtilsLemmings.s_LemmingEntityHeight, 0, 0,
+				UtilsLemmings.s_lemmingEntityWidth, UtilsLemmings.s_LemmingEntityHeight, _textureID);
 
 		m_state = BodyState.NORMAL;
 		m_stateProperty = new BodyStateProperty();
