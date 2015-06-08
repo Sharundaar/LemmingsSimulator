@@ -14,4 +14,14 @@ public class Action
 		m_type = _type;
 		m_target = _target;
 	}
+	
+	public ActionType getType()
+	{
+		return m_type;
+	}
+	
+	public WorldEntity getTarget()
+	{
+		return m_target;
+	}
 }

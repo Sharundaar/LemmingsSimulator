@@ -1,4 +1,4 @@
-package fr.utbm.vi51.group11.lemmings.model.map;
+package fr.utbm.vi51.group11.lemmings.model.entity.immobile.map;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

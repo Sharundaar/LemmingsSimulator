@@ -12,10 +12,10 @@ import fr.utbm.vi51.group11.lemmings.gui.MainFrame;
 import fr.utbm.vi51.group11.lemmings.model.agent.Agent;
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
 import fr.utbm.vi51.group11.lemmings.model.entity.immobile.LevelEnd;
+import fr.utbm.vi51.group11.lemmings.model.entity.immobile.map.Map;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.Body;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.BodyState;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.BodyStateProperty;
-import fr.utbm.vi51.group11.lemmings.model.map.Map;
 import fr.utbm.vi51.group11.lemmings.model.physics.PhysicEngine;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape.PhysicType;
@@ -306,8 +306,8 @@ public class Environment
 						if (body.getStateProperty().m_chuteOpen)
 						{
 							body.setState(BodyState.NORMAL, new BodyStateProperty());
-						} else if ((body.getStateProperty().m_fallHeight - body.getCoordinates()
-								.getY()) <= UtilsLemmings.s_maximumFallingHeight)
+						} else if ((Math.abs(body.getStateProperty().m_fallHeight - body.getCoordinates()
+								.getY())) <= UtilsLemmings.s_maximumFallingHeight)
 						{
 							body.setState(BodyState.NORMAL, new BodyStateProperty());
 						} else

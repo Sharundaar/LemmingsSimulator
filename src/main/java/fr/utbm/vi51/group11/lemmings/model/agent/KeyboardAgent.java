@@ -42,13 +42,17 @@ public class KeyboardAgent extends Agent implements KeyListener
 
 		Vector2f speed = new Vector2f();
 
-		if (m_rightPressed)
-			speed.setX(UtilsLemmings.s_lemmingMaxVelocity);
-		else if (m_leftPressed)
-			speed.setX(-UtilsLemmings.s_lemmingMaxVelocity);
+		if (m_rightPressed && m_shortAgent.isCurrentOrderComplete())
+		{
+			m_shortAgent.setOrder(ShortTermAgentOrder.GO_RIGHT);
+		}
+		else if (m_leftPressed && m_shortAgent.isCurrentOrderComplete())
+		{
+			m_shortAgent.setOrder(ShortTermAgentOrder.GO_LEFT);	
+		}
 
 		if (m_upPressed)
-			speed.setY(-UtilsLemmings.s_maximumClimbingSpeed);
+			speed.setY(UtilsLemmings.s_maximumClimbingSpeed);
 		
 		if(m_lPressed)
 		{
@@ -58,7 +62,7 @@ public class KeyboardAgent extends Agent implements KeyListener
 
 		m_shortAgent.live(_dt);
 		// m_body.addInfluence(new Influence(InfluenceType.SPEED, speed));
-		// Simulation.s_LOGGER.debug("BodyState: {}.", m_body.getState());
+		Simulation.s_LOGGER.debug("BodyState: {}.", m_body.getState());
 	}
 
 	@Override

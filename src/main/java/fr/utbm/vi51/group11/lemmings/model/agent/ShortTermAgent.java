@@ -5,8 +5,11 @@ import java.util.List;
 import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
 
+import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.BodyState;
+import fr.utbm.vi51.group11.lemmings.utils.enums.ActionType;
 import fr.utbm.vi51.group11.lemmings.utils.enums.InfluenceType;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
+import fr.utbm.vi51.group11.lemmings.utils.misc.Action;
 import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
 import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 
@@ -47,6 +50,7 @@ public class ShortTermAgent extends Agent {
 		{
 			if(!m_orderState.m_completed)
 			{
+				
 				if(!m_orderState.m_initialized)
 				{
 					initialize(_dt);
@@ -63,6 +67,9 @@ public class ShortTermAgent extends Agent {
 	
 	public void doOrder(long _dt)
 	{
+		if(checkForUmbrella())
+			return;
+		
 		switch(m_order)
 		{
 		case DIG_DOWN:
@@ -86,6 +93,21 @@ public class ShortTermAgent extends Agent {
 		}
 	}
 	
+	public boolean checkForUmbrella()
+	{
+		if(m_body.getState() == BodyState.FALLING && m_body.getStateProperty().m_chuteOpen == false)
+		{
+			if(Math.abs(m_body.getStateProperty().m_fallHeight - m_body.getWorldCoordinates()
+					.getY()) <= UtilsLemmings.s_maximumFallingHeight)
+			{
+				m_body.addInfluence(new Influence(InfluenceType.ACTION, new Action(ActionType.UMBRELLA, null)));
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	private void goRight(long _dt)
 	{
 		Point2f bodyCoords = m_startingPoint;
@@ -101,6 +123,8 @@ public class ShortTermAgent extends Agent {
 		{
 			Vector2f speed = new Vector2f();
 			speed.setX((closestCellCoords.getX() - bodyCoords.getX()) / _dt);
+			if(m_body.getState() == BodyState.CLIMBING)
+				speed.setY(UtilsLemmings.s_maximumClimbingSpeed);
 			m_body.addInfluence(new Influence(InfluenceType.SPEED, speed));
 		}
 	}
@@ -120,6 +144,8 @@ public class ShortTermAgent extends Agent {
 		{
 			Vector2f speed = new Vector2f();
 			speed.setX((closestCellCoords.getX() - bodyCoords.getX()) / _dt);
+			if(m_body.getState() == BodyState.CLIMBING)
+				speed.setY(UtilsLemmings.s_maximumClimbingSpeed);
 			m_body.addInfluence(new Influence(InfluenceType.SPEED, speed));
 		}
 	}
@@ -155,7 +181,7 @@ public class ShortTermAgent extends Agent {
 	
 	public boolean isCurrentOrderComplete()
 	{
-		return m_terminated;
+		return m_orderState.m_completed;
 	}
 
 	@Override
