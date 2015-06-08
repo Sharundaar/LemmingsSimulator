@@ -38,7 +38,7 @@ public class KeyboardAgent extends Agent implements KeyListener
 			speed.setY(-UtilsLemmings.s_maximumClimbingSpeed);
 
 		m_body.addInfluence(new Influence(InfluenceType.SPEED, speed));
-		Simulation.s_LOGGER.debug("BodyState: {}.", m_body.getState());
+		// Simulation.s_LOGGER.debug("BodyState: {}.", m_body.getState());
 	}
 
 	@Override

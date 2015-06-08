@@ -4,5 +4,6 @@ public enum BodyState {
 	NORMAL,
 	CLIMBING,
 	FALLING,
+	DIGGING,
 	DEAD
 }
