@@ -31,7 +31,7 @@ public class QLearningTest implements World{
 			m_label = _label;
 		}
 
-		@Override
+		// @Override
 		public String getLabel() {
 			return m_label;
 		}
@@ -45,7 +45,7 @@ public class QLearningTest implements World{
 		double[] m_policyValues = null;
 		int m_visited = 0;
 
-		@Override
+		// @Override
 		public void setProperty(String key, Object value) {
 			// TODO Auto-generated method stub
 			if(m_properties.containsKey(key))
@@ -58,55 +58,55 @@ public class QLearningTest implements World{
 			}
 		}
 
-		@Override
+		// @Override
 		public Object getProperty(String key) {
 			return m_properties.getOrDefault(key, null);
 		}
 
-		@Override
+		// @Override
 		public double getReward() {
 			return m_reward;
 		}
 
-		@Override
+		// @Override
 		public void setReward(double r) {
 			m_reward = r;
 		}
 
-		@Override
+		// @Override
 		public double[] getPolicyValue() {
 			// TODO Auto-generated method stub
 			return m_policyValues;
 		}
 
-		@Override
+		// @Override
 		public void setAllPolicyValues(double d) {
 			for(int i=0 ; i<m_policyValues.length; ++i)
 				m_policyValues[i] = d;
 		}
 
-		@Override
+		// @Override
 		public void setPolicyValueSize(int s) {
 			if(s > 0)
 				m_policyValues = new double[s];
 		}
 
-		@Override
+		// @Override
 		public boolean wasVisited() {
 			return m_visited > 0;
 		}
 
-		@Override
+		// @Override
 		public void setVisited(int i) {
 			m_visited = i;
 		}
 
-		@Override
+		// @Override
 		public int getVisited() {
 			return m_visited;
 		}
 
-		@Override
+		// @Override
 		public void increaseVisited() {
 			m_visited++;
 		}
@@ -179,108 +179,108 @@ public class QLearningTest implements World{
 		return _position.distance(endLevelRect.getCenter());
 	}
 
-	@Override
+	// @Override
 	public void addAction(Action arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	// @Override
 	public void addAgent(WorldAgent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	// @Override
 	public void addGoal(State arg0) {
 		// TODO Auto-generated method stub
 	}
 
-	@Override
+	// @Override
 	public void addState(State arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	// @Override
 	public List<Action> getActions() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	// @Override
 	public List<WorldAgent> getAgents() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	// @Override
 	public List<State> getGoals() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	// @Override
 	public double getPolicyValue(State arg0, Action arg1) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
+	// @Override
 	public ActionProbability getProbability() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	// @Override
 	public List<State> getStates() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	// @Override
 	public boolean isGoalState(State arg0) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	// @Override
 	public void removeAgent(WorldAgent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	// @Override
 	public void removeGoal(State arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	// @Override
 	public void runToGoal(WorldAgent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	// @Override
 	public void setAllRewards(double arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	// @Override
 	public void setPolicyValue(State arg0, Action arg1, double arg2) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	// @Override
 	public void setProbability(ActionProbability arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	// @Override
 	public void tick() {
 		// TODO Auto-generated method stub
 		
