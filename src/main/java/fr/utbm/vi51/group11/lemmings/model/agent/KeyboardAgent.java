@@ -21,6 +21,8 @@ public class KeyboardAgent extends Agent implements KeyListener
 	boolean	m_leftPressed	= false;
 	boolean	m_downPressed	= false;
 	
+	boolean	m_spacePressed	= false;
+	
 	boolean m_lPressed = false;
 	
 	ShortTermAgent m_shortAgent = new ShortTermAgent();
@@ -54,12 +56,22 @@ public class KeyboardAgent extends Agent implements KeyListener
 		if (m_upPressed)
 			speed.setY(UtilsLemmings.s_maximumClimbingSpeed);
 		
+		if (m_downPressed && m_shortAgent.isCurrentOrderComplete())
+			m_shortAgent.setOrder(ShortTermAgentOrder.DIG_DOWN);
+		
 		if(m_lPressed)
 		{
-			m_shortAgent.setOrder(ShortTermAgentOrder.GO_LEFT);
+			m_shortAgent.setOrder(ShortTermAgentOrder.DIG_RIGHT);
 			m_lPressed = false;
 		}
+		
+		if(m_spacePressed)
+		{
+			m_shortAgent.abortOrder();
+			m_spacePressed = false;
+		}
 
+		m_shortAgent.checkForUmbrella();
 		m_shortAgent.live(_dt);
 		// m_body.addInfluence(new Influence(InfluenceType.SPEED, speed));
 		Simulation.s_LOGGER.debug("BodyState: {}.", m_body.getState());
@@ -83,6 +95,8 @@ public class KeyboardAgent extends Agent implements KeyListener
 			m_leftPressed = true;
 		if (arg0.getKeyCode() == KeyEvent.VK_UP)
 			m_upPressed = true;
+		if (arg0.getKeyCode() == KeyEvent.VK_DOWN)
+			m_downPressed = true;
 	}
 
 	@Override
@@ -96,8 +110,15 @@ public class KeyboardAgent extends Agent implements KeyListener
 		if (arg0.getKeyCode() == KeyEvent.VK_UP)
 			m_upPressed = false;
 		
+		if (arg0.getKeyCode() == KeyEvent.VK_DOWN)
+			m_downPressed = false;
+		
 		if (arg0.getKeyCode() == KeyEvent.VK_L)
 			m_lPressed = true;
+		
+		if (arg0.getKeyCode() == KeyEvent.VK_SPACE)
+			m_spacePressed = true;
+		
 	}
 
 	@Override
