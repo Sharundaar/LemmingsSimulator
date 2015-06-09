@@ -416,4 +416,19 @@ public class PhysicEngine
 		}
 		return false;
 	}
+
+	public void updateSpeed(LinkedList<Body> _bodies) {
+		for(Body body : _bodies)
+		{
+			if(m_groundedEntity.contains(body))
+			{
+				body.getSpeed().setY(0);
+			}
+			if(m_wallBlockedEntity.contains(body))
+			{
+				body.getSpeed().setX(0);
+			}
+		}
+		
+	}
 }

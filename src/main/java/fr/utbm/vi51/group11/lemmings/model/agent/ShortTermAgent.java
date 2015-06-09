@@ -31,7 +31,6 @@ public class ShortTermAgent extends Agent {
 	}
 	
 	private Point2f m_startingPoint;
-	private boolean m_terminated;
 	private ShortTermAgentOrder m_order;
 	private ShortTermAgentOrderState m_orderState;
 	
@@ -60,23 +59,33 @@ public class ShortTermAgent extends Agent {
 					doOrder(_dt);
 				}
 			}
+			else
+			{
+				m_body.addInfluence(new Influence(InfluenceType.SPEED, new Vector2f()));
+			}
 			
 			
 		}
 	}
 	
+	public void abortOrder()
+	{
+		m_orderState.m_completed = true;
+	}
+	
 	public void doOrder(long _dt)
 	{
-		if(checkForUmbrella())
-			return;
-		
 		switch(m_order)
 		{
 		case DIG_DOWN:
+			m_body.addInfluence(new Influence(InfluenceType.ACTION, new Action(ActionType.DIG_VERTICAL, null)));
+			m_orderState.m_completed = true;
 			break;
 		case DIG_LEFT:
+			digLeft(_dt);
 			break;
 		case DIG_RIGHT:
+			digRight(_dt);
 			break;
 		case GO_LEFT:
 			goLeft(_dt);
@@ -90,6 +99,62 @@ public class ShortTermAgent extends Agent {
 		default:
 			break;
 		
+		}
+	}
+	
+	public void digRight(long _dt)
+	{
+		if(m_body.getState() == BodyState.DIGGING)
+		{
+			// m_orderState.m_completed = true;	
+		}
+		else
+		{
+			Point2f bodyCoords = m_startingPoint;
+			Point2f closestCellCoords = new Point2f(bodyCoords);
+			closestCellCoords.setX((int) (closestCellCoords.getX() / UtilsLemmings.s_tileWidth + 1) * UtilsLemmings.s_tileWidth + UtilsLemmings.s_tileWidth / 2.0f);
+			closestCellCoords.setY((int) (closestCellCoords.getY() / UtilsLemmings.s_tileHeight + 1) * UtilsLemmings.s_tileHeight + UtilsLemmings.s_tileHeight / 2.0f);
+			if(Math.abs(m_body.getCenterCoordinates().getX() - closestCellCoords.getX()) <= CENTER_EPSILON)
+			{
+				m_orderState.m_completed = true;
+				m_body.addInfluence(new Influence(InfluenceType.SPEED, new Vector2f()));
+			}
+			else
+			{
+				Vector2f speed = new Vector2f();
+				speed.setX((closestCellCoords.getX() - bodyCoords.getX()) / _dt);
+				if(m_body.getState() == BodyState.CLIMBING)
+					m_body.addInfluence(new Influence(InfluenceType.ACTION, new Action(ActionType.DIG_HORIZONTAL, null)));
+				m_body.addInfluence(new Influence(InfluenceType.SPEED, speed));
+			}
+		}
+	}
+	
+	public void digLeft(long _dt)
+	{
+		if(m_body.getState() == BodyState.DIGGING)
+		{
+			// m_orderState.m_completed = true;	
+		}
+		else
+		{
+			Point2f bodyCoords = m_startingPoint;
+			Point2f closestCellCoords = new Point2f(bodyCoords);
+			closestCellCoords.setX((int) (closestCellCoords.getX() / UtilsLemmings.s_tileWidth - 1) * UtilsLemmings.s_tileWidth + UtilsLemmings.s_tileWidth / 2.0f);
+			closestCellCoords.setY((int) (closestCellCoords.getY() / UtilsLemmings.s_tileHeight - 1) * UtilsLemmings.s_tileHeight + UtilsLemmings.s_tileHeight / 2.0f);
+			if(Math.abs(m_body.getCenterCoordinates().getX() - closestCellCoords.getX()) <= CENTER_EPSILON)
+			{
+				m_orderState.m_completed = true;
+				m_body.addInfluence(new Influence(InfluenceType.SPEED, new Vector2f()));
+			}
+			else
+			{
+				Vector2f speed = new Vector2f();
+				speed.setX((closestCellCoords.getX() - bodyCoords.getX()) / _dt);
+				if(m_body.getState() == BodyState.CLIMBING)
+					m_body.addInfluence(new Influence(InfluenceType.ACTION, new Action(ActionType.DIG_HORIZONTAL, null)));
+				m_body.addInfluence(new Influence(InfluenceType.SPEED, speed));
+			}
 		}
 	}
 	
@@ -122,7 +187,7 @@ public class ShortTermAgent extends Agent {
 		else
 		{
 			Vector2f speed = new Vector2f();
-			speed.setX((closestCellCoords.getX() - bodyCoords.getX()) / _dt);
+			speed.setX((closestCellCoords.getX() - m_body.getCenterCoordinates().getX()) / _dt);
 			if(m_body.getState() == BodyState.CLIMBING)
 				speed.setY(UtilsLemmings.s_maximumClimbingSpeed);
 			m_body.addInfluence(new Influence(InfluenceType.SPEED, speed));
@@ -143,7 +208,7 @@ public class ShortTermAgent extends Agent {
 		else
 		{
 			Vector2f speed = new Vector2f();
-			speed.setX((closestCellCoords.getX() - bodyCoords.getX()) / _dt);
+			speed.setX((closestCellCoords.getX() - m_body.getCenterCoordinates().getX()) / _dt);
 			if(m_body.getState() == BodyState.CLIMBING)
 				speed.setY(UtilsLemmings.s_maximumClimbingSpeed);
 			m_body.addInfluence(new Influence(InfluenceType.SPEED, speed));

@@ -211,6 +211,11 @@ public abstract class Body extends DynamicEntity implements IControllable
 				m_stateProperty.m_chuteOpen = _property.m_chuteOpen;
 				break;
 
+			case DIGGING:
+				m_stateProperty.m_diggingDirection = _property.m_diggingDirection;
+				m_stateProperty.m_diggingStart = _property.m_diggingStart;
+				break;
+				
 			case CLIMBING:
 				break;
 			case NORMAL:

@@ -38,4 +38,6 @@ public class UtilsLemmings
 	public final static float	s_lemmingAnimationTimeGap		= 500f;
 
 	public final static int		s_lemmingSpriteSheetPixelGap	= 28;
+	
+	public final static long 	s_diggingSpeed 					= 1000;
 }

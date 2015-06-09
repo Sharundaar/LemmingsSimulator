@@ -31,9 +31,9 @@ public class Simulation implements IEntityDestroyedListener
 {
 	/** Logger of the class */
 	public final static Logger	s_LOGGER	= LoggerFactory.getLogger(Simulation.class);
-	
+
 	public final static long MAXIMUM_DELTA_TIME = 60;
-		
+	
 	/** List of agents contained in the environment */
 	private final List<Agent>	m_agents;
 
@@ -43,7 +43,9 @@ public class Simulation implements IEntityDestroyedListener
 	private boolean m_running = false;
 	
 	private float m_speedMultiplicator = 1.0f;
-
+	
+	private HumanActor m_humanActor;
+	
 
 	/*----------------------------------------------*/
 
@@ -60,7 +62,7 @@ public class Simulation implements IEntityDestroyedListener
 				_environmentID);
 		m_agents = new ArrayList<Agent>();
 		m_environment = new Environment(currentLevelProperties, m_agents, this);
-
+		
 		s_LOGGER.debug("Simulation created.");
 		loop();
 	}
@@ -88,6 +90,9 @@ public class Simulation implements IEntityDestroyedListener
 		
 		m_environment.getGraphicsEngine().addKeyListener(ka);
 		m_agents.add(ka);
+		
+		m_humanActor = new HumanActor(this);
+		m_environment.getGraphicsEngine().addMouseListener(m_humanActor);
 	}
 	
 	/*----------------------------------------------*/

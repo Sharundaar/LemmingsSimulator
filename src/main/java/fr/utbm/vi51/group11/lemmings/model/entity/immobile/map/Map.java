@@ -14,11 +14,13 @@ import org.slf4j.LoggerFactory;
 import fr.utbm.vi51.group11.lemmings.gui.texture.Sprite;
 import fr.utbm.vi51.group11.lemmings.gui.texture.Texture;
 import fr.utbm.vi51.group11.lemmings.gui.texture.TextureBank;
+import fr.utbm.vi51.group11.lemmings.model.Environment;
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
 import fr.utbm.vi51.group11.lemmings.model.physics.properties.CollisionProperty;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
+import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape.PhysicType;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelProperties;
 import fr.utbm.vi51.group11.lemmings.utils.enums.CellType;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
@@ -40,6 +42,8 @@ public class Map extends WorldEntity implements ITextureHandler
 	private final Texture		m_texture;
 	private final BufferedImage	m_image;
 	private final Graphics2D	m_imageGraphics;
+	
+	private Environment m_environment;
 
 	/*----------------------------------------------*/
 
@@ -51,7 +55,7 @@ public class Map extends WorldEntity implements ITextureHandler
 	 * @param _colNb
 	 *            Number of columns splitting the screen.
 	 */
-	public Map(final LevelProperties _levelProperties)
+	public Map(final LevelProperties _levelProperties, Environment _environment)
 	{
 		m_grid = new Grid(_levelProperties.getNbRow(), _levelProperties.getNbCol(),
 				_levelProperties.getTileGrid());
@@ -76,9 +80,63 @@ public class Map extends WorldEntity implements ITextureHandler
 				m_texture);
 		m_type = WorldEntityEnum.MAP;
 
+		m_environment = _environment;
+		
 		updateCollisionMask();
 	}
+	
+	/*----------------------------------------------*/
+	public boolean canDigCell(float x, float y)
+	{
+		CellType cellType = getCellType(x, y, false);
+		return !cellType.isCrossable();
+	}
+	
+	/*----------------------------------------------*/
+	public boolean canFillCell(float x, float y)
+	{
+		CellType cellType = getCellType(x, y, false);
+		return cellType.isCrossable() && !cellType.isDangerous();
+	}
+	
+	/*----------------------------------------------*/
+	public void digCell(float x, float y)
+	{
+		if(canDigCell(x, y))
+		{
+			Cell cell = m_grid.getCell((int) (x / UtilsLemmings.s_tileWidth), (int)(y / UtilsLemmings.s_tileHeight));
+			cell.setCellType(CellType.BACK_WALL);
+			for(CollisionShape shape : m_collisionMask.getChilds())
+			{
+				m_environment.getPhysicEngine().removeShape(shape);
+			}
+			updateCollisionMask();
+			for(CollisionShape shape : m_collisionMask.getChilds())
+			{
+				m_environment.getPhysicEngine().addShape(shape, PhysicType.STATIC);
+			}
+		}
+	}
 
+	/*----------------------------------------------*/
+	public void fillCell(float x, float y)
+	{
+		if(canFillCell(x, y))
+		{
+			Cell cell = m_grid.getCell((int) (x / UtilsLemmings.s_tileWidth), (int)(y / UtilsLemmings.s_tileHeight));
+			cell.setCellType(CellType.STONE);
+			for(CollisionShape shape : m_collisionMask.getChilds())
+			{
+				m_environment.getPhysicEngine().removeShape(shape);
+			}
+			updateCollisionMask();
+			for(CollisionShape shape : m_collisionMask.getChilds())
+			{
+				m_environment.getPhysicEngine().addShape(shape, PhysicType.STATIC);
+			}
+		}
+	}
+	
 	/*----------------------------------------------*/
 	public int getGridWidth()
 	{
@@ -209,6 +267,18 @@ public class Map extends WorldEntity implements ITextureHandler
 		int gridY = (int) Math.floor(_y / UtilsLemmings.s_tileHeight);
 
 		return new Vector2i(gridX, gridY);
+	}
+	
+	/*----------------------------------------------*/
+	public float getWidth()
+	{
+		return getGridWidth() * UtilsLemmings.s_tileWidth;
+	}
+	
+	/*----------------------------------------------*/
+	public float getHeight()
+	{
+		return getGridHeight() * UtilsLemmings.s_tileHeight;
 	}
 
 	/*----------------------------------------------*/
