@@ -190,10 +190,10 @@ public class QuadTree
 	private final QuadTreeNode	m_rootNode;
 
 	/*----------------------------------------------*/
-	public QuadTree(final int _rowNb, final int _colNb)
+	public QuadTree(final int _width, final int _height)
 	{
-		m_rootNode = new QuadTreeNode(new RectangleShape(UtilsLemmings.s_tileWidth * _colNb,
-				UtilsLemmings.s_tileHeight * _rowNb, null));
+		m_rootNode = new QuadTreeNode(new RectangleShape(_width, UtilsLemmings.s_tileHeight
+				* _height, null));
 	}
 
 	/*----------------------------------------------*/

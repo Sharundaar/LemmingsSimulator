@@ -40,8 +40,6 @@ public class LemmingBody extends Body implements ICollidable
 		m_animations = new HashMap<BodyState, Animation>();
 		for (BodyState state : BodyState.values())
 			m_animations.put(state, new Animation(state));
-		m_state = BodyState.NORMAL;
-		m_previousState = BodyState.NORMAL;
 
 		m_alive = false;
 		m_worldCoords = _worldCoords;
@@ -63,7 +61,9 @@ public class LemmingBody extends Body implements ICollidable
 				UtilsLemmings.s_lemmingEntityWidth, UtilsLemmings.s_LemmingEntityHeight, _textureID);
 
 		m_state = BodyState.NORMAL;
+		m_previousState = BodyState.NORMAL;
 		m_stateProperty = new BodyStateProperty();
+		m_previousStateProperty = new BodyStateProperty();
 
 		m_influences = new LinkedList<Influence>();
 
@@ -102,12 +102,15 @@ public class LemmingBody extends Body implements ICollidable
 
 		return false; // TODO
 	}
-	
+
+	@Override
 	public Point2f getCenterCoordinates()
 	{
-		return new Point2f(m_worldCoords.getX() + UtilsLemmings.s_lemmingDefaultWidth / 2.0f, m_worldCoords.getY() + UtilsLemmings.s_LemmingDefaultHeight / 2.0f);
+		return new Point2f(m_worldCoords.getX() + (UtilsLemmings.s_lemmingEntityWidth / 2.0f),
+				m_worldCoords.getY() + (UtilsLemmings.s_LemmingEntityHeight / 2.0f));
 	}
-	
+
+	@Override
 	public Point2f getWorldCoordinates()
 	{
 		return new Point2f(m_worldCoords);

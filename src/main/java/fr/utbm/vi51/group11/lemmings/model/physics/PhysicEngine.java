@@ -57,11 +57,11 @@ public class PhysicEngine
 
 	/* --------------------------------------------------- */
 
-	public PhysicEngine(final int _rowNb, final int _colNb)
+	public PhysicEngine(final int _width, final int _height)
 	{
 		s_LOGGER.debug("Creation of the PhysicsEngine...");
 
-		m_quadTree = new QuadTree(_rowNb, _colNb);
+		m_quadTree = new QuadTree(_width, _height);
 
 		s_LOGGER.debug("PhysicsEngine created.");
 	}

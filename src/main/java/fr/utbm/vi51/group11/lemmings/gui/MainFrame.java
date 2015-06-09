@@ -18,7 +18,6 @@ import fr.utbm.vi51.group11.lemmings.controller.KeyboardController;
 import fr.utbm.vi51.group11.lemmings.gui.GraphicsEngine.DebugOption;
 import fr.utbm.vi51.group11.lemmings.model.Environment;
 import fr.utbm.vi51.group11.lemmings.model.Simulation;
-import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 
 public class MainFrame extends GUI implements ActionListener
 {
@@ -41,16 +40,15 @@ public class MainFrame extends GUI implements ActionListener
 	private final BorderLayout		m_mainLayout;
 
 	public MainFrame(final Simulation _simulator, final Environment _environnement,
-			final int _rowNb, final int _colNb)
+			final int _width, final int _height)
 	{
 		super();
 
 		createMenuBar();
 		this.setJMenuBar(m_menuBar);
 
-		int width = (UtilsLemmings.s_tileWidth * _colNb) + (getInsets().bottom + getInsets().top);
-		int height = (UtilsLemmings.s_tileHeight * _rowNb) + (getInsets().right + getInsets().left)
-				+ (m_menuBar.getHeight());
+		int width = _width + (getInsets().bottom + getInsets().top);
+		int height = _height + (getInsets().right + getInsets().left) + (m_menuBar.getHeight());
 
 		setSize(width, height);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

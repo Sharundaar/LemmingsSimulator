@@ -42,7 +42,7 @@ public class Environment
 																							.getLogger(Environment.class);
 
 	/** Time of the environment in milliseconds */
-	private long									m_environmentTime;
+	private long										m_environmentTime;
 
 	/** The Map */
 	private final Map									m_map;
@@ -61,7 +61,7 @@ public class Environment
 
 	/** Influence solver */
 	private final InfluenceSolver						m_influenceSolver;
-	
+
 	private final LinkedList<IEntityDestroyedListener>	m_entityDestroyedListener	= new LinkedList<IEntityDestroyedListener>();
 
 	/*----------------------------------------------*/
@@ -73,11 +73,14 @@ public class Environment
 		int rowNb = _currentLevelProperties.getNbRow();
 		int colNb = _currentLevelProperties.getNbCol();
 
+		int width = UtilsLemmings.s_tileWidth * colNb;
+		int height = UtilsLemmings.s_tileHeight * rowNb;
+
 		/* Instantiates attributes */
 		m_environmentTime = 0;
 		m_map = new Map(_currentLevelProperties);
-		m_physicEngine = new PhysicEngine(rowNb, colNb);
-		m_gui = new MainFrame(_simulator, this, rowNb, colNb);
+		m_physicEngine = new PhysicEngine(width, height);
+		m_gui = new MainFrame(_simulator, this, width, height);
 
 		m_worldEntities = new ArrayList<WorldEntity>();
 
@@ -116,16 +119,17 @@ public class Environment
 	/*----------------------------------------------*/
 	public LevelEnd getFirstLevelEnd()
 	{
-		for(WorldEntity ent : m_worldEntities)
+		for (WorldEntity ent : m_worldEntities)
 		{
-			if(ent.getType() == WorldEntityEnum.LEVEL_END)
-				return (LevelEnd)ent;
+			if (ent.getType() == WorldEntityEnum.LEVEL_END)
+				return (LevelEnd) ent;
 		}
 		return null;
 	}
-	
+
 	/*----------------------------------------------*/
-	public void sendEntityDetroyedEvent(WorldEntity _ent)
+	public void sendEntityDetroyedEvent(
+			final WorldEntity _ent)
 	{
 		for (IEntityDestroyedListener listener : m_entityDestroyedListener)
 			listener.onEntityDestroyed(_ent);
@@ -215,21 +219,21 @@ public class Environment
 	{
 		// TODO
 		m_environmentTime += _dt;
-		
+
 		LinkedList<Body> bodies = new LinkedList<Body>();
-		for(WorldEntity ent : m_worldEntities)
+		for (WorldEntity ent : m_worldEntities)
 		{
-			if(ent.getType() == WorldEntityEnum.LEMMING_BODY)
-				bodies.add((Body)ent);
+			if (ent.getType() == WorldEntityEnum.LEMMING_BODY)
+				bodies.add((Body) ent);
 		}
 		m_influenceSolver.solveInfluence(bodies);
-		
+
 		m_physicEngine.applyExternForces(_dt);
 		updateSpeed(bodies);
 		m_physicEngine.computeMovements(_dt);
 		m_physicEngine.updateQuadTree();
 		m_physicEngine.solveCollisions();
-		
+
 		updateBodyStates(bodies);
 
 		updateAnimations(_dt);
@@ -306,8 +310,8 @@ public class Environment
 						if (body.getStateProperty().m_chuteOpen)
 						{
 							body.setState(BodyState.NORMAL, new BodyStateProperty());
-						} else if ((Math.abs(body.getStateProperty().m_fallHeight - body.getCoordinates()
-								.getY())) <= UtilsLemmings.s_maximumFallingHeight)
+						} else if ((Math.abs(body.getStateProperty().m_fallHeight
+								- body.getCoordinates().getY())) <= UtilsLemmings.s_maximumFallingHeight)
 						{
 							body.setState(BodyState.NORMAL, new BodyStateProperty());
 						} else

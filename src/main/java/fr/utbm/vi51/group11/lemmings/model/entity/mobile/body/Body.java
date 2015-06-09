@@ -50,6 +50,9 @@ public abstract class Body extends DynamicEntity implements IControllable
 
 	protected BodyState					m_previousState;
 
+	/** State property */
+	protected BodyStateProperty			m_previousStateProperty;
+
 	protected Map<BodyState, Animation>	m_animations;
 
 	/*----------------------------------------------*/
@@ -175,6 +178,7 @@ public abstract class Body extends DynamicEntity implements IControllable
 		return m_state;
 	}
 
+	@Override
 	public BodyStateProperty getStateProperty()
 	{
 		return m_stateProperty;
@@ -187,7 +191,11 @@ public abstract class Body extends DynamicEntity implements IControllable
 		if (_property == null)
 			return;
 
+		m_previousState = m_state;
 		m_state = _state;
+
+		m_previousStateProperty = m_stateProperty.newInstance();
+
 		switch (m_state)
 		{
 			case DEAD:
@@ -212,22 +220,65 @@ public abstract class Body extends DynamicEntity implements IControllable
 	public void updateAnimation(
 			final long _dt)
 	{
-		if (m_state == m_previousState)
-			if (!m_animations.get(m_state).incrementTime(_dt))
+		Animation currentAnimation = m_animations.get(m_state);
+
+		/* Same animation state as precedent update. */
+		if (isSameState())
+		{
+			/* Time exceeds for one Animation frame => change sprite. */
+			if (currentAnimation.exceedsAnimationTime(_dt))
 			{
-				Vector2i spritePos = m_animations.get(m_state).getCoords();
-				switch (m_state)
-				{
-					case NORMAL:
-						break;
-					case DIGGING:
-						break;
-					case CLIMBING:
-						break;
-				}
-				m_sprite.setTextureRect(spritePos.x(), spritePos.y(),
-						UtilsLemmings.s_lemmingEntityWidth, UtilsLemmings.s_LemmingEntityHeight);
+				updateSprite(currentAnimation);
+
+				/* Still within frame animation time limit. */
+			} else
+			{
+				currentAnimation.incrementTime(_dt);
 			}
 
+			/* New animation state. */
+		} else
+		{
+			updateSprite(currentAnimation);
+		}
 	}
+
+	private boolean isSameState()
+	{
+		if ((m_state == m_previousState) && (m_stateProperty.equals(m_previousStateProperty)))
+			return true;
+		return false;
+	}
+
+	private void setAnimationOffset(
+			final Animation _currentAnimation)
+	{
+		if ((m_state == BodyState.CLIMBING) || (m_state == BodyState.DIGGING)
+				|| (m_state == BodyState.NORMAL))
+		{
+			int offset = (int) Math.signum(m_speed.x()) + 1;
+			_currentAnimation.setOffset(offset);
+		}
+	}
+
+	private void updateSprite(
+			final Animation currentAnimation)
+	{
+		/* Resets the animation to a new frame and resets time. */
+		currentAnimation.resetAnimationFrame();
+
+		/* Sets offset depending on the properties. */
+		setAnimationOffset(currentAnimation);
+
+		/*
+		 * Gets the new sprite coords in function of index and frame
+		 * gap.
+		 */
+		Vector2i spritePos = currentAnimation.getCoords();
+
+		/* Sets the new Sprite. */
+		m_sprite.setTextureRect(spritePos.x(), spritePos.y(), UtilsLemmings.s_lemmingEntityWidth,
+				UtilsLemmings.s_LemmingEntityHeight);
+	}
+
 }
