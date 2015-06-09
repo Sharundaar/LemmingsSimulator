@@ -7,6 +7,7 @@ import java.util.List;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
 
 import fr.utbm.vi51.group11.lemmings.model.Simulation;
+import fr.utbm.vi51.group11.lemmings.model.agent.ShortTermAgent.ShortTermAgentOrder;
 import fr.utbm.vi51.group11.lemmings.utils.enums.InfluenceType;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
 import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
@@ -19,6 +20,18 @@ public class KeyboardAgent extends Agent implements KeyListener
 	boolean	m_rightPressed	= false;
 	boolean	m_leftPressed	= false;
 	boolean	m_downPressed	= false;
+	
+	boolean m_lPressed = false;
+	
+	ShortTermAgent m_shortAgent = new ShortTermAgent();
+	
+	@Override
+	public void setBody(fr.utbm.vi51.group11.lemmings.utils.interfaces.IControllable _body) 
+	{
+		super.setBody(_body);
+		m_shortAgent.setBody(_body);
+		m_shortAgent.enable(true);
+	}
 
 	@Override
 	public void live(
@@ -29,16 +42,27 @@ public class KeyboardAgent extends Agent implements KeyListener
 
 		Vector2f speed = new Vector2f();
 
-		if (m_rightPressed)
-			speed.setX(UtilsLemmings.s_lemmingMaxVelocity);
-		else if (m_leftPressed)
-			speed.setX(-UtilsLemmings.s_lemmingMaxVelocity);
+		if (m_rightPressed && m_shortAgent.isCurrentOrderComplete())
+		{
+			m_shortAgent.setOrder(ShortTermAgentOrder.GO_RIGHT);
+		}
+		else if (m_leftPressed && m_shortAgent.isCurrentOrderComplete())
+		{
+			m_shortAgent.setOrder(ShortTermAgentOrder.GO_LEFT);	
+		}
 
 		if (m_upPressed)
-			speed.setY(-UtilsLemmings.s_maximumClimbingSpeed);
+			speed.setY(UtilsLemmings.s_maximumClimbingSpeed);
+		
+		if(m_lPressed)
+		{
+			m_shortAgent.setOrder(ShortTermAgentOrder.GO_LEFT);
+			m_lPressed = false;
+		}
 
-		m_body.addInfluence(new Influence(InfluenceType.SPEED, speed));
-		// Simulation.s_LOGGER.debug("BodyState: {}.", m_body.getState());
+		m_shortAgent.live(_dt);
+		// m_body.addInfluence(new Influence(InfluenceType.SPEED, speed));
+		Simulation.s_LOGGER.debug("BodyState: {}.", m_body.getState());
 	}
 
 	@Override
@@ -71,6 +95,9 @@ public class KeyboardAgent extends Agent implements KeyListener
 			m_leftPressed = false;
 		if (arg0.getKeyCode() == KeyEvent.VK_UP)
 			m_upPressed = false;
+		
+		if (arg0.getKeyCode() == KeyEvent.VK_L)
+			m_lPressed = true;
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package fr.utbm.vi51.group11.lemmings.model.map;
+package fr.utbm.vi51.group11.lemmings.model.entity.immobile.map;
 
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 import fr.utbm.vi51.group11.lemmings.utils.enums.CellType;

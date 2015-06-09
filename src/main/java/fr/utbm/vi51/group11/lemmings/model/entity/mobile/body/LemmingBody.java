@@ -102,4 +102,14 @@ public class LemmingBody extends Body implements ICollidable
 
 		return false; // TODO
 	}
+	
+	public Point2f getCenterCoordinates()
+	{
+		return new Point2f(m_worldCoords.getX() + UtilsLemmings.s_lemmingDefaultWidth / 2.0f, m_worldCoords.getY() + UtilsLemmings.s_LemmingDefaultHeight / 2.0f);
+	}
+	
+	public Point2f getWorldCoordinates()
+	{
+		return new Point2f(m_worldCoords);
+	}
 }

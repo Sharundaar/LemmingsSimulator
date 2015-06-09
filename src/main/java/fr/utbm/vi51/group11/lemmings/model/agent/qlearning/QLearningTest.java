@@ -13,8 +13,8 @@ import org.encog.ml.world.learning.q.QLearning;
 
 import fr.utbm.vi51.group11.lemmings.model.Simulation;
 import fr.utbm.vi51.group11.lemmings.model.entity.immobile.LevelEnd;
+import fr.utbm.vi51.group11.lemmings.model.entity.immobile.map.Map;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.BodyState;
-import fr.utbm.vi51.group11.lemmings.model.map.Map;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 
