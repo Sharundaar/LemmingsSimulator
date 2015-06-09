@@ -11,7 +11,7 @@ public class Sprite implements ITextureHandler
 {
 	private Texture				m_texture;
 
-	private final Rectangle2i	m_spriteRect;
+	private Rectangle2i			m_spriteRect;
 
 	private final Rectangle2f	m_worldRect;
 
@@ -47,7 +47,7 @@ public class Sprite implements ITextureHandler
 			final int _textureWidth,
 			final int _textureHeight)
 	{
-		m_spriteRect.set(_textureX, _textureY, _textureWidth, _textureHeight);
+		m_spriteRect = new Rectangle2i(_textureX, _textureY, _textureWidth, _textureHeight);
 	}
 
 	public Rectangle2i getSpriteRect()

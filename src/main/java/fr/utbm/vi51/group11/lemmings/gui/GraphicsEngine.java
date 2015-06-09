@@ -16,6 +16,7 @@ import org.arakhne.afc.math.discrete.object2d.Rectangle2i;
 import fr.utbm.vi51.group11.lemmings.gui.texture.Sprite;
 import fr.utbm.vi51.group11.lemmings.model.Environment;
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
+import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
 import fr.utbm.vi51.group11.lemmings.model.physics.collidingobjects.CollidingObjects;
 import fr.utbm.vi51.group11.lemmings.model.physics.quadtree.QuadTree;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CircleShape;
@@ -185,6 +186,8 @@ public class GraphicsEngine extends JPanel
 	{
 		for (WorldEntity e : m_environnement.m_worldEntities)
 		{
+			if (e instanceof LemmingBody)
+				System.out.println("ldfk,vdfklf");
 			drawSprite(e.getSprite(), _g);
 		}
 	}

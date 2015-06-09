@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import fr.utbm.vi51.group11.lemmings.gui.texture.Animation;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.DynamicEntity;
+import fr.utbm.vi51.group11.lemmings.utils.enums.AnimationState;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IControllable;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
 import fr.utbm.vi51.group11.lemmings.utils.misc.Frustrum;
@@ -213,6 +214,7 @@ public abstract class Body extends DynamicEntity implements IControllable
 			case CLIMBING:
 				break;
 			case NORMAL:
+
 				break;
 			default:
 				break;
@@ -224,56 +226,127 @@ public abstract class Body extends DynamicEntity implements IControllable
 	public void updateAnimation(
 			final long _dt)
 	{
-		/* Sets offset depending on the properties. */
-		// setAnimationOffset(m_currentAnimation);
-
-		/* Same animation state as precedent update. */
-		if (isSameState())
+		/* Same animation state and same properties as precedent update. */
+		if (isSameBodyState())
 		{
-			/* Time exceeds for one Animation frame => change sprite. */
-			if (m_currentAnimation.exceedsAnimationTime(_dt))
-			{
-				/* Resets the animation to a new frame and resets time. */
-				m_currentAnimation.updateAnimationFrame();
+			handleSameAnimation(_dt);
 
-				/*
-				 * Gets the new sprite coords in function of index and frame
-				 * gap.
-				 */
-				Vector2i spritePos = m_currentAnimation.getCoords();
-
-				/* Sets the new Sprite. */
-				m_sprite.setTextureRect(spritePos.x(), spritePos.y(),
-						UtilsLemmings.s_lemmingSpriteWidth, UtilsLemmings.s_lemmingSpriteHeight);
-
-				/* Still within frame animation time limit. */
-			} else
-			{
-				m_currentAnimation.incrementTime(_dt);
-			}
-
-			/* New animation state. */
+			/* Different animation. */
 		} else
 		{
-			/* Resets the animation to a new frame and resets time. */
-			m_currentAnimation.resetAnimationFrame();
-
-			/*
-			 * Gets the new sprite coords in function of index and frame
-			 * gap.
-			 */
-			Vector2i spritePos = m_currentAnimation.getCoords();
-
-			/* Sets the new Sprite. */
-			m_sprite.setTextureRect(spritePos.x(), spritePos.y(),
-					UtilsLemmings.s_lemmingSpriteWidth, UtilsLemmings.s_lemmingSpriteHeight);
+			handleNewStateAnimation();
 		}
 	}
 
-	private boolean isSameState()
+	private void handleSameAnimation(
+			final long _dt)
 	{
-		if ((m_state == m_previousState) && (m_stateProperty.equals(m_previousStateProperty)))
-			return true;
-		return false;
+		/* Time exceeds for one Animation frame => change sprite. */
+		if (m_currentAnimation.exceedsAnimationTime(_dt))
+		{
+			/* Resets the animation to a new frame and resets time. */
+			m_currentAnimation.updateAnimationFrame();
+
+			updateSprite();
+
+			/* Still within frame animation time limit. */
+		} else
+		{
+			m_currentAnimation.incrementTime(_dt);
+		}
+	}
+
+	private void handleNewStateAnimation()
+	{
+		/* Resets the animation to a new frame and resets time. */
+		for (Animation a : m_animations.get(m_previousState))
+			a.resetAnimationFrame();
+
+		m_currentAnimation = resolveBodyStateAnimationConflict();
+
+		updateSprite();
+	}
+
+	private Animation resolveBodyStateAnimationConflict()
+	{
+		List<Animation> animationList = m_animations.get(m_state);
+
+		int signX = (int) Math.signum(m_speed.x());
+		int signY = (int) Math.signum(m_speed.y());
+
+		switch (m_state)
+		{
+			case CLIMBING:
+				if ((signX == -1) && (signY == -1))
+					return getAnimationFromState(animationList, AnimationState.CLIMBING_LEFT);
+				else if ((signX == -1) && (signY == 0))
+					return getAnimationFromState(animationList, AnimationState.CLIMBING_LEFT_IDLE);
+				else if ((signX == 1) && (signY == -1))
+					return getAnimationFromState(animationList, AnimationState.CLIMBING_RIGHT);
+				else if ((signX == 1) && (signY == 0))
+					return getAnimationFromState(animationList, AnimationState.CLIMBING_RIGHT_IDLE);
+			case DIGGING:
+				if (signX == -1)
+					return getAnimationFromState(animationList, AnimationState.DIGGING_LEFT);
+				else if (signX == 0)
+					return getAnimationFromState(animationList, AnimationState.DIGGING_DOWN);
+				else
+					return getAnimationFromState(animationList, AnimationState.DIGGING_RIGHT);
+			case FALLING:
+				if (m_stateProperty.m_chuteOpen)
+					return getAnimationFromState(animationList, AnimationState.FALLING_UMBRELLA);
+				else
+					return getAnimationFromState(animationList, AnimationState.FALLING_FREE);
+			case NORMAL:
+				if (signX == -1)
+					return getAnimationFromState(animationList, AnimationState.WALKING_LEFT);
+				else if (signX == 0)
+					return getAnimationFromState(animationList, AnimationState.IDLE);
+				else
+					return getAnimationFromState(animationList, AnimationState.WALKING_RIGHT);
+			case DEAD:
+				return animationList.get(0);
+		}
+		return null;
+	}
+
+	public Animation getAnimationFromState(
+			final List<Animation> _list,
+			final AnimationState _state)
+	{
+		for (int i = 0; i < _list.size(); ++i)
+			if (_list.get(i).equals(_state))
+				return _list.get(i);
+		return null;
+	}
+
+	private void updateSprite()
+	{
+		/*
+		 * Gets the new sprite coords in function of index and frame
+		 * gap.
+		 */
+		Vector2i spritePos = m_currentAnimation.getCoords();
+
+		/* Sets the new Sprite. */
+		m_sprite.setTextureRect(spritePos.x(), spritePos.y(), UtilsLemmings.s_lemmingSpriteWidth,
+				UtilsLemmings.s_lemmingSpriteHeight);
+
+		System.out.println(m_sprite.getWidth());
+		System.out.println(m_sprite.getHeight());
+		System.out.println(m_sprite.getSpriteRect().getMaxX() + ""
+				+ m_sprite.getSpriteRect().getMaxY());
+		System.out.println(m_sprite.getSpriteRect().getMinX() + ""
+				+ m_sprite.getSpriteRect().getMinY());
+	}
+
+	private boolean isSameBodyState()
+	{
+		return (m_state == m_previousState);
+	}
+
+	private boolean isSameStateProperties()
+	{
+		return (m_state == m_previousState) && (m_stateProperty.equals(m_previousStateProperty));
 	}
 }

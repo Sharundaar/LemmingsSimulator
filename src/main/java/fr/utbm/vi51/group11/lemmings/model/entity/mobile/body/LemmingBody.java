@@ -14,6 +14,7 @@ import fr.utbm.vi51.group11.lemmings.model.Environment;
 import fr.utbm.vi51.group11.lemmings.model.physics.properties.CollisionProperty;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
+import fr.utbm.vi51.group11.lemmings.utils.enums.AnimationState;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.ICollidable;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
@@ -39,21 +40,7 @@ public class LemmingBody extends Body implements ICollidable
 
 		/* Fills the animation list. */
 		m_animations = new MultivaluedMapImpl<BodyState, Animation>();
-		for (BodyState state : BodyState.values())
-		{
-			/* Several animations for one state. */
-			if ((state == BodyState.CLIMBING) || (state == BodyState.DIGGING)
-					|| (state == BodyState.NORMAL))
-			{
-				for (int i = 0; i < 3; ++i)
-					m_animations.add(state, new Animation(state, i));
-
-				/* One animation for one state. */
-			} else
-			{
-				m_animations.add(state, new Animation(state, 0));
-			}
-		}
+		fillAnimationMap();
 
 		m_alive = false;
 		m_worldCoords = _worldCoords;
@@ -85,6 +72,12 @@ public class LemmingBody extends Body implements ICollidable
 		m_mass = UtilsLemmings.s_lemmingMass;
 
 		s_LOGGER.debug("Lemming Body created.");
+	}
+
+	private void fillAnimationMap()
+	{
+		for (AnimationState state : AnimationState.values())
+			m_animations.add(state.getBodyState(), new Animation(state));
 	}
 
 	/*----------------------------------------------*/
