@@ -2,7 +2,8 @@ package fr.utbm.vi51.group11.lemmings.model.entity.mobile.body;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+
+import javax.ws.rs.core.MultivaluedMap;
 
 import org.arakhne.afc.math.discrete.object2d.Vector2i;
 import org.slf4j.Logger;
@@ -31,29 +32,32 @@ public abstract class Body extends DynamicEntity implements IControllable
 {
 	/** Logger of the class */
 	@SuppressWarnings("unused")
-	private final static Logger			s_LOGGER	= LoggerFactory.getLogger(Body.class);
+	private final static Logger						s_LOGGER	= LoggerFactory
+																		.getLogger(Body.class);
 
 	/** Tells of the body is alive or not. */
-	protected boolean					m_alive;
+	protected boolean								m_alive;
 
 	/** Field of perception of the body */
-	protected Frustrum					m_frustrum;
+	protected Frustrum								m_frustrum;
 
 	/** Influences given by the agent to perform */
-	protected LinkedList<Influence>		m_influences;
+	protected LinkedList<Influence>					m_influences;
 
 	/** State */
-	protected BodyState					m_state;
+	protected BodyState								m_state;
 
 	/** State property */
-	protected BodyStateProperty			m_stateProperty;
+	protected BodyStateProperty						m_stateProperty;
 
-	protected BodyState					m_previousState;
+	protected BodyState								m_previousState;
 
 	/** State property */
-	protected BodyStateProperty			m_previousStateProperty;
+	protected BodyStateProperty						m_previousStateProperty;
 
-	protected Map<BodyState, Animation>	m_animations;
+	protected MultivaluedMap<BodyState, Animation>	m_animations;
+
+	protected Animation								m_currentAnimation;
 
 	/*----------------------------------------------*/
 
@@ -92,7 +96,7 @@ public abstract class Body extends DynamicEntity implements IControllable
 		return perception;
 	}
 
-	public Map<BodyState, Animation> getAnimations()
+	public MultivaluedMap<BodyState, Animation> getAnimations()
 	{
 		return m_animations;
 	}
@@ -220,26 +224,49 @@ public abstract class Body extends DynamicEntity implements IControllable
 	public void updateAnimation(
 			final long _dt)
 	{
-		Animation currentAnimation = m_animations.get(m_state);
+		/* Sets offset depending on the properties. */
+		// setAnimationOffset(m_currentAnimation);
 
 		/* Same animation state as precedent update. */
 		if (isSameState())
 		{
 			/* Time exceeds for one Animation frame => change sprite. */
-			if (currentAnimation.exceedsAnimationTime(_dt))
+			if (m_currentAnimation.exceedsAnimationTime(_dt))
 			{
-				updateSprite(currentAnimation);
+				/* Resets the animation to a new frame and resets time. */
+				m_currentAnimation.updateAnimationFrame();
+
+				/*
+				 * Gets the new sprite coords in function of index and frame
+				 * gap.
+				 */
+				Vector2i spritePos = m_currentAnimation.getCoords();
+
+				/* Sets the new Sprite. */
+				m_sprite.setTextureRect(spritePos.x(), spritePos.y(),
+						UtilsLemmings.s_lemmingSpriteWidth, UtilsLemmings.s_lemmingSpriteHeight);
 
 				/* Still within frame animation time limit. */
 			} else
 			{
-				currentAnimation.incrementTime(_dt);
+				m_currentAnimation.incrementTime(_dt);
 			}
 
 			/* New animation state. */
 		} else
 		{
-			updateSprite(currentAnimation);
+			/* Resets the animation to a new frame and resets time. */
+			m_currentAnimation.resetAnimationFrame();
+
+			/*
+			 * Gets the new sprite coords in function of index and frame
+			 * gap.
+			 */
+			Vector2i spritePos = m_currentAnimation.getCoords();
+
+			/* Sets the new Sprite. */
+			m_sprite.setTextureRect(spritePos.x(), spritePos.y(),
+					UtilsLemmings.s_lemmingSpriteWidth, UtilsLemmings.s_lemmingSpriteHeight);
 		}
 	}
 
@@ -249,36 +276,4 @@ public abstract class Body extends DynamicEntity implements IControllable
 			return true;
 		return false;
 	}
-
-	private void setAnimationOffset(
-			final Animation _currentAnimation)
-	{
-		if ((m_state == BodyState.CLIMBING) || (m_state == BodyState.DIGGING)
-				|| (m_state == BodyState.NORMAL))
-		{
-			int offset = (int) Math.signum(m_speed.x()) + 1;
-			_currentAnimation.setOffset(offset);
-		}
-	}
-
-	private void updateSprite(
-			final Animation currentAnimation)
-	{
-		/* Resets the animation to a new frame and resets time. */
-		currentAnimation.resetAnimationFrame();
-
-		/* Sets offset depending on the properties. */
-		setAnimationOffset(currentAnimation);
-
-		/*
-		 * Gets the new sprite coords in function of index and frame
-		 * gap.
-		 */
-		Vector2i spritePos = currentAnimation.getCoords();
-
-		/* Sets the new Sprite. */
-		m_sprite.setTextureRect(spritePos.x(), spritePos.y(), UtilsLemmings.s_lemmingEntityWidth,
-				UtilsLemmings.s_LemmingEntityHeight);
-	}
-
 }

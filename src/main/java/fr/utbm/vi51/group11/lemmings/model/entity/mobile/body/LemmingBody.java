@@ -1,10 +1,10 @@
 package fr.utbm.vi51.group11.lemmings.model.entity.mobile.body;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
+import org.jboss.resteasy.specimpl.MultivaluedMapImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,16 +37,30 @@ public class LemmingBody extends Body implements ICollidable
 
 		m_type = WorldEntityEnum.LEMMING_BODY;
 
-		m_animations = new HashMap<BodyState, Animation>();
+		/* Fills the animation list. */
+		m_animations = new MultivaluedMapImpl<BodyState, Animation>();
 		for (BodyState state : BodyState.values())
-			m_animations.put(state, new Animation(state));
+		{
+			/* Several animations for one state. */
+			if ((state == BodyState.CLIMBING) || (state == BodyState.DIGGING)
+					|| (state == BodyState.NORMAL))
+			{
+				for (int i = 0; i < 3; ++i)
+					m_animations.add(state, new Animation(state, i));
+
+				/* One animation for one state. */
+			} else
+			{
+				m_animations.add(state, new Animation(state, 0));
+			}
+		}
 
 		m_alive = false;
 		m_worldCoords = _worldCoords;
 
 		m_collisionMask = new CollisionMask(m_worldCoords);
 		m_collisionMask.addChild(new RectangleShape(UtilsLemmings.s_lemmingEntityWidth,
-				UtilsLemmings.s_LemmingEntityHeight, null));
+				UtilsLemmings.s_lemmingEntityHeight, null));
 
 		CollisionProperty cp = new CollisionProperty();
 		cp.setEntity(this);
@@ -57,13 +71,14 @@ public class LemmingBody extends Body implements ICollidable
 		m_environment = _environment;
 		// TODO world entity shapes
 		m_sprite = new Sprite(m_worldCoords.x(), m_worldCoords.y(),
-				UtilsLemmings.s_lemmingEntityWidth, UtilsLemmings.s_LemmingEntityHeight, 0, 0,
-				UtilsLemmings.s_lemmingEntityWidth, UtilsLemmings.s_LemmingEntityHeight, _textureID);
+				UtilsLemmings.s_lemmingEntityWidth, UtilsLemmings.s_lemmingEntityHeight, _textureID);
 
 		m_state = BodyState.NORMAL;
 		m_previousState = BodyState.NORMAL;
 		m_stateProperty = new BodyStateProperty();
 		m_previousStateProperty = new BodyStateProperty();
+		m_currentAnimation = m_animations.get(m_state).get(1);
+		updateAnimation(0);
 
 		m_influences = new LinkedList<Influence>();
 
@@ -107,7 +122,7 @@ public class LemmingBody extends Body implements ICollidable
 	public Point2f getCenterCoordinates()
 	{
 		return new Point2f(m_worldCoords.getX() + (UtilsLemmings.s_lemmingEntityWidth / 2.0f),
-				m_worldCoords.getY() + (UtilsLemmings.s_LemmingEntityHeight / 2.0f));
+				m_worldCoords.getY() + (UtilsLemmings.s_lemmingEntityHeight / 2.0f));
 	}
 
 	@Override

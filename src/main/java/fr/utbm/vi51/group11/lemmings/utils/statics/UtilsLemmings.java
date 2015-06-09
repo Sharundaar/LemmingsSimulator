@@ -4,10 +4,10 @@ public class UtilsLemmings
 {
 	/** Default size of a lemming */
 	public final static int		s_lemmingEntityWidth			= 30;
-	public final static int		s_LemmingEntityHeight			= 30;
+	public final static int		s_lemmingEntityHeight			= 30;
 
-	public final static int		s_lemminSpriteWidth				= 27;
-	public final static int		s_LemmingSpriteHeight			= 26;
+	public final static int		s_lemmingSpriteWidth			= 28;
+	public final static int		s_lemmingSpriteHeight			= 28;
 
 	/** Default size of the entry */
 	public final static int		s_entryDefaultWidth				= 64;
