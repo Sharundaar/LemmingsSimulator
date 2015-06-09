@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import fr.utbm.vi51.group11.lemmings.gui.texture.Animation;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.DynamicEntity;
-import fr.utbm.vi51.group11.lemmings.utils.enums.AnimationState;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IControllable;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
 import fr.utbm.vi51.group11.lemmings.utils.misc.Frustrum;
@@ -32,27 +31,26 @@ public abstract class Body extends DynamicEntity implements IControllable
 {
 	/** Logger of the class */
 	@SuppressWarnings("unused")
-	private final static Logger					s_LOGGER	= LoggerFactory.getLogger(Body.class);
+	private final static Logger			s_LOGGER	= LoggerFactory.getLogger(Body.class);
 
 	/** Tells of the body is alive or not. */
-	protected boolean							m_alive;
+	protected boolean					m_alive;
 
 	/** Field of perception of the body */
-	protected Frustrum							m_frustrum;
+	protected Frustrum					m_frustrum;
 
 	/** Influences given by the agent to perform */
-	protected LinkedList<Influence>				m_influences;
+	protected LinkedList<Influence>		m_influences;
 
 	/** State */
-	protected BodyState							m_state;
+	protected BodyState					m_state;
 
 	/** State property */
-	protected BodyStateProperty					m_stateProperty;
+	protected BodyStateProperty			m_stateProperty;
 
-	protected Map<AnimationState, Animation>	m_animations;
+	protected BodyState					m_previousState;
 
-	protected AnimationState					m_currentAnimationState;
-	protected AnimationState					m_previousAnimationState;
+	protected Map<BodyState, Animation>	m_animations;
 
 	/*----------------------------------------------*/
 
@@ -91,7 +89,7 @@ public abstract class Body extends DynamicEntity implements IControllable
 		return perception;
 	}
 
-	public Map<AnimationState, Animation> getAnimations()
+	public Map<BodyState, Animation> getAnimations()
 	{
 		return m_animations;
 	}
@@ -102,26 +100,15 @@ public abstract class Body extends DynamicEntity implements IControllable
 		return m_influences;
 	}
 
-	public AnimationState getCurrentAnimationState()
+	public BodyState getPreviousBodyState()
 	{
-		return m_currentAnimationState;
+		return m_previousState;
 	}
 
-	public void setCurrentAnimationState(
-			final AnimationState _animationState)
+	public void setPreviousBodyState(
+			final BodyState _BodyState)
 	{
-		m_currentAnimationState = _animationState;
-	}
-
-	public AnimationState getPreviousAnimationState()
-	{
-		return m_previousAnimationState;
-	}
-
-	public void setPreviousAnimationState(
-			final AnimationState _animationState)
-	{
-		m_previousAnimationState = _animationState;
+		m_previousState = _BodyState;
 	}
 
 	/*----------------------------------------------*/
@@ -225,10 +212,19 @@ public abstract class Body extends DynamicEntity implements IControllable
 	public void updateAnimation(
 			final long _dt)
 	{
-		if (m_currentAnimationState == m_previousAnimationState)
-			if (!m_animations.get(m_currentAnimationState).incrementTime(_dt))
+		if (m_state == m_previousState)
+			if (!m_animations.get(m_state).incrementTime(_dt))
 			{
-				Vector2i spritePos = m_animations.get(m_currentAnimationState).getCoords();
+				Vector2i spritePos = m_animations.get(m_state).getCoords();
+				switch (m_state)
+				{
+					case NORMAL:
+						break;
+					case DIGGING:
+						break;
+					case CLIMBING:
+						break;
+				}
 				m_sprite.setTextureRect(spritePos.x(), spritePos.y(),
 						UtilsLemmings.s_lemmingEntityWidth, UtilsLemmings.s_LemmingEntityHeight);
 			}

@@ -14,7 +14,6 @@ import fr.utbm.vi51.group11.lemmings.model.Environment;
 import fr.utbm.vi51.group11.lemmings.model.physics.properties.CollisionProperty;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
-import fr.utbm.vi51.group11.lemmings.utils.enums.AnimationState;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.ICollidable;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
@@ -38,11 +37,11 @@ public class LemmingBody extends Body implements ICollidable
 
 		m_type = WorldEntityEnum.LEMMING_BODY;
 
-		m_animations = new HashMap<AnimationState, Animation>();
-		for (AnimationState state : AnimationState.values())
+		m_animations = new HashMap<BodyState, Animation>();
+		for (BodyState state : BodyState.values())
 			m_animations.put(state, new Animation(state));
-		m_currentAnimationState = AnimationState.BLOCK;
-		m_previousAnimationState = AnimationState.BLOCK;
+		m_state = BodyState.NORMAL;
+		m_previousState = BodyState.NORMAL;
 
 		m_alive = false;
 		m_worldCoords = _worldCoords;

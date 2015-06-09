@@ -2,7 +2,7 @@ package fr.utbm.vi51.group11.lemmings.gui.texture;
 
 import org.arakhne.afc.math.discrete.object2d.Vector2i;
 
-import fr.utbm.vi51.group11.lemmings.utils.enums.AnimationState;
+import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.BodyState;
 import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 
 public class Animation
@@ -14,7 +14,7 @@ public class Animation
 	private float			m_currentTime;
 	private int				m_index;
 
-	public Animation(final AnimationState _state)
+	public Animation(final BodyState _state)
 	{
 		m_frameGap = UtilsLemmings.s_lemmingSpriteSheetPixelGap;
 		m_currentTime = 0;
@@ -26,33 +26,26 @@ public class Animation
 				m_nbFrames = 1;
 				m_spriteSheetCoord = new Vector2i(m_frameGap * 4, m_frameGap * 0);
 				break;
-			case BLOCK:
-				m_nbFrames = 2;
-				m_spriteSheetCoord = new Vector2i(m_frameGap * 0, m_frameGap * 0);
-				break;
-			case DIG_DOWN:
+			// case BLOCK:
+			// m_nbFrames = 2;
+			// m_spriteSheetCoord = new Vector2i(m_frameGap * 0, m_frameGap *
+			// 0);
+			// break;
+			case DIGGING:
 				m_nbFrames = 2;
 				m_spriteSheetCoord = new Vector2i(m_frameGap * 0, m_frameGap * 1);
 				break;
-			case DIG_LEFT:
-				m_nbFrames = 2;
-				m_spriteSheetCoord = new Vector2i(m_frameGap * 2, m_frameGap * 2);
-				break;
-			case DIG_RIGHT:
+			case NORMAL:
 				m_nbFrames = 2;
 				m_spriteSheetCoord = new Vector2i(m_frameGap * 0, m_frameGap * 2);
 				break;
-			case WALK_LEFT:
+			case FALLING:
 				m_nbFrames = 2;
-				m_spriteSheetCoord = new Vector2i(m_frameGap * 4, m_frameGap * 1);
+				m_spriteSheetCoord = new Vector2i(m_frameGap * 0, m_frameGap * 3);
 				break;
-			case WALK_RIGHT:
+			case CLIMBING:
 				m_nbFrames = 2;
-				m_spriteSheetCoord = new Vector2i(m_frameGap * 2, m_frameGap * 1);
-				break;
-			case UMBRELLA:
-				m_nbFrames = 2;
-				m_spriteSheetCoord = new Vector2i(m_frameGap * 0, m_frameGap * 2);
+				m_spriteSheetCoord = new Vector2i(m_frameGap * 0, m_frameGap * 4);
 				break;
 
 			default:
