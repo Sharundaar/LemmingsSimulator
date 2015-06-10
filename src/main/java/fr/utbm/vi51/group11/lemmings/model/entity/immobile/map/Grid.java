@@ -41,7 +41,8 @@ public class Grid
 			for (int j = 0; j < _colNb; ++j)
 			{
 				m_cells[j][i] = new Cell(j, i);
-				m_cells[j][i].setCellType(CellType.valueOf(_tileGrid[j][i]));
+				int c = _tileGrid[j][i];
+				m_cells[j][i].setCellType(CellType.valueOf(c));
 			}
 
 		s_LOGGER.debug("Grid created.");

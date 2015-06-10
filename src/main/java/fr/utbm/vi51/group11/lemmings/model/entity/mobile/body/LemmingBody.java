@@ -61,10 +61,10 @@ public class LemmingBody extends Body implements ICollidable
 				UtilsLemmings.s_lemmingEntityWidth, UtilsLemmings.s_lemmingEntityHeight, _textureID);
 
 		m_state = BodyState.NORMAL;
-		m_previousState = BodyState.NORMAL;
 		m_stateProperty = new BodyStateProperty();
-		m_previousStateProperty = new BodyStateProperty();
 		m_currentAnimation = m_animations.get(m_state).get(1);
+		m_currentAnimation.setBodyState(m_state);
+		m_currentAnimation.setBodyStateProperty(m_stateProperty);
 		updateAnimation(0);
 
 		m_influences = new LinkedList<Influence>();

@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
-import org.arakhne.afc.math.continous.object2d.Vector2f;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +44,7 @@ public class Environment
 																							.getLogger(Environment.class);
 
 	/** Time of the environment in milliseconds */
-	private long									m_environmentTime;
+	private long										m_environmentTime;
 
 	/** The Map */
 	private final Map									m_map;
@@ -64,21 +63,23 @@ public class Environment
 
 	/** Influence solver */
 	private final InfluenceSolver						m_influenceSolver;
-	
+
 	private final LinkedList<IEntityDestroyedListener>	m_entityDestroyedListener	= new LinkedList<IEntityDestroyedListener>();
 
-	private final LinkedList<BodyStateChangeRequest> m_changeBodyStateRequest = new LinkedList<Environment.BodyStateChangeRequest>();
-	
+	private final LinkedList<BodyStateChangeRequest>	m_changeBodyStateRequest	= new LinkedList<Environment.BodyStateChangeRequest>();
+
 	class BodyStateChangeRequest
 	{
-		public BodyStateChangeRequest(Body _body, BodyState _state) {
+		public BodyStateChangeRequest(final Body _body, final BodyState _state)
+		{
 			m_body = _body;
 			m_newState = _state;
 		}
-		public Body m_body;
-		public BodyState m_newState;
+
+		public Body			m_body;
+		public BodyState	m_newState;
 	}
-	
+
 	/*----------------------------------------------*/
 	public Environment(final LevelProperties _currentLevelProperties, final List<Agent> _agents,
 			final Simulation _simulator)
@@ -130,26 +131,27 @@ public class Environment
 
 		s_LOGGER.debug("Environment created.");
 	}
-	
+
 	/*----------------------------------------------*/
 	public void updateSpeed()
 	{
-		
+
 	}
 
 	/*----------------------------------------------*/
 	public LevelEnd getFirstLevelEnd()
 	{
-		for(WorldEntity ent : m_worldEntities)
+		for (WorldEntity ent : m_worldEntities)
 		{
-			if(ent.getType() == WorldEntityEnum.LEVEL_END)
-				return (LevelEnd)ent;
+			if (ent.getType() == WorldEntityEnum.LEVEL_END)
+				return (LevelEnd) ent;
 		}
 		return null;
 	}
-	
+
 	/*----------------------------------------------*/
-	public void sendEntityDetroyedEvent(WorldEntity _ent)
+	public void sendEntityDetroyedEvent(
+			final WorldEntity _ent)
 	{
 		for (IEntityDestroyedListener listener : m_entityDestroyedListener)
 			listener.onEntityDestroyed(_ent);
@@ -239,27 +241,27 @@ public class Environment
 	{
 		// TODO
 		m_environmentTime += _dt;
-		
+
 		LinkedList<Body> bodies = new LinkedList<Body>();
-		for(WorldEntity ent : m_worldEntities)
+		for (WorldEntity ent : m_worldEntities)
 		{
-			if(ent.getType() == WorldEntityEnum.LEMMING_BODY)
-				bodies.add((Body)ent);
+			if (ent.getType() == WorldEntityEnum.LEMMING_BODY)
+				bodies.add((Body) ent);
 		}
 		m_influenceSolver.solveInfluence(bodies);
-		
+
 		m_physicEngine.applyExternForces(_dt);
 		updateSpeed(bodies);
 		m_physicEngine.computeMovements(_dt);
 		m_physicEngine.updateQuadTree();
 		m_physicEngine.solveCollisions();
 		m_physicEngine.updateSpeed(bodies);
-		
+
 		updateBodyStates(bodies);
 
 		updateAnimations(_dt);
 	}
-	
+
 	/*----------------------------------------------*/
 	public void updateSpeed(
 			final LinkedList<Body> _bodies)
@@ -331,8 +333,8 @@ public class Environment
 						if (body.getStateProperty().m_chuteOpen)
 						{
 							body.setState(BodyState.NORMAL, new BodyStateProperty());
-						} else if ((Math.abs(body.getStateProperty().m_fallHeight - body.getCoordinates()
-								.getY())) <= UtilsLemmings.s_maximumFallingHeight)
+						} else if ((Math.abs(body.getStateProperty().m_fallHeight
+								- body.getCoordinates().getY())) <= UtilsLemmings.s_maximumFallingHeight)
 						{
 							body.setState(BodyState.NORMAL, new BodyStateProperty());
 						} else
@@ -360,22 +362,20 @@ public class Environment
 						body.setState(BodyState.FALLING, fallingState);
 					}
 					break;
-					
+
 				case DIGGING:
-					if(!m_physicEngine.isGrounded(body))
+					if (!m_physicEngine.isGrounded(body))
 					{
 						BodyStateProperty fallingState = new BodyStateProperty();
 						fallingState.m_chuteOpen = false;
 						fallingState.m_fallHeight = body.getCoordinates().getY();
 						body.setState(BodyState.FALLING, fallingState);
-					}
-					else
+					} else
 					{
-						if(!canDigCell(body, body.getStateProperty().m_diggingDirection))
+						if (!canDigCell(body, body.getStateProperty().m_diggingDirection))
 						{
 							body.setState(BodyState.NORMAL, new BodyStateProperty());
-						}
-						else if(getEnvironmentTime() - body.getStateProperty().m_diggingStart >= UtilsLemmings.s_diggingSpeed)
+						} else if ((getEnvironmentTime() - body.getStateProperty().m_diggingStart) >= UtilsLemmings.s_diggingSpeed)
 						{
 							digCell(body, body.getStateProperty().m_diggingDirection);
 						}
@@ -390,83 +390,97 @@ public class Environment
 
 			}
 		}
-		
-		for(BodyStateChangeRequest request : m_changeBodyStateRequest)
+
+		for (BodyStateChangeRequest request : m_changeBodyStateRequest)
 		{
-			switch(request.m_newState)
+			switch (request.m_newState)
 			{
-			case DIGGING:
-				if(request.m_body.getState() == BodyState.NORMAL && canDigCell(request.m_body, DigDirection.BOTTOM))
-				{
-					BodyStateProperty newProp = new BodyStateProperty();
-					newProp.m_diggingDirection = DigDirection.BOTTOM;
-					newProp.m_diggingStart = getEnvironmentTime();
-					request.m_body.setState(BodyState.DIGGING, newProp);
-				}
-				else if(request.m_body.getState() == BodyState.CLIMBING && request.m_body.getSpeed().getY() >= 0)
-				{
-					if(request.m_body.getSpeed().getX() > 0 && canDigCell(request.m_body, DigDirection.RIGHT))
+				case DIGGING:
+					if ((request.m_body.getState() == BodyState.NORMAL)
+							&& canDigCell(request.m_body, DigDirection.BOTTOM))
 					{
 						BodyStateProperty newProp = new BodyStateProperty();
-						newProp.m_diggingDirection = DigDirection.RIGHT;
+						newProp.m_diggingDirection = DigDirection.BOTTOM;
 						newProp.m_diggingStart = getEnvironmentTime();
 						request.m_body.setState(BodyState.DIGGING, newProp);
-						request.m_body.setMass(UtilsLemmings.s_lemmingMass);
-					}
-					else if(request.m_body.getSpeed().getX() < 0 && canDigCell(request.m_body, DigDirection.LEFT))
+					} else if ((request.m_body.getState() == BodyState.CLIMBING)
+							&& (request.m_body.getSpeed().getY() >= 0))
 					{
-						BodyStateProperty newProp = new BodyStateProperty();
-						newProp.m_diggingDirection = DigDirection.LEFT;
-						newProp.m_diggingStart = getEnvironmentTime();
-						request.m_body.setState(BodyState.DIGGING, newProp);
-						request.m_body.setMass(UtilsLemmings.s_lemmingMass);
+						if ((request.m_body.getSpeed().getX() > 0)
+								&& canDigCell(request.m_body, DigDirection.RIGHT))
+						{
+							BodyStateProperty newProp = new BodyStateProperty();
+							newProp.m_diggingDirection = DigDirection.RIGHT;
+							newProp.m_diggingStart = getEnvironmentTime();
+							request.m_body.setState(BodyState.DIGGING, newProp);
+							request.m_body.setMass(UtilsLemmings.s_lemmingMass);
+						} else if ((request.m_body.getSpeed().getX() < 0)
+								&& canDigCell(request.m_body, DigDirection.LEFT))
+						{
+							BodyStateProperty newProp = new BodyStateProperty();
+							newProp.m_diggingDirection = DigDirection.LEFT;
+							newProp.m_diggingStart = getEnvironmentTime();
+							request.m_body.setState(BodyState.DIGGING, newProp);
+							request.m_body.setMass(UtilsLemmings.s_lemmingMass);
+						}
 					}
-				}
-				break;
-			
-			// You can't go voluntarily to these states
-			case CLIMBING:
-				break;
-			case DEAD:
-				break;
-			case FALLING:
-				break;
-			case NORMAL:
-				break;
-			default:
-				break;
+					break;
+
+				// You can't go voluntarily to these states
+				case CLIMBING:
+					break;
+				case DEAD:
+					break;
+				case FALLING:
+					break;
+				case NORMAL:
+					break;
+				default:
+					break;
 			}
 		}
 		m_changeBodyStateRequest.clear();
 	}
-	
-	public Point2f computeDiggingPoint(Body _body, DigDirection _direction)
+
+	public Point2f computeDiggingPoint(
+			final Body _body,
+			final DigDirection _direction)
 	{
 		Point2f centerPoint = _body.getCenterCoordinates();
-		switch(_direction)
+		switch (_direction)
 		{
-		case BOTTOM:
-			centerPoint.addY((UtilsLemmings.s_LemmingDefaultHeight + UtilsLemmings.s_tileHeight) / 2.0f );
-			break;
-		case LEFT:
-			centerPoint.addX(-(UtilsLemmings.s_lemmingDefaultWidth + UtilsLemmings.s_tileWidth) / 2.0f );
-			break;
-		case RIGHT:
-			centerPoint.addX((UtilsLemmings.s_lemmingDefaultWidth + UtilsLemmings.s_tileWidth) / 2.0f );
-			break;
-		default:
-			return null;		
+			case BOTTOM:
+				centerPoint
+						.addY((UtilsLemmings.s_lemmingEntityHeight + UtilsLemmings.s_tileHeight) / 2.0f);
+				break;
+			case LEFT:
+				centerPoint
+						.addX(-(UtilsLemmings.s_lemmingEntityWidth + UtilsLemmings.s_tileWidth) / 2.0f);
+				break;
+			case RIGHT:
+				centerPoint
+						.addX((UtilsLemmings.s_lemmingEntityWidth + UtilsLemmings.s_tileWidth) / 2.0f);
+				break;
+			default:
+				return null;
 		}
 		return centerPoint;
 	}
-	
-	public boolean canDigCell(Body _body, DigDirection _direction)
+
+	public boolean canDigCell(
+			final Body _body,
+			final DigDirection _direction)
 	{
 		Point2f centerPoint = computeDiggingPoint(_body, _direction);
-		return m_map.canDigCell(centerPoint.getX(), centerPoint.getY());
+		if (centerPoint != null)
+			return m_map.canDigCell(centerPoint.getX(), centerPoint.getY());
+		else
+			return false;
 	}
-	
-	public void digCell(Body _body, DigDirection _direction)
+
+	public void digCell(
+			final Body _body,
+			final DigDirection _direction)
 	{
 		Point2f digPoint = computeDiggingPoint(_body, _direction);
 		m_map.digCell(digPoint.getX(), digPoint.getY());
@@ -525,8 +539,10 @@ public class Environment
 		return m_physicEngine;
 	}
 
-	
-	public void addRequestBodyStateChange(Body _body, BodyState _state) {
-		m_changeBodyStateRequest.add(new BodyStateChangeRequest(_body, _state));		
+	public void addRequestBodyStateChange(
+			final Body _body,
+			final BodyState _state)
+	{
+		m_changeBodyStateRequest.add(new BodyStateChangeRequest(_body, _state));
 	}
 }

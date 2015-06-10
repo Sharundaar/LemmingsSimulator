@@ -19,8 +19,8 @@ import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
 import fr.utbm.vi51.group11.lemmings.model.physics.properties.CollisionProperty;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
-import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape.PhysicType;
+import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelProperties;
 import fr.utbm.vi51.group11.lemmings.utils.enums.CellType;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
@@ -42,8 +42,8 @@ public class Map extends WorldEntity implements ITextureHandler
 	private final Texture		m_texture;
 	private final BufferedImage	m_image;
 	private final Graphics2D	m_imageGraphics;
-	
-	private Environment m_environment;
+
+	private final Environment	m_environment;
 
 	/*----------------------------------------------*/
 
@@ -55,7 +55,7 @@ public class Map extends WorldEntity implements ITextureHandler
 	 * @param _colNb
 	 *            Number of columns splitting the screen.
 	 */
-	public Map(final LevelProperties _levelProperties, Environment _environment)
+	public Map(final LevelProperties _levelProperties, final Environment _environment)
 	{
 		m_grid = new Grid(_levelProperties.getNbRow(), _levelProperties.getNbCol(),
 				_levelProperties.getTileGrid());
@@ -81,37 +81,44 @@ public class Map extends WorldEntity implements ITextureHandler
 		m_type = WorldEntityEnum.MAP;
 
 		m_environment = _environment;
-		
+
 		updateCollisionMask();
 	}
-	
+
 	/*----------------------------------------------*/
-	public boolean canDigCell(float x, float y)
+	public boolean canDigCell(
+			final float x,
+			final float y)
 	{
 		CellType cellType = getCellType(x, y, false);
 		return !cellType.isCrossable();
 	}
-	
+
 	/*----------------------------------------------*/
-	public boolean canFillCell(float x, float y)
+	public boolean canFillCell(
+			final float x,
+			final float y)
 	{
 		CellType cellType = getCellType(x, y, false);
 		return cellType.isCrossable() && !cellType.isDangerous();
 	}
-	
+
 	/*----------------------------------------------*/
-	public void digCell(float x, float y)
+	public void digCell(
+			final float x,
+			final float y)
 	{
-		if(canDigCell(x, y))
+		if (canDigCell(x, y))
 		{
-			Cell cell = m_grid.getCell((int) (x / UtilsLemmings.s_tileWidth), (int)(y / UtilsLemmings.s_tileHeight));
-			cell.setCellType(CellType.BACK_WALL);
-			for(CollisionShape shape : m_collisionMask.getChilds())
+			Cell cell = m_grid.getCell((int) (x / UtilsLemmings.s_tileWidth),
+					(int) (y / UtilsLemmings.s_tileHeight));
+			cell.setCellType(CellType.BACK_WALL_BRIGHT);
+			for (CollisionShape shape : m_collisionMask.getChilds())
 			{
 				m_environment.getPhysicEngine().removeShape(shape);
 			}
 			updateCollisionMask();
-			for(CollisionShape shape : m_collisionMask.getChilds())
+			for (CollisionShape shape : m_collisionMask.getChilds())
 			{
 				m_environment.getPhysicEngine().addShape(shape, PhysicType.STATIC);
 			}
@@ -119,24 +126,27 @@ public class Map extends WorldEntity implements ITextureHandler
 	}
 
 	/*----------------------------------------------*/
-	public void fillCell(float x, float y)
+	public void fillCell(
+			final float x,
+			final float y)
 	{
-		if(canFillCell(x, y))
+		if (canFillCell(x, y))
 		{
-			Cell cell = m_grid.getCell((int) (x / UtilsLemmings.s_tileWidth), (int)(y / UtilsLemmings.s_tileHeight));
-			cell.setCellType(CellType.STONE);
-			for(CollisionShape shape : m_collisionMask.getChilds())
+			Cell cell = m_grid.getCell((int) (x / UtilsLemmings.s_tileWidth),
+					(int) (y / UtilsLemmings.s_tileHeight));
+			cell.setCellType(CellType.BRICK_STONE);
+			for (CollisionShape shape : m_collisionMask.getChilds())
 			{
 				m_environment.getPhysicEngine().removeShape(shape);
 			}
 			updateCollisionMask();
-			for(CollisionShape shape : m_collisionMask.getChilds())
+			for (CollisionShape shape : m_collisionMask.getChilds())
 			{
 				m_environment.getPhysicEngine().addShape(shape, PhysicType.STATIC);
 			}
 		}
 	}
-	
+
 	/*----------------------------------------------*/
 	public int getGridWidth()
 	{
@@ -166,26 +176,35 @@ public class Map extends WorldEntity implements ITextureHandler
 				Vector2f cellPos = discreteToContinueCoordinates(i, j);
 				switch (getCellType(i, j, true))
 				{
-					case BACK_WALL:
+					case BACK_WALL_BRIGHT:
 						drawCell(image, cellPos, Color.GRAY, 0, 0);
-						break;
-					case DIRT:
-						drawCell(image, cellPos, Color.ORANGE, 4, 0); // TODO
-						break;
-					case GRASS:
-						drawCell(image, cellPos, Color.GREEN, 5, 0); // TODO
-					case STONE:
-						drawCell(image, cellPos, Color.YELLOW, 3, 0); // TODO
 						break;
 					case TOXIC:
 						/* Dark green color otherwise. */
 						drawCell(image, cellPos, Color.getHSBColor(120, 100, 50), 1, 0);
+						break;
 					case PIT:
-						drawCell(image, cellPos, Color.PINK, 2, 0); // TODO
+						drawCell(image, cellPos, Color.PINK, 2, 0);
+						break;
+					case BRICK_STONE:
+						drawCell(image, cellPos, Color.YELLOW, 3, 0);
+						break;
+					case DIRT:
+						drawCell(image, cellPos, Color.ORANGE, 4, 0);
+						break;
+					case GRASS:
+						drawCell(image, cellPos, Color.GREEN, 5, 0);
+						break;
 					case ATTRACTIVE_FIELD:
-						drawCell(image, cellPos, Color.LIGHT_GRAY, 6, 0); // TODO
+						drawCell(image, cellPos, Color.LIGHT_GRAY, 6, 0);
+						break;
 					case REPULSIVE_FIELD:
-						drawCell(image, cellPos, Color.DARK_GRAY, 7, 0); // TODO
+						drawCell(image, cellPos, Color.DARK_GRAY, 7, 0);
+						break;
+					case CONCRETE:
+						drawCell(image, cellPos, Color.YELLOW, 8, 0);
+					case GRANIT:
+						drawCell(image, cellPos, Color.YELLOW, 9, 0);
 						break;
 
 					default:
@@ -268,13 +287,13 @@ public class Map extends WorldEntity implements ITextureHandler
 
 		return new Vector2i(gridX, gridY);
 	}
-	
+
 	/*----------------------------------------------*/
 	public float getWidth()
 	{
 		return getGridWidth() * UtilsLemmings.s_tileWidth;
 	}
-	
+
 	/*----------------------------------------------*/
 	public float getHeight()
 	{
@@ -384,7 +403,9 @@ public class Map extends WorldEntity implements ITextureHandler
 		{
 			case DIRT:
 			case GRASS:
-			case STONE:
+			case BRICK_STONE:
+			case GRANIT:
+			case CONCRETE:
 				prop.setCrossable(false);
 				break;
 			case TOXIC:
@@ -397,7 +418,7 @@ public class Map extends WorldEntity implements ITextureHandler
 				break;
 
 			// These ones should not generate collision boxes
-			case BACK_WALL:
+			case BACK_WALL_BRIGHT:
 				break;
 			case PIT:
 				break;

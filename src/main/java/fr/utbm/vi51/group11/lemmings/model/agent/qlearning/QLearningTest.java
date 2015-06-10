@@ -150,7 +150,7 @@ public class QLearningTest implements World
 				switch (_map.getCellType(j, i, true))
 				{
 
-					case BACK_WALL:
+					case BACK_WALL_BRIGHT:
 						newState = new QLearningState();
 						position = new Point2f((j * UtilsLemmings.s_tileWidth)
 								+ (UtilsLemmings.s_tileWidth / 2.0f), i
@@ -178,7 +178,7 @@ public class QLearningTest implements World
 						break;
 					case PIT:
 						break;
-					case STONE:
+					case BRICK_STONE:
 						break;
 
 					// Not supported

@@ -5,12 +5,12 @@ import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 
 public enum AnimationState
 {
-	WALKING_LEFT(BodyState.NORMAL, 2, 2, 2), // TODO
-	IDLE(BodyState.NORMAL, 2, 0, 2),
+	WALKING_LEFT(BodyState.NORMAL, 2, 0, 2),
+	IDLE(BodyState.NORMAL, 2, 2, 2),
 	WALKING_RIGHT(BodyState.NORMAL, 2, 4, 2),
 	CLIMBING_LEFT_IDLE(BodyState.CLIMBING, 1, 0, 4),
 	CLIMBING_LEFT(BodyState.CLIMBING, 2, 1, 4),
-	CLIMBING_RIGHT_IDLE(BodyState.CLIMBING, 1, 3, 4), // TODO
+	CLIMBING_RIGHT_IDLE(BodyState.CLIMBING, 1, 3, 4),
 	CLIMBING_RIGHT(BodyState.CLIMBING, 2, 4, 4),
 	FALLING_FREE(BodyState.FALLING, 2, 0, 3),
 	FALLING_UMBRELLA(BodyState.FALLING, 2, 2, 3),
@@ -27,10 +27,10 @@ public enum AnimationState
 	private AnimationState(final BodyState _state, final int _nbSprites, final int _xTex,
 			final int _yTex)
 	{
-		m_bodyState = _state;
-		m_nbSpriteSet = _nbSprites;
 		m_xTex = _xTex * UtilsLemmings.s_lemmingSpriteSheetPixelGap;
 		m_yTex = _yTex * UtilsLemmings.s_lemmingSpriteSheetPixelGap;
+		m_bodyState = _state;
+		m_nbSpriteSet = _nbSprites;
 	}
 
 	public int getNbSpriteSet()

@@ -51,11 +51,6 @@ public abstract class Body extends DynamicEntity implements IControllable
 	/** State property */
 	protected BodyStateProperty						m_stateProperty;
 
-	protected BodyState								m_previousState;
-
-	/** State property */
-	protected BodyStateProperty						m_previousStateProperty;
-
 	protected MultivaluedMap<BodyState, Animation>	m_animations;
 
 	protected Animation								m_currentAnimation;
@@ -106,17 +101,6 @@ public abstract class Body extends DynamicEntity implements IControllable
 	public LinkedList<Influence> getInfluences()
 	{
 		return m_influences;
-	}
-
-	public BodyState getPreviousBodyState()
-	{
-		return m_previousState;
-	}
-
-	public void setPreviousBodyState(
-			final BodyState _BodyState)
-	{
-		m_previousState = _BodyState;
 	}
 
 	/*----------------------------------------------*/
@@ -196,10 +180,7 @@ public abstract class Body extends DynamicEntity implements IControllable
 		if (_property == null)
 			return;
 
-		m_previousState = m_state;
 		m_state = _state;
-
-		m_previousStateProperty = m_stateProperty.newInstance();
 
 		switch (m_state)
 		{
@@ -211,11 +192,6 @@ public abstract class Body extends DynamicEntity implements IControllable
 				m_stateProperty.m_chuteOpen = _property.m_chuteOpen;
 				break;
 
-			case DIGGING:
-				m_stateProperty.m_diggingDirection = _property.m_diggingDirection;
-				m_stateProperty.m_diggingStart = _property.m_diggingStart;
-				break;
-				
 			case CLIMBING:
 				break;
 			case NORMAL:
@@ -231,15 +207,28 @@ public abstract class Body extends DynamicEntity implements IControllable
 	public void updateAnimation(
 			final long _dt)
 	{
-		/* Same animation state and same properties as precedent update. */
-		if (isSameBodyState())
-		{
-			handleSameAnimation(_dt);
+		Animation bodyStateAnimation = getCurrentBodyStateAnimation();
 
-			/* Different animation. */
+		if (bodyStateAnimation != null)
+		{
+			/* Same body state as before. */
+			if (isSameBodyState() && isSameAnimationState(bodyStateAnimation))
+			{
+				/* Same animation state as before. */
+				handleSameAnimation(_dt);
+
+				/* Different State. */
+			} else
+			{
+				handleNewStateAnimation(bodyStateAnimation);
+			}
+
+			updateAnimationPreviousBodyState();
+
 		} else
 		{
-			handleNewStateAnimation();
+			s_LOGGER.error("Could not find associated animation for state '{}' and speed {}.",
+					m_state, m_speed);
 		}
 	}
 
@@ -261,35 +250,43 @@ public abstract class Body extends DynamicEntity implements IControllable
 		}
 	}
 
-	private void handleNewStateAnimation()
+	private void handleNewStateAnimation(
+			final Animation _animation)
 	{
-		/* Resets the animation to a new frame and resets time. */
-		for (Animation a : m_animations.get(m_previousState))
+		/* Resets the previous animation. */
+		for (Animation a : m_animations.get(m_currentAnimation.getBodyState()))
 			a.resetAnimationFrame();
 
-		m_currentAnimation = resolveBodyStateAnimationConflict();
+		m_currentAnimation = _animation;
 
 		updateSprite();
 	}
 
-	private Animation resolveBodyStateAnimationConflict()
+	private Animation getCurrentBodyStateAnimation()
 	{
 		List<Animation> animationList = m_animations.get(m_state);
 
-		int signX = (int) Math.signum(m_speed.x());
-		int signY = (int) Math.signum(m_speed.y());
+		int signX = (m_speed.getX() == 0.0f) ? 0 : (m_speed.getX() > 0.0f) ? 1 : -1;
+		int signY = (m_speed.getY() == 0.0f) ? 0 : (m_speed.getY() > 0.0f) ? 1 : -1;
 
 		switch (m_state)
 		{
 			case CLIMBING:
-				if ((signX == -1) && (signY == -1))
-					return getAnimationFromState(animationList, AnimationState.CLIMBING_LEFT);
-				else if ((signX == -1) && (signY == 0))
-					return getAnimationFromState(animationList, AnimationState.CLIMBING_LEFT_IDLE);
-				else if ((signX == 1) && (signY == -1))
-					return getAnimationFromState(animationList, AnimationState.CLIMBING_RIGHT);
-				else if ((signX == 1) && (signY == 0))
-					return getAnimationFromState(animationList, AnimationState.CLIMBING_RIGHT_IDLE);
+				if ((signX == -1))
+				{
+					if (signY == 1)
+						return getAnimationFromState(animationList, AnimationState.CLIMBING_LEFT);
+					else
+						return getAnimationFromState(animationList,
+								AnimationState.CLIMBING_LEFT_IDLE);
+				} else if (signX == 1)
+				{
+					if (signY == 1)
+						return getAnimationFromState(animationList, AnimationState.CLIMBING_RIGHT);
+					else
+						return getAnimationFromState(animationList,
+								AnimationState.CLIMBING_RIGHT_IDLE);
+				}
 			case DIGGING:
 				if (signX == -1)
 					return getAnimationFromState(animationList, AnimationState.DIGGING_LEFT);
@@ -336,22 +333,26 @@ public abstract class Body extends DynamicEntity implements IControllable
 		/* Sets the new Sprite. */
 		m_sprite.setTextureRect(spritePos.x(), spritePos.y(), UtilsLemmings.s_lemmingSpriteWidth,
 				UtilsLemmings.s_lemmingSpriteHeight);
+	}
 
-		System.out.println(m_sprite.getWidth());
-		System.out.println(m_sprite.getHeight());
-		System.out.println(m_sprite.getSpriteRect().getMaxX() + ""
-				+ m_sprite.getSpriteRect().getMaxY());
-		System.out.println(m_sprite.getSpriteRect().getMinX() + ""
-				+ m_sprite.getSpriteRect().getMinY());
+	private void updateAnimationPreviousBodyState()
+	{
+		for (BodyState bodyState : m_animations.keySet())
+			for (Animation anim : m_animations.get(bodyState))
+			{
+				anim.setBodyState(m_state);
+				anim.setBodyStateProperty(m_stateProperty.newInstance());
+			}
 	}
 
 	private boolean isSameBodyState()
 	{
-		return (m_state == m_previousState);
+		return (m_state == m_currentAnimation.getBodyState());
 	}
 
-	private boolean isSameStateProperties()
+	private boolean isSameAnimationState(
+			final Animation _bodyStateAnimation)
 	{
-		return (m_state == m_previousState) && (m_stateProperty.equals(m_previousStateProperty));
+		return m_currentAnimation.equals(_bodyStateAnimation);
 	}
 }

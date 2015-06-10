@@ -16,7 +16,6 @@ import org.arakhne.afc.math.discrete.object2d.Rectangle2i;
 import fr.utbm.vi51.group11.lemmings.gui.texture.Sprite;
 import fr.utbm.vi51.group11.lemmings.model.Environment;
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
-import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
 import fr.utbm.vi51.group11.lemmings.model.physics.collidingobjects.CollidingObjects;
 import fr.utbm.vi51.group11.lemmings.model.physics.quadtree.QuadTree;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CircleShape;
@@ -186,8 +185,6 @@ public class GraphicsEngine extends JPanel
 	{
 		for (WorldEntity e : m_environnement.m_worldEntities)
 		{
-			if (e instanceof LemmingBody)
-				System.out.println("ldfk,vdfklf");
 			drawSprite(e.getSprite(), _g);
 		}
 	}
@@ -204,17 +201,17 @@ public class GraphicsEngine extends JPanel
 			Rectangle2i blitRect = _sprite.getSpriteRect();
 			Rectangle2f drawRect = _sprite.getWorldRect();
 
-			Image img = _sprite
-					.getTexture()
-					.getImage()
-					.getSubimage(blitRect.getMinX(), blitRect.getMinY(), blitRect.getWidth(),
-							blitRect.getHeight());
-
 			double sx = drawRect.getWidth() / blitRect.getWidth();
 			double sy = drawRect.getHeight() / blitRect.getHeight();
 
 			m_affineTransform.translate(drawRect.getMinX(), drawRect.getMinY());
 			m_affineTransform.scale(sx, sy);
+
+			Image img = _sprite
+					.getTexture()
+					.getImage()
+					.getSubimage(blitRect.getMinX(), blitRect.getMinY(), blitRect.getWidth(),
+							blitRect.getHeight());
 
 			g2d.drawImage(img, m_affineTransform, null);
 		} else

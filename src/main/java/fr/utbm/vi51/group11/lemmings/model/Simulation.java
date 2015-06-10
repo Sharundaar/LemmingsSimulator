@@ -30,22 +30,21 @@ import fr.utbm.vi51.group11.lemmings.utils.interfaces.IEntityDestroyedListener;
 public class Simulation implements IEntityDestroyedListener
 {
 	/** Logger of the class */
-	public final static Logger	s_LOGGER	= LoggerFactory.getLogger(Simulation.class);
+	public final static Logger	s_LOGGER				= LoggerFactory.getLogger(Simulation.class);
 
-	public final static long MAXIMUM_DELTA_TIME = 60;
-	
+	public final static long	MAXIMUM_DELTA_TIME		= 60;
+
 	/** List of agents contained in the environment */
 	private final List<Agent>	m_agents;
 
 	/** Reference to the environment of the simulation */
 	private final Environment	m_environment;
-	
-	private boolean m_running = false;
-	
-	private float m_speedMultiplicator = 1.0f;
-	
-	private HumanActor m_humanActor;
-	
+
+	private boolean				m_running				= false;
+
+	private float				m_speedMultiplicator	= 1.0f;
+
+	private HumanActor			m_humanActor;
 
 	/*----------------------------------------------*/
 
@@ -62,15 +61,15 @@ public class Simulation implements IEntityDestroyedListener
 				_environmentID);
 		m_agents = new ArrayList<Agent>();
 		m_environment = new Environment(currentLevelProperties, m_agents, this);
-		
+
 		s_LOGGER.debug("Simulation created.");
-		loop();
 	}
-	
+
 	/*----------------------------------------------*/
-	public void setSpeedMultiplicator(float _mul)
+	public void setSpeedMultiplicator(
+			final float _mul)
 	{
-		if(_mul >= 0)
+		if (_mul >= 0)
 			m_speedMultiplicator = _mul;
 	}
 
@@ -78,57 +77,59 @@ public class Simulation implements IEntityDestroyedListener
 	public void initialize()
 	{
 		KeyboardAgent ka = new KeyboardAgent();
-		for(WorldEntity ent : m_environment.m_worldEntities)
+		for (WorldEntity ent : m_environment.m_worldEntities)
 		{
-			if(ent.getType() == WorldEntityEnum.LEMMING_BODY)
+			if (ent.getType() == WorldEntityEnum.LEMMING_BODY)
 			{
-				ka.setBody((IControllable)ent);
+				ka.setBody((IControllable) ent);
 				ka.enable(true);
 				break;
 			}
 		}
-		
+
 		m_environment.getGraphicsEngine().addKeyListener(ka);
 		m_agents.add(ka);
-		
+
 		m_humanActor = new HumanActor(this);
 		m_environment.getGraphicsEngine().addMouseListener(m_humanActor);
 	}
-	
+
 	/*----------------------------------------------*/
 	public void loop()
 	{
 		s_LOGGER.debug("Loop start.");
-		
+
 		initialize();
-		
+
 		m_running = true;
-		
+
 		long start = 0;
 		long end = System.currentTimeMillis();
 		long dt = 0;
 		long fps_timer = 0;
 		short fps_count = 0;
-		while(m_running)
+		while (m_running)
 		{
 			start = System.currentTimeMillis();
-			update((long)(m_speedMultiplicator*dt));
+			update((long) (m_speedMultiplicator * dt));
 			draw();
-			
-			try {
-				if(System.currentTimeMillis() - start < 17)
+
+			try
+			{
+				if ((System.currentTimeMillis() - start) < 17)
 					Thread.sleep(17 - (System.currentTimeMillis() - start));
-			} catch (InterruptedException e) {
+			} catch (InterruptedException e)
+			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			end = System.currentTimeMillis();
-			
+
 			dt = end - start;
-			
+
 			fps_timer += dt;
 			fps_count++;
-			if(fps_timer >= 1000)
+			if (fps_timer >= 1000)
 			{
 				s_LOGGER.debug("FPS: {}.", fps_count);
 				fps_timer = 0;
@@ -136,30 +137,32 @@ public class Simulation implements IEntityDestroyedListener
 			}
 		}
 	}
-	
+
 	/*----------------------------------------------*/
-	public void updateAgents(long _dt)
+	public void updateAgents(
+			final long _dt)
 	{
-		for(WorldEntity ent : m_environment.m_worldEntities)
+		for (WorldEntity ent : m_environment.m_worldEntities)
 		{
-			if(ent.getType() == WorldEntityEnum.LEMMING_BODY)
+			if (ent.getType() == WorldEntityEnum.LEMMING_BODY)
 			{
 				LemmingBody body = (LemmingBody) ent;
 				body.getInfluences().clear();
 			}
 		}
-		
-		for(Agent ag : m_agents)
+
+		for (Agent ag : m_agents)
 		{
-			if(ag.isAlive())
+			if (ag.isAlive())
 				ag.live(_dt);
 		}
 	}
-	
+
 	/*----------------------------------------------*/
-	public void update(long _dt)
+	public void update(
+			long _dt)
 	{
-		if(_dt > MAXIMUM_DELTA_TIME)
+		if (_dt > MAXIMUM_DELTA_TIME)
 		{
 			s_LOGGER.debug("Maximum delta reach (dt: {}) safety clamping delta.", _dt);
 			_dt = MAXIMUM_DELTA_TIME;
@@ -167,14 +170,13 @@ public class Simulation implements IEntityDestroyedListener
 		updateAgents(_dt);
 		m_environment.update(_dt);
 	}
-	
+
 	/*----------------------------------------------*/
 	public void draw()
 	{
 		m_environment.getGraphicsEngine().repaint();
 	}
-	
-	
+
 	/*----------------------------------------------*/
 
 	/**
@@ -206,18 +208,20 @@ public class Simulation implements IEntityDestroyedListener
 	}
 
 	@Override
-	public void onEntityDestroyed(WorldEntity _ent) {
+	public void onEntityDestroyed(
+			final WorldEntity _ent)
+	{
 		Agent ag = null;
-		for(Agent a : m_agents)
+		for (Agent a : m_agents)
 		{
-			if(a.getBody() == _ent)
+			if (a.getBody() == _ent)
 			{
 				ag = a;
 				break;
 			}
 		}
-		
-		if(ag != null)
+
+		if (ag != null)
 		{
 			ag.kill();
 			m_agents.remove(ag);
