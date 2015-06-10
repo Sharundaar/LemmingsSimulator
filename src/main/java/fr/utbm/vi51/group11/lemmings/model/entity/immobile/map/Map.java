@@ -90,6 +90,9 @@ public class Map extends WorldEntity implements ITextureHandler
 			final float x,
 			final float y)
 	{
+		if(x>getWidth() || y > getHeight())
+			return false;
+		
 		CellType cellType = getCellType(x, y, false);
 		return !cellType.isCrossable();
 	}
@@ -99,6 +102,9 @@ public class Map extends WorldEntity implements ITextureHandler
 			final float x,
 			final float y)
 	{
+		if(x>getWidth() || y > getHeight())
+			return false;
+		
 		CellType cellType = getCellType(x, y, false);
 		return cellType.isCrossable() && !cellType.isDangerous();
 	}
