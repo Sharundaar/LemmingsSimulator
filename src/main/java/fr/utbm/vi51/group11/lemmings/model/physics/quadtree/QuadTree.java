@@ -9,7 +9,6 @@ import fr.utbm.vi51.group11.lemmings.model.physics.collidingobjects.CollidingObj
 import fr.utbm.vi51.group11.lemmings.model.physics.collidingobjects.CollidingObjectsSet;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
-import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 
 public class QuadTree
 {
@@ -192,8 +191,7 @@ public class QuadTree
 	/*----------------------------------------------*/
 	public QuadTree(final int _width, final int _height)
 	{
-		m_rootNode = new QuadTreeNode(new RectangleShape(_width, UtilsLemmings.s_tileHeight
-				* _height, null));
+		m_rootNode = new QuadTreeNode(new RectangleShape(_width, _height, null));
 	}
 
 	/*----------------------------------------------*/

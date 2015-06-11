@@ -90,9 +90,9 @@ public class Map extends WorldEntity implements ITextureHandler
 			final float x,
 			final float y)
 	{
-		if(x>getWidth() || y > getHeight())
+		if ((x > getWidth()) || (y > getHeight()))
 			return false;
-		
+
 		CellType cellType = getCellType(x, y, false);
 		return !cellType.isCrossable();
 	}
@@ -102,9 +102,9 @@ public class Map extends WorldEntity implements ITextureHandler
 			final float x,
 			final float y)
 	{
-		if(x>getWidth() || y > getHeight())
+		if ((x > getWidth()) || (y > getHeight()))
 			return false;
-		
+
 		CellType cellType = getCellType(x, y, false);
 		return cellType.isCrossable() && !cellType.isDangerous();
 	}
@@ -185,32 +185,47 @@ public class Map extends WorldEntity implements ITextureHandler
 					case BACK_WALL_BRIGHT:
 						drawCell(image, cellPos, Color.GRAY, 0, 0);
 						break;
-					case TOXIC:
+					case TOXIC_BACK_WALL_BRIGHT:
 						/* Dark green color otherwise. */
 						drawCell(image, cellPos, Color.getHSBColor(120, 100, 50), 1, 0);
 						break;
-					case PIT:
+					case PIT_BACK_WALL_BRIGHT:
 						drawCell(image, cellPos, Color.PINK, 2, 0);
 						break;
-					case BRICK_STONE:
+					case BACK_WALL_GRANIT:
 						drawCell(image, cellPos, Color.YELLOW, 3, 0);
 						break;
+					case TOXIC_BACK_WALL_GRANIT:
+						/* Dark green color otherwise. */
+						drawCell(image, cellPos, Color.getHSBColor(120, 100, 50), 4, 0);
+						break;
+					case PIT_BACK_WALL_GRANIT:
+						drawCell(image, cellPos, Color.PINK, 5, 0);
+						break;
+					case BACK_WALL_CONCRETE:
+						drawCell(image, cellPos, Color.YELLOW, 6, 0);
+						break;
+					case TOXIC_BACK_WALL_CONCRETE:
+						/* Dark green color otherwise. */
+						drawCell(image, cellPos, Color.getHSBColor(120, 100, 50), 7, 0);
+						break;
+					case PIT_BACK_WALL_CONCRETE:
+						drawCell(image, cellPos, Color.PINK, 8, 0);
+						break;
+					case BRICK_STONE:
+						drawCell(image, cellPos, Color.YELLOW, 9, 0);
+						break;
 					case DIRT:
-						drawCell(image, cellPos, Color.ORANGE, 4, 0);
+						drawCell(image, cellPos, Color.ORANGE, 10, 0);
 						break;
 					case GRASS:
-						drawCell(image, cellPos, Color.GREEN, 5, 0);
+						drawCell(image, cellPos, Color.GREEN, 11, 0);
 						break;
 					case ATTRACTIVE_FIELD:
-						drawCell(image, cellPos, Color.LIGHT_GRAY, 6, 0);
+						drawCell(image, cellPos, Color.LIGHT_GRAY, 12, 0);
 						break;
 					case REPULSIVE_FIELD:
-						drawCell(image, cellPos, Color.DARK_GRAY, 7, 0);
-						break;
-					case CONCRETE:
-						drawCell(image, cellPos, Color.YELLOW, 8, 0);
-					case GRANIT:
-						drawCell(image, cellPos, Color.YELLOW, 9, 0);
+						drawCell(image, cellPos, Color.DARK_GRAY, 13, 0);
 						break;
 
 					default:
@@ -410,11 +425,11 @@ public class Map extends WorldEntity implements ITextureHandler
 			case DIRT:
 			case GRASS:
 			case BRICK_STONE:
-			case GRANIT:
-			case CONCRETE:
 				prop.setCrossable(false);
 				break;
-			case TOXIC:
+			case TOXIC_BACK_WALL_BRIGHT:
+			case TOXIC_BACK_WALL_GRANIT:
+			case TOXIC_BACK_WALL_CONCRETE:
 				prop.setCrossable(true);
 				RectangleShape killZone = new RectangleShape(0, 12, rect.getWidth(),
 						rect.getHeight() - 12, rect);
@@ -424,9 +439,13 @@ public class Map extends WorldEntity implements ITextureHandler
 				break;
 
 			// These ones should not generate collision boxes
+			case BACK_WALL_GRANIT:
+			case BACK_WALL_CONCRETE:
 			case BACK_WALL_BRIGHT:
 				break;
-			case PIT:
+			case PIT_BACK_WALL_BRIGHT:
+			case PIT_BACK_WALL_CONCRETE:
+			case PIT_BACK_WALL_GRANIT:
 				break;
 
 			// no property for now

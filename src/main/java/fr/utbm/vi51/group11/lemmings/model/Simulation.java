@@ -11,7 +11,6 @@ import fr.utbm.vi51.group11.lemmings.model.agent.KeyboardAgent;
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelProperties;
-import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelPropertiesMap;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IControllable;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IEntityDestroyedListener;
@@ -52,15 +51,12 @@ public class Simulation implements IEntityDestroyedListener
 	 * Default Constructor. Creates the list of agents, the environment and
 	 * instantiates its inputController.
 	 */
-	public Simulation(final String _environmentID)
+	public Simulation(final LevelProperties _levelProperties)
 	{
 		s_LOGGER.debug("Creation of the Simulation...");
 
-		/* Creation of the attributes */
-		LevelProperties currentLevelProperties = LevelPropertiesMap.getInstance().get(
-				_environmentID);
 		m_agents = new ArrayList<Agent>();
-		m_environment = new Environment(currentLevelProperties, m_agents, this);
+		m_environment = new Environment(_levelProperties, m_agents, this);
 
 		s_LOGGER.debug("Simulation created.");
 	}
@@ -205,7 +201,17 @@ public class Simulation implements IEntityDestroyedListener
 	public void destroy()
 	{
 		m_agents.clear();
+		m_environment.destroy();
 	}
+
+	/*----------------------------------------------*/
+
+	public void stop()
+	{
+		m_running = false;
+	}
+
+	/*----------------------------------------------*/
 
 	@Override
 	public void onEntityDestroyed(

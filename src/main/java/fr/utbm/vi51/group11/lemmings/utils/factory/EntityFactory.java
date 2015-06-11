@@ -53,8 +53,8 @@ public class EntityFactory
 		s_LOGGER.debug("Creating LemmingBody in ({},{}).", _worldEntityConfiguration
 				.getWorldCoords().x(), _worldEntityConfiguration.getWorldCoords().y());
 
-		return new LemmingBody(_worldEntityConfiguration.getTextureID(),
-				_worldEntityConfiguration.getWorldCoords(), _environment);
+		return new LemmingBody(_worldEntityConfiguration.getTextureID(), _worldEntityConfiguration
+				.getWorldCoords().clone(), _environment);
 	}
 
 	/*----------------------------------------------*/
@@ -66,8 +66,8 @@ public class EntityFactory
 		s_LOGGER.debug("Creating LevelStart in ({},{}).", _worldEntityConfiguration
 				.getWorldCoords().x(), _worldEntityConfiguration.getWorldCoords().y());
 
-		return new LevelStart(_worldEntityConfiguration.getTextureID(),
-				_worldEntityConfiguration.getWorldCoords(), _environment);
+		return new LevelStart(_worldEntityConfiguration.getTextureID(), _worldEntityConfiguration
+				.getWorldCoords().clone(), _environment);
 	}
 
 	/*----------------------------------------------*/
@@ -78,7 +78,7 @@ public class EntityFactory
 		s_LOGGER.debug("Creating LevelEnd in ({},{}).", _worldEntityConfiguration.getWorldCoords()
 				.x(), _worldEntityConfiguration.getWorldCoords().y());
 
-		return new LevelEnd(_worldEntityConfiguration.getTextureID(),
-				_worldEntityConfiguration.getWorldCoords());
+		return new LevelEnd(_worldEntityConfiguration.getTextureID(), _worldEntityConfiguration
+				.getWorldCoords().clone());
 	}
 }

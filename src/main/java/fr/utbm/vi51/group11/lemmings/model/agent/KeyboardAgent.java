@@ -8,7 +8,6 @@ import org.arakhne.afc.math.continous.object2d.Vector2f;
 
 import fr.utbm.vi51.group11.lemmings.model.Simulation;
 import fr.utbm.vi51.group11.lemmings.model.agent.ShortTermAgent.ShortTermAgentOrder;
-import fr.utbm.vi51.group11.lemmings.utils.enums.InfluenceType;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
 import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
 import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
@@ -16,19 +15,20 @@ import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 public class KeyboardAgent extends Agent implements KeyListener
 {
 
-	boolean	m_upPressed		= false;
-	boolean	m_rightPressed	= false;
-	boolean	m_leftPressed	= false;
-	boolean	m_downPressed	= false;
-	
-	boolean	m_spacePressed	= false;
-	
-	boolean m_lPressed = false;
-	
-	ShortTermAgent m_shortAgent = new ShortTermAgent();
-	
+	boolean			m_upPressed		= false;
+	boolean			m_rightPressed	= false;
+	boolean			m_leftPressed	= false;
+	boolean			m_downPressed	= false;
+
+	boolean			m_spacePressed	= false;
+
+	boolean			m_lPressed		= false;
+
+	ShortTermAgent	m_shortAgent	= new ShortTermAgent();
+
 	@Override
-	public void setBody(fr.utbm.vi51.group11.lemmings.utils.interfaces.IControllable _body) 
+	public void setBody(
+			final fr.utbm.vi51.group11.lemmings.utils.interfaces.IControllable _body)
 	{
 		super.setBody(_body);
 		m_shortAgent.setBody(_body);
@@ -44,28 +44,29 @@ public class KeyboardAgent extends Agent implements KeyListener
 
 		Vector2f speed = new Vector2f();
 
+		System.out.println(m_rightPressed);
+
 		if (m_rightPressed && m_shortAgent.isCurrentOrderComplete())
 		{
 			m_shortAgent.setOrder(ShortTermAgentOrder.GO_RIGHT);
-		}
-		else if (m_leftPressed && m_shortAgent.isCurrentOrderComplete())
+		} else if (m_leftPressed && m_shortAgent.isCurrentOrderComplete())
 		{
-			m_shortAgent.setOrder(ShortTermAgentOrder.GO_LEFT);	
+			m_shortAgent.setOrder(ShortTermAgentOrder.GO_LEFT);
 		}
 
 		if (m_upPressed)
 			speed.setY(UtilsLemmings.s_maximumClimbingSpeed);
-		
+
 		if (m_downPressed && m_shortAgent.isCurrentOrderComplete())
 			m_shortAgent.setOrder(ShortTermAgentOrder.DIG_DOWN);
-		
-		if(m_lPressed)
+
+		if (m_lPressed)
 		{
 			m_shortAgent.setOrder(ShortTermAgentOrder.DIG_RIGHT);
 			m_lPressed = false;
 		}
-		
-		if(m_spacePressed)
+
+		if (m_spacePressed)
 		{
 			m_shortAgent.abortOrder();
 			m_spacePressed = false;
@@ -109,23 +110,21 @@ public class KeyboardAgent extends Agent implements KeyListener
 			m_leftPressed = false;
 		if (arg0.getKeyCode() == KeyEvent.VK_UP)
 			m_upPressed = false;
-		
+
 		if (arg0.getKeyCode() == KeyEvent.VK_DOWN)
 			m_downPressed = false;
-		
+
 		if (arg0.getKeyCode() == KeyEvent.VK_L)
 			m_lPressed = true;
-		
+
 		if (arg0.getKeyCode() == KeyEvent.VK_SPACE)
 			m_spacePressed = true;
-		
+
 	}
 
 	@Override
 	public void keyTyped(
 			final KeyEvent arg0)
 	{
-
 	}
-
 }

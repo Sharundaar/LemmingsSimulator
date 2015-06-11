@@ -160,7 +160,7 @@ public class QLearningTest implements World
 						newState.setReward(computeDistanceToEnd(position));
 						addState(newState);
 						break;
-					case TOXIC:
+					case TOXIC_BACK_WALL_BRIGHT:
 						newState = new QLearningState();
 						position = new Point2f((j * UtilsLemmings.s_tileWidth)
 								+ (UtilsLemmings.s_tileWidth / 2.0f), i
@@ -176,7 +176,7 @@ public class QLearningTest implements World
 						break;
 					case GRASS:
 						break;
-					case PIT:
+					case PIT_BACK_WALL_BRIGHT:
 						break;
 					case BRICK_STONE:
 						break;

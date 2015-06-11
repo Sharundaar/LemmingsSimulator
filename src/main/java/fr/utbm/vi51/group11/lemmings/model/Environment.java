@@ -50,7 +50,7 @@ public class Environment
 	private final Map									m_map;
 
 	/** Graphical User Interface of the simulation */
-	private final MainFrame								m_gui;
+	private MainFrame									m_gui;
 
 	/**
 	 * PhyicsEngine of the environment that handles all matters related to
@@ -96,7 +96,6 @@ public class Environment
 		m_environmentTime = 0;
 		m_map = new Map(_currentLevelProperties, this);
 		m_physicEngine = new PhysicEngine(width, height);
-		m_gui = new MainFrame(_simulator, this, width, height);
 
 		m_worldEntities = new ArrayList<WorldEntity>();
 
@@ -139,6 +138,22 @@ public class Environment
 	}
 
 	/*----------------------------------------------*/
+
+	public MainFrame getMainFrame()
+	{
+		return m_gui;
+	}
+
+	/*----------------------------------------------*/
+
+	public void setMainFrame(
+			final MainFrame _frame)
+	{
+		m_gui = _frame;
+	}
+
+	/*----------------------------------------------*/
+
 	public LevelEnd getFirstLevelEnd()
 	{
 		for (WorldEntity ent : m_worldEntities)
@@ -539,10 +554,23 @@ public class Environment
 		return m_physicEngine;
 	}
 
+	/*----------------------------------------------*/
+
 	public void addRequestBodyStateChange(
 			final Body _body,
 			final BodyState _state)
 	{
 		m_changeBodyStateRequest.add(new BodyStateChangeRequest(_body, _state));
+	}
+
+	/*----------------------------------------------*/
+
+	public void destroy()
+	{
+		m_worldEntities.clear();
+		m_changeBodyStateRequest.clear();
+		m_entityDestroyedListener.clear();
+		m_environmentTime = 0;
+		m_gui.clearFrame();
 	}
 }

@@ -67,8 +67,9 @@ public class UtilsFile
 	 * Method used to initialize the log file.
 	 * 
 	 * @throws JoranException
+	 * @throws IOException
 	 */
-	public static void initLogger() throws JoranException
+	public static void initLogger() throws JoranException, IOException
 	{
 		System.setProperty("configuration.dir", Paths.get("./").toAbsolutePath().toString());
 		JoranConfigurator configurator = new JoranConfigurator();
@@ -77,8 +78,15 @@ public class UtilsFile
 		configurator.setContext(c);
 		// configurator.doConfigure(FileUtils1.LOGBACK_FILEPATH.toFile());
 		// configurator.doConfigure(FileUtils1.RESOURCES_DIR.resolve(LOGBACK_FILENAME).toFile());
-		configurator.doConfigure(configurator.getClass().getClassLoader()
-				.getResourceAsStream("logback_lemmings.xml"));
+		System.out.println((new File(".").getAbsolutePath()));
+		if (Files.notExists(Paths.get("log")))
+			Files.createDirectories(Paths.get("log"));
+		if (Files.exists(Paths.get("src/main/resources/logback_lemmings.xml")))
+			configurator.doConfigure(configurator.getClass().getClassLoader()
+					.getResourceAsStream("logback_lemmings.xml"));
+		else
+			configurator.doConfigure(configurator.getClass().getClassLoader()
+					.getResourceAsStream("resources/logback_lemmings.xml"));
 
 		LOGGER.debug("Log file initialized.");
 	}

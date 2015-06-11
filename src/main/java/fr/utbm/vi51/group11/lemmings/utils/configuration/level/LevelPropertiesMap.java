@@ -57,7 +57,7 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 		int nbRow, nbCol;
 		int[][] tileGrid;
 		Set<String> textureIDs = new HashSet<String>();
-		MultivaluedMap<String, WorldEntityConfiguration> worldEntitiesConfiguration = new MultivaluedMapImpl<String, WorldEntityConfiguration>();
+		MultivaluedMap<String, WorldEntityConfiguration> worldEntitiesConfiguration;
 		Point2f entityCoord = null;
 
 		try
@@ -87,6 +87,8 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 			{
 				/* Gets the ID of the level. */
 				id = levelList.item(index).getAttributes().item(0).getTextContent();
+
+				worldEntitiesConfiguration = new MultivaluedMapImpl<String, WorldEntityConfiguration>();
 
 				/* Retrieves the tilespriteSheet. */
 				tileSpriteSheet = (String) xpath.compile(
@@ -138,11 +140,13 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 					} else
 					{
 
-						/* Adds a new WorldEntity to the map */
-						worldEntitiesConfiguration.add(nodeList.item(i).getAttributes().item(0)
-								.getTextContent(), new WorldEntityConfiguration(entityCoord,
-						/* Retrieves the textureID */
-						nodeList.item(i).getChildNodes().item(5).getTextContent()));
+						/* Adds a new WorldEntity to the conf. */
+						worldEntitiesConfiguration.add(
+						/* ID of the WorldEntity */
+						nodeList.item(i).getAttributes().item(0).getTextContent(),
+						/* new entity with coords and its associated TextureID. */
+						new WorldEntityConfiguration(entityCoord, nodeList.item(i).getChildNodes()
+								.item(5).getTextContent()));
 
 						/*
 						 * Adds the textureID to the list given afterwards to
