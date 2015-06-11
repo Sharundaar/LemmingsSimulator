@@ -76,6 +76,7 @@ public class GraphicsEngine extends JPanel
 	private void drawQuadTree(
 			final Graphics _g)
 	{
+		m_affineTransform.setToIdentity();
 		QuadTree quad = m_environnement.getPhysicEngine().getQuadTree();
 		_g.setColor(Color.red);
 		drawQuadTreeNode(_g, quad.getRootNode());

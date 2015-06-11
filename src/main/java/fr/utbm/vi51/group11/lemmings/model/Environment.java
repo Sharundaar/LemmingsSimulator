@@ -11,12 +11,15 @@ import org.slf4j.LoggerFactory;
 import fr.utbm.vi51.group11.lemmings.gui.GraphicsEngine;
 import fr.utbm.vi51.group11.lemmings.gui.MainFrame;
 import fr.utbm.vi51.group11.lemmings.model.agent.Agent;
+import fr.utbm.vi51.group11.lemmings.model.agent.qlearning.QLearningState;
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
 import fr.utbm.vi51.group11.lemmings.model.entity.immobile.LevelEnd;
+import fr.utbm.vi51.group11.lemmings.model.entity.immobile.LevelStart;
 import fr.utbm.vi51.group11.lemmings.model.entity.immobile.map.Map;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.Body;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.BodyState;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.BodyStateProperty;
+import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
 import fr.utbm.vi51.group11.lemmings.model.physics.PhysicEngine;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape.PhysicType;
@@ -25,6 +28,7 @@ import fr.utbm.vi51.group11.lemmings.utils.configuration.level.WorldEntityConfig
 import fr.utbm.vi51.group11.lemmings.utils.enums.DigDirection;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.factory.EntityFactory;
+import fr.utbm.vi51.group11.lemmings.utils.interfaces.IEntityCreatedListener;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IEntityDestroyedListener;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
 import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
@@ -65,8 +69,13 @@ public class Environment
 	private final InfluenceSolver						m_influenceSolver;
 
 	private final LinkedList<IEntityDestroyedListener>	m_entityDestroyedListener	= new LinkedList<IEntityDestroyedListener>();
+	private final LinkedList<IEntityCreatedListener> 	m_entityCreatedListener 	= new LinkedList<IEntityCreatedListener>();
 
 	private final LinkedList<BodyStateChangeRequest>	m_changeBodyStateRequest	= new LinkedList<Environment.BodyStateChangeRequest>();
+	
+	private int m_levelSpawnedLemming = 0;
+	
+	private boolean m_gameOver = false;
 
 	class BodyStateChangeRequest
 	{
@@ -81,7 +90,7 @@ public class Environment
 	}
 
 	/*----------------------------------------------*/
-	public Environment(final LevelProperties _currentLevelProperties, final List<Agent> _agents,
+	public Environment(final LevelProperties _currentLevelProperties,
 			final Simulation _simulator)
 	{
 		s_LOGGER.debug("Creation of the environment...");
@@ -109,15 +118,15 @@ public class Environment
 				if (WorldEntityEnum.LEMMING_BODY.equals(key))
 				{
 					worldEntity = EntityFactory.getInstance().createLemmingBody(c, this);
-					// _agents.add(new LemmingAgent((LemmingBody) worldEntity));
+					m_levelSpawnedLemming++;
 				} else if (WorldEntityEnum.LEVEL_START.equals(key))
 				{
 					worldEntity = EntityFactory.getInstance().createLevelStart(c, this);
 				} else if (WorldEntityEnum.LEVEL_END.equals(key))
 				{
-					worldEntity = EntityFactory.getInstance().createLevelEnd(c);
+					worldEntity = EntityFactory.getInstance().createLevelEnd(c, this);
 				}
-
+				
 				addWorldEntity(worldEntity);
 			}
 
@@ -130,12 +139,6 @@ public class Environment
 		m_influenceSolver = new InfluenceSolver(this);
 
 		s_LOGGER.debug("Environment created.");
-	}
-
-	/*----------------------------------------------*/
-	public void updateSpeed()
-	{
-
 	}
 
 	/*----------------------------------------------*/
@@ -163,6 +166,14 @@ public class Environment
 	{
 		if (!m_entityDestroyedListener.contains(_listener))
 			m_entityDestroyedListener.add(_listener);
+	}
+	
+	/*----------------------------------------------*/
+	public void addEntityCreatedListener(
+			final IEntityCreatedListener _listener)
+	{
+		if (!m_entityCreatedListener.contains(_listener))
+			m_entityCreatedListener.add(_listener);
 	}
 
 	/*----------------------------------------------*/
@@ -239,7 +250,10 @@ public class Environment
 	public void update(
 			final long _dt)
 	{
-		// TODO
+		
+		if(m_gameOver)
+			return;
+		
 		m_environmentTime += _dt;
 
 		LinkedList<Body> bodies = new LinkedList<Body>();
@@ -255,11 +269,58 @@ public class Environment
 		m_physicEngine.computeMovements(_dt);
 		m_physicEngine.updateQuadTree();
 		m_physicEngine.solveCollisions();
-		m_physicEngine.updateSpeed(bodies);
+		// m_physicEngine.updateSpeed(bodies);
 
 		updateBodyStates(bodies);
+		
+		updateWorldEntities(_dt);
 
+		checkEndGameCondition();
+		
 		updateAnimations(_dt);
+	}
+	
+	/*----------------------------------------------*/
+	public void checkEndGameCondition()
+	{
+		int endedLemmingCount = 0;
+		int deadCount = 0;
+		for(WorldEntity ent : m_worldEntities)
+		{
+			if(ent.getType() == WorldEntityEnum.LEVEL_END)
+			{
+				endedLemmingCount += ((LevelEnd)ent).getLemmingStashCount();
+			}
+			else if(ent.getType() == WorldEntityEnum.LEMMING_BODY)
+			{
+				if(((Body)ent).getState() == BodyState.DEAD)
+					deadCount++;
+			}
+		}
+		
+		if(endedLemmingCount == LevelStart.s_LEMMINGS_AT_START + m_levelSpawnedLemming)
+		{
+			gameOver(endedLemmingCount, deadCount);
+		}
+	}
+	
+	public void gameOver(int _alive, int _dead)
+	{
+		m_gui.displayEndGameMessage(_alive, _dead);
+		m_gameOver = true;
+	}
+	
+	/*----------------------------------------------*/
+	public void updateWorldEntities(long _dt)
+	{
+		LinkedList<WorldEntity> concurrentProtect = new LinkedList<WorldEntity>(m_worldEntities);
+		for(WorldEntity ent : concurrentProtect)
+		{
+			if(ent.getType() == WorldEntityEnum.LEVEL_START)
+				((LevelStart)ent).update(_dt);
+			else if(ent.getType() == WorldEntityEnum.LEVEL_END)
+				((LevelEnd)ent).update(_dt);
+		}
 	}
 
 	/*----------------------------------------------*/
@@ -544,5 +605,29 @@ public class Environment
 			final BodyState _state)
 	{
 		m_changeBodyStateRequest.add(new BodyStateChangeRequest(_body, _state));
+	}
+
+	public LevelStart getLevelStart() {
+		for(WorldEntity ent : m_worldEntities)
+		{
+			if(ent.getType() == WorldEntityEnum.LEVEL_START)
+				return (LevelStart)ent;
+		}
+		return null;
+	}
+
+	public LevelEnd getLevelEnd() {
+		for(WorldEntity ent : m_worldEntities)
+		{
+			if(ent.getType() == WorldEntityEnum.LEVEL_END)
+				return (LevelEnd)ent;
+		}
+		return null;
+	}
+
+	public void createWorldEntity(WorldEntity _ent) {
+		addWorldEntity(_ent);
+		for(IEntityCreatedListener listener : m_entityCreatedListener)
+			listener.onEntityCreated(_ent);
 	}
 }

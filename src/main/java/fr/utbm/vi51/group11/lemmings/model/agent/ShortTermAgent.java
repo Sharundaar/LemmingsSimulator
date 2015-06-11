@@ -4,26 +4,18 @@ import java.util.List;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
+import org.arakhne.afc.math.discrete.object2d.Rectangle2i;
 
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.BodyState;
 import fr.utbm.vi51.group11.lemmings.utils.enums.ActionType;
 import fr.utbm.vi51.group11.lemmings.utils.enums.InfluenceType;
+import fr.utbm.vi51.group11.lemmings.utils.enums.ShortTermAgentOrder;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
 import fr.utbm.vi51.group11.lemmings.utils.misc.Action;
 import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
 import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 
 public class ShortTermAgent extends Agent {
-
-	enum ShortTermAgentOrder
-	{
-		IDLE,
-		GO_LEFT,
-		GO_RIGHT,
-		DIG_DOWN,
-		DIG_RIGHT,
-		DIG_LEFT
-	}
 	class ShortTermAgentOrderState
 	{
 		public boolean m_completed = false;
@@ -33,6 +25,12 @@ public class ShortTermAgent extends Agent {
 	private Point2f m_startingPoint;
 	private ShortTermAgentOrder m_order;
 	private ShortTermAgentOrderState m_orderState;
+	boolean m_digged = false;
+	
+	private Point2f m_savedPosition = new Point2f();
+	
+	private static final float CENTER_EPSILON = 0.5f;
+	private static final float CLIMBING_EPSILON = 0.01f;
 	
 	public ShortTermAgent()
 	{
@@ -48,8 +46,7 @@ public class ShortTermAgent extends Agent {
 		if(m_alive && m_body != null)
 		{
 			if(!m_orderState.m_completed)
-			{
-				
+			{	
 				if(!m_orderState.m_initialized)
 				{
 					initialize(_dt);
@@ -64,7 +61,6 @@ public class ShortTermAgent extends Agent {
 				m_body.addInfluence(new Influence(InfluenceType.SPEED, new Vector2f()));
 			}
 			
-			
 		}
 	}
 	
@@ -75,11 +71,16 @@ public class ShortTermAgent extends Agent {
 	
 	public void doOrder(long _dt)
 	{
+		if(m_body.getState() == BodyState.DEAD)
+		{
+			m_orderState.m_completed = true;
+			return;
+		}
+		
 		switch(m_order)
 		{
 		case DIG_DOWN:
-			m_body.addInfluence(new Influence(InfluenceType.ACTION, new Action(ActionType.DIG_VERTICAL, null)));
-			m_orderState.m_completed = true;
+			digDown(_dt);
 			break;
 		case DIG_LEFT:
 			digLeft(_dt);
@@ -102,11 +103,25 @@ public class ShortTermAgent extends Agent {
 		}
 	}
 	
+	public void digDown(long _dt)
+	{
+		if(m_body.getState() == BodyState.DIGGING)
+		{
+			m_digged = true;
+		}
+		else if(m_body.getState() == BodyState.NORMAL)
+		{
+			if(!m_digged)
+				m_body.addInfluence(new Influence(InfluenceType.ACTION, new Action(ActionType.DIG_VERTICAL, null)));
+			else
+				m_orderState.m_completed = true;
+		}
+	}
+	
 	public void digRight(long _dt)
 	{
 		if(m_body.getState() == BodyState.DIGGING)
 		{
-			// m_orderState.m_completed = true;	
 		}
 		else
 		{
@@ -134,7 +149,6 @@ public class ShortTermAgent extends Agent {
 	{
 		if(m_body.getState() == BodyState.DIGGING)
 		{
-			// m_orderState.m_completed = true;	
 		}
 		else
 		{
@@ -179,7 +193,7 @@ public class ShortTermAgent extends Agent {
 		Point2f closestCellCoords = new Point2f(bodyCoords);
 		closestCellCoords.setX((int) (closestCellCoords.getX() / UtilsLemmings.s_tileWidth + 1) * UtilsLemmings.s_tileWidth + UtilsLemmings.s_tileWidth / 2.0f);
 		closestCellCoords.setY((int) (closestCellCoords.getY() / UtilsLemmings.s_tileHeight + 1) * UtilsLemmings.s_tileHeight + UtilsLemmings.s_tileHeight / 2.0f);
-		if(Math.abs(m_body.getCenterCoordinates().getX() - closestCellCoords.getX()) <= CENTER_EPSILON)
+		if(Math.abs(m_body.getCenterCoordinates().getX() - closestCellCoords.getX()) <= CENTER_EPSILON && m_body.getState() == BodyState.NORMAL)
 		{
 			m_orderState.m_completed = true;
 			m_body.addInfluence(new Influence(InfluenceType.SPEED, new Vector2f()));
@@ -189,7 +203,16 @@ public class ShortTermAgent extends Agent {
 			Vector2f speed = new Vector2f();
 			speed.setX((closestCellCoords.getX() - m_body.getCenterCoordinates().getX()) / _dt);
 			if(m_body.getState() == BodyState.CLIMBING)
-				speed.setY(UtilsLemmings.s_maximumClimbingSpeed);
+			{
+				if(Math.abs(m_body.getCenterCoordinates().getY() - m_savedPosition.getY()) < CLIMBING_EPSILON)
+				{
+					abortOrder();
+					m_body.addInfluence(new Influence(InfluenceType.SPEED, new Vector2f()));
+					return;
+				}
+				m_savedPosition.set(m_body.getCenterCoordinates());
+				speed.setY(UtilsLemmings.s_maximumClimbingSpeed);	
+			}
 			m_body.addInfluence(new Influence(InfluenceType.SPEED, speed));
 		}
 	}
@@ -200,7 +223,7 @@ public class ShortTermAgent extends Agent {
 		Point2f closestCellCoords = new Point2f(bodyCoords);
 		closestCellCoords.setX((int) (closestCellCoords.getX() / UtilsLemmings.s_tileWidth - 1) * UtilsLemmings.s_tileWidth + UtilsLemmings.s_tileWidth / 2.0f);
 		closestCellCoords.setY((int) (closestCellCoords.getY() / UtilsLemmings.s_tileHeight - 1) * UtilsLemmings.s_tileHeight + UtilsLemmings.s_tileHeight / 2.0f);
-		if(Math.abs(m_body.getCenterCoordinates().getX() - closestCellCoords.getX()) <= CENTER_EPSILON)
+		if(Math.abs(m_body.getCenterCoordinates().getX() - closestCellCoords.getX()) <= CENTER_EPSILON && m_body.getState() == BodyState.NORMAL)
 		{
 			m_orderState.m_completed = true;
 			m_body.addInfluence(new Influence(InfluenceType.SPEED, new Vector2f()));
@@ -210,12 +233,19 @@ public class ShortTermAgent extends Agent {
 			Vector2f speed = new Vector2f();
 			speed.setX((closestCellCoords.getX() - m_body.getCenterCoordinates().getX()) / _dt);
 			if(m_body.getState() == BodyState.CLIMBING)
-				speed.setY(UtilsLemmings.s_maximumClimbingSpeed);
+			{
+				if(Math.abs(m_body.getCenterCoordinates().getY() - m_savedPosition.getY()) < CLIMBING_EPSILON)
+				{
+					abortOrder();
+					m_body.addInfluence(new Influence(InfluenceType.SPEED, new Vector2f()));
+					return;
+				}
+				m_savedPosition.set(m_body.getCenterCoordinates());
+				speed.setY(UtilsLemmings.s_maximumClimbingSpeed);	
+			}
 			m_body.addInfluence(new Influence(InfluenceType.SPEED, speed));
 		}
 	}
-	
-	private static final float CENTER_EPSILON = 0.5f;
 	
 	public void initialize(long _dt)
 	{
@@ -228,6 +258,8 @@ public class ShortTermAgent extends Agent {
 			m_orderState.m_initialized = true;
 			m_startingPoint = bodyCoords;
 			m_body.addInfluence(new Influence(InfluenceType.SPEED, new Vector2f()));
+			m_savedPosition.set(-1, -1);
+			m_digged = false;
 		}
 		else
 		{
@@ -253,6 +285,11 @@ public class ShortTermAgent extends Agent {
 	protected Influence decide(List<IPerceivable> _surroundingEntities) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public ShortTermAgentOrder getCurrentOrder() {
+		// TODO Auto-generated method stub
+		return m_order;
 	}
 
 }

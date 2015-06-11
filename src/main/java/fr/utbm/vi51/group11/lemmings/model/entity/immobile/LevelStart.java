@@ -22,9 +22,11 @@ public class LevelStart extends WorldEntity implements ICollidable, IPerceivable
 	@SuppressWarnings("unused")
 	private final static Logger	s_LOGGER	= LoggerFactory.getLogger(LevelStart.class);
 
-	private int m_stashedLemmingCount;
+	public final static int s_LEMMINGS_AT_START = 10;
+	
+	private int m_stashedLemmingCount = s_LEMMINGS_AT_START;
 	private long m_spawnLemmingTimer = 0;
-	private long m_spawnRate = 2000;
+	private long m_spawnRate = 5000;
 	private Point2f m_spawnPoint;
 	
 	private Environment m_environment;
@@ -53,7 +55,7 @@ public class LevelStart extends WorldEntity implements ICollidable, IPerceivable
 	public void update(long _dt)
 	{
 		m_spawnLemmingTimer += _dt;
-		if(m_spawnLemmingTimer >= m_spawnRate)
+		if(m_spawnLemmingTimer >= m_spawnRate && m_stashedLemmingCount > 0)
 		{
 			m_spawnLemmingTimer = 0;
 			spawnLemming();
@@ -63,6 +65,12 @@ public class LevelStart extends WorldEntity implements ICollidable, IPerceivable
 	public void spawnLemming()
 	{
 		LemmingBody lemming = new LemmingBody("entitySpriteSheet", new Point2f(m_spawnPoint), m_environment);
-		m_environment.addWorldEntity(lemming);
+		m_environment.createWorldEntity(lemming);
+		m_stashedLemmingCount--;
+	}
+
+	public Point2f getSpawnPoint() {
+		// TODO Auto-generated method stub
+		return m_spawnPoint;
 	}
 }

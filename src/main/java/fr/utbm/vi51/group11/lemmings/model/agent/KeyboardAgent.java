@@ -7,8 +7,7 @@ import java.util.List;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
 
 import fr.utbm.vi51.group11.lemmings.model.Simulation;
-import fr.utbm.vi51.group11.lemmings.model.agent.ShortTermAgent.ShortTermAgentOrder;
-import fr.utbm.vi51.group11.lemmings.utils.enums.InfluenceType;
+import fr.utbm.vi51.group11.lemmings.utils.enums.ShortTermAgentOrder;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
 import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
 import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
@@ -61,7 +60,7 @@ public class KeyboardAgent extends Agent implements KeyListener
 		
 		if(m_lPressed)
 		{
-			m_shortAgent.setOrder(ShortTermAgentOrder.DIG_RIGHT);
+			m_shortAgent.setOrder(ShortTermAgentOrder.DIG_LEFT);
 			m_lPressed = false;
 		}
 		

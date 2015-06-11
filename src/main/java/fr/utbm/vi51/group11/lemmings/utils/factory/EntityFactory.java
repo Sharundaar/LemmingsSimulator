@@ -73,12 +73,13 @@ public class EntityFactory
 	/*----------------------------------------------*/
 
 	public LevelEnd createLevelEnd(
-			final WorldEntityConfiguration _worldEntityConfiguration)
+			final WorldEntityConfiguration _worldEntityConfiguration,
+			final Environment _environment)
 	{
 		s_LOGGER.debug("Creating LevelEnd in ({},{}).", _worldEntityConfiguration.getWorldCoords()
 				.x(), _worldEntityConfiguration.getWorldCoords().y());
 
 		return new LevelEnd(_worldEntityConfiguration.getTextureID(),
-				_worldEntityConfiguration.getWorldCoords());
+				_worldEntityConfiguration.getWorldCoords(), _environment);
 	}
 }

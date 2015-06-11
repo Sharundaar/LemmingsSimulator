@@ -420,11 +420,11 @@ public class PhysicEngine
 	public void updateSpeed(LinkedList<Body> _bodies) {
 		for(Body body : _bodies)
 		{
-			if(m_groundedEntity.contains(body))
+			if(isGrounded(body))
 			{
 				body.getSpeed().setY(0);
 			}
-			if(m_wallBlockedEntity.contains(body))
+			if(this.isBlocked(body))
 			{
 				body.getSpeed().setX(0);
 			}

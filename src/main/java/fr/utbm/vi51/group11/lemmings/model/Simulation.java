@@ -8,12 +8,15 @@ import org.slf4j.LoggerFactory;
 
 import fr.utbm.vi51.group11.lemmings.model.agent.Agent;
 import fr.utbm.vi51.group11.lemmings.model.agent.KeyboardAgent;
+import fr.utbm.vi51.group11.lemmings.model.agent.LemmingAgent;
+import fr.utbm.vi51.group11.lemmings.model.agent.qlearning.QLearning;
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelProperties;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelPropertiesMap;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IControllable;
+import fr.utbm.vi51.group11.lemmings.utils.interfaces.IEntityCreatedListener;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IEntityDestroyedListener;
 
 /**
@@ -27,7 +30,7 @@ import fr.utbm.vi51.group11.lemmings.utils.interfaces.IEntityDestroyedListener;
  * @author jnovak
  *
  */
-public class Simulation implements IEntityDestroyedListener
+public class Simulation implements IEntityDestroyedListener, IEntityCreatedListener
 {
 	/** Logger of the class */
 	public final static Logger	s_LOGGER				= LoggerFactory.getLogger(Simulation.class);
@@ -45,6 +48,8 @@ public class Simulation implements IEntityDestroyedListener
 	private float				m_speedMultiplicator	= 1.0f;
 
 	private HumanActor			m_humanActor;
+	
+	private QLearning m_qlearning;
 
 	/*----------------------------------------------*/
 
@@ -60,7 +65,11 @@ public class Simulation implements IEntityDestroyedListener
 		LevelProperties currentLevelProperties = LevelPropertiesMap.getInstance().get(
 				_environmentID);
 		m_agents = new ArrayList<Agent>();
-		m_environment = new Environment(currentLevelProperties, m_agents, this);
+		m_environment = new Environment(currentLevelProperties, this);
+		m_environment.addEntityCreatedListener(this);
+		m_environment.addEntityDestroyedListener(this);
+		
+		m_qlearning = new QLearning(m_environment, 0.70, 0.50, 0.0);
 
 		s_LOGGER.debug("Simulation created.");
 	}
@@ -76,19 +85,18 @@ public class Simulation implements IEntityDestroyedListener
 	/*----------------------------------------------*/
 	public void initialize()
 	{
-		KeyboardAgent ka = new KeyboardAgent();
 		for (WorldEntity ent : m_environment.m_worldEntities)
 		{
 			if (ent.getType() == WorldEntityEnum.LEMMING_BODY)
 			{
-				ka.setBody((IControllable) ent);
-				ka.enable(true);
-				break;
+				LemmingAgent agent = new LemmingAgent((LemmingBody)ent, m_qlearning);
+				agent.enable(true);
+				m_agents.add(agent);
 			}
 		}
 
-		m_environment.getGraphicsEngine().addKeyListener(ka);
-		m_agents.add(ka);
+		// m_environment.getGraphicsEngine().addKeyListener(ka);
+		// m_agents.add(ka);
 
 		m_humanActor = new HumanActor(this);
 		m_environment.getGraphicsEngine().addMouseListener(m_humanActor);
@@ -225,6 +233,16 @@ public class Simulation implements IEntityDestroyedListener
 		{
 			ag.kill();
 			m_agents.remove(ag);
+		}
+	}
+
+	@Override
+	public void onEntityCreated(WorldEntity _ent) {
+		if(_ent.getType() == WorldEntityEnum.LEMMING_BODY)
+		{
+			LemmingAgent la = new LemmingAgent((LemmingBody)_ent, m_qlearning);
+			la.enable(true);
+			m_agents.add(la);
 		}
 	}
 }

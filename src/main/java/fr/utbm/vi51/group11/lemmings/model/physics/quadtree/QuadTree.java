@@ -192,7 +192,7 @@ public class QuadTree
 	/*----------------------------------------------*/
 	public QuadTree(final int _width, final int _height)
 	{
-		m_rootNode = new QuadTreeNode(new RectangleShape(_width, UtilsLemmings.s_tileHeight
+		m_rootNode = new QuadTreeNode(new RectangleShape(UtilsLemmings.s_tileWidth * _width, UtilsLemmings.s_tileHeight
 				* _height, null));
 	}
 
@@ -213,7 +213,8 @@ public class QuadTree
 	public void remove(
 			final CollisionShape _shape)
 	{
-		m_rootNode.removeElement(_shape);
+		if(_shape != null)
+			m_rootNode.removeElement(_shape);
 	}
 
 	/*----------------------------------------------*/

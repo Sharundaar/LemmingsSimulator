@@ -10,6 +10,7 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -158,5 +159,9 @@ public class MainFrame extends GUI implements ActionListener
 		}
 
 		m_graphicsEngine.requestFocus();
+	}
+
+	public void displayEndGameMessage(int _alive, int _dead) {
+		JOptionPane.showMessageDialog(this, "GAME OVER. You saved "+_alive+" lemmings and "+_dead+" are dead !");
 	}
 }
