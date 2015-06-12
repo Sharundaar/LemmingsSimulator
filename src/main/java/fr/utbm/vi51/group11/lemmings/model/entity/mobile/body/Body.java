@@ -274,14 +274,14 @@ public abstract class Body extends DynamicEntity implements IControllable
 			case CLIMBING:
 				if ((signX == -1))
 				{
-					if (signY == 1)
+					if (signY != 0)
 						return getAnimationFromState(animationList, AnimationState.CLIMBING_LEFT);
 					else
 						return getAnimationFromState(animationList,
 								AnimationState.CLIMBING_LEFT_IDLE);
 				} else if (signX == 1)
 				{
-					if (signY == 1)
+					if (signY != 0)
 						return getAnimationFromState(animationList, AnimationState.CLIMBING_RIGHT);
 					else
 						return getAnimationFromState(animationList,
@@ -340,7 +340,7 @@ public abstract class Body extends DynamicEntity implements IControllable
 		for (BodyState bodyState : m_animations.keySet())
 			for (Animation anim : m_animations.get(bodyState))
 			{
-				anim.setBodyState(m_state);
+				anim.setBodyState(m_state.newInstance());
 				anim.setBodyStateProperty(m_stateProperty.newInstance());
 			}
 	}

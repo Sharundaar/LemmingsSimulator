@@ -38,10 +38,6 @@ public class LemmingBody extends Body implements ICollidable
 
 		m_type = WorldEntityEnum.LEMMING_BODY;
 
-		/* Fills the animation list. */
-		m_animations = new MultivaluedMapImpl<BodyState, Animation>();
-		fillAnimationMap();
-
 		m_alive = false;
 		m_worldCoords = _worldCoords;
 
@@ -62,6 +58,10 @@ public class LemmingBody extends Body implements ICollidable
 
 		m_state = BodyState.NORMAL;
 		m_stateProperty = new BodyStateProperty();
+
+		/* Fills the animation list. */
+		m_animations = new MultivaluedMapImpl<BodyState, Animation>();
+		fillAnimationMap();
 		m_currentAnimation = m_animations.get(m_state).get(1);
 		m_currentAnimation.setBodyState(m_state);
 		m_currentAnimation.setBodyStateProperty(m_stateProperty);
@@ -77,7 +77,8 @@ public class LemmingBody extends Body implements ICollidable
 	private void fillAnimationMap()
 	{
 		for (AnimationState state : AnimationState.values())
-			m_animations.add(state.getBodyState(), new Animation(state));
+			m_animations
+					.add(state.getBodyState().newInstance(), new Animation(state.newInstance()));
 	}
 
 	/*----------------------------------------------*/
