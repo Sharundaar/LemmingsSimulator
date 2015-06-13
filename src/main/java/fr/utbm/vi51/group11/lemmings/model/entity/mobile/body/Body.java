@@ -196,7 +196,7 @@ public abstract class Body extends DynamicEntity implements IControllable
 				m_stateProperty.m_diggingDirection = _property.m_diggingDirection;
 				m_stateProperty.m_diggingStart = _property.m_diggingStart;
 				break;
-				
+
 			case CLIMBING:
 				break;
 			case NORMAL:
@@ -279,14 +279,14 @@ public abstract class Body extends DynamicEntity implements IControllable
 			case CLIMBING:
 				if ((signX == -1))
 				{
-					if (signY == 1)
+					if (signY != 0)
 						return getAnimationFromState(animationList, AnimationState.CLIMBING_LEFT);
 					else
 						return getAnimationFromState(animationList,
 								AnimationState.CLIMBING_LEFT_IDLE);
 				} else if (signX == 1)
 				{
-					if (signY == 1)
+					if (signY != 0)
 						return getAnimationFromState(animationList, AnimationState.CLIMBING_RIGHT);
 					else
 						return getAnimationFromState(animationList,

@@ -57,7 +57,7 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 		int nbRow, nbCol;
 		int[][] tileGrid;
 		Set<String> textureIDs = new HashSet<String>();
-		MultivaluedMap<String, WorldEntityConfiguration> worldEntitiesConfiguration = new MultivaluedMapImpl<String, WorldEntityConfiguration>();
+		MultivaluedMap<String, WorldEntityConfiguration> worldEntitiesConfiguration;
 		Point2f entityCoord = null;
 
 		try
@@ -85,6 +85,8 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 			/* Pour chaque balise <level> */
 			for (int index = 0; index < levelList.getLength(); ++index)
 			{
+
+				worldEntitiesConfiguration = new MultivaluedMapImpl<String, WorldEntityConfiguration>();
 				/* Gets the ID of the level. */
 				id = levelList.item(index).getAttributes().item(0).getTextContent();
 

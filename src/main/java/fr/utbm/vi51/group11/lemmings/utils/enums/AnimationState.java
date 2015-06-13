@@ -33,6 +33,41 @@ public enum AnimationState
 		m_nbSpriteSet = _nbSprites;
 	}
 
+	public AnimationState newInstance()
+	{
+		switch (this)
+		{
+			case WALKING_LEFT:
+				return WALKING_LEFT;
+			case IDLE:
+				return IDLE;
+			case WALKING_RIGHT:
+				return WALKING_RIGHT;
+			case CLIMBING_LEFT_IDLE:
+				return CLIMBING_LEFT_IDLE;
+			case CLIMBING_LEFT:
+				return CLIMBING_LEFT;
+			case CLIMBING_RIGHT_IDLE:
+				return CLIMBING_RIGHT_IDLE;
+			case CLIMBING_RIGHT:
+				return CLIMBING_RIGHT;
+			case FALLING_FREE:
+				return FALLING_FREE;
+			case FALLING_UMBRELLA:
+				return FALLING_UMBRELLA;
+			case DIGGING_LEFT:
+				return DIGGING_LEFT;
+			case DIGGING_DOWN:
+				return DIGGING_DOWN;
+			case DIGGING_RIGHT:
+				return DIGGING_RIGHT;
+			case DEAD:
+				return DEAD;
+			default:
+				return null;
+		}
+	}
+
 	public int getNbSpriteSet()
 	{
 		return m_nbSpriteSet;

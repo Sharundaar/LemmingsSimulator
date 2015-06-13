@@ -10,15 +10,19 @@ package fr.utbm.vi51.group11.lemmings.utils.enums;
 public enum CellType
 {
 	BACK_WALL_BRIGHT(0, true, false),
-	TOXIC(1, true, true),
-	PIT(2, true, false),
-	BRICK_STONE(3, false, false),
-	DIRT(4, false, false),
-	GRASS(5, false, false),
-	ATTRACTIVE_FIELD(6, false, false),
-	REPULSIVE_FIELD(7, false, false),
-	GRANIT(8, false, false),
-	CONCRETE(9, false, false);
+	TOXIC_BACK_WALL_BRIGHT(1, true, true),
+	PIT_BACK_WALL_BRIGHT(2, true, false),
+	BACK_WALL_GRANIT(3, true, false),
+	TOXIC_BACK_WALL_GRANIT(4, true, true),
+	PIT_BACK_WALL_GRANIT(5, true, false),
+	BACK_WALL_CONCRETE(6, true, false),
+	TOXIC_BACK_WALL_CONCRETE(7, true, true),
+	PIT_BACK_WALL_CONCRETE(8, true, false),
+	BRICK_STONE(9, false, false),
+	DIRT(10, false, false),
+	GRASS(11, false, false),
+	ATTRACTIVE_FIELD(12, false, false),
+	REPULSIVE_FIELD(13, false, false);
 
 	/*----------------------------------------------*/
 
