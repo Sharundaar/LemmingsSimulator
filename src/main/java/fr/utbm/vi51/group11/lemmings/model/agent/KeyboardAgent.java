@@ -23,6 +23,7 @@ public class KeyboardAgent extends Agent implements KeyListener
 	boolean	m_spacePressed	= false;
 	
 	boolean m_lPressed = false;
+	boolean m_kPressed = false;
 	
 	ShortTermAgent m_shortAgent = new ShortTermAgent();
 	
@@ -60,8 +61,14 @@ public class KeyboardAgent extends Agent implements KeyListener
 		
 		if(m_lPressed)
 		{
-			m_shortAgent.setOrder(ShortTermAgentOrder.DIG_LEFT);
+			m_shortAgent.setOrder(ShortTermAgentOrder.DIG_RIGHT);
 			m_lPressed = false;
+		}
+		
+		if(m_kPressed)
+		{
+			m_shortAgent.setOrder(ShortTermAgentOrder.DIG_LEFT);
+			m_kPressed = false;
 		}
 		
 		if(m_spacePressed)
@@ -114,6 +121,9 @@ public class KeyboardAgent extends Agent implements KeyListener
 		
 		if (arg0.getKeyCode() == KeyEvent.VK_L)
 			m_lPressed = true;
+		
+		if (arg0.getKeyCode() == KeyEvent.VK_K)
+			m_kPressed = true;
 		
 		if (arg0.getKeyCode() == KeyEvent.VK_SPACE)
 			m_spacePressed = true;

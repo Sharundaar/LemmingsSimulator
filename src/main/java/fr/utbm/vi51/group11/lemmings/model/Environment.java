@@ -23,6 +23,7 @@ import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
 import fr.utbm.vi51.group11.lemmings.model.physics.PhysicEngine;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape.PhysicType;
+import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelProperties;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.WorldEntityConfiguration;
 import fr.utbm.vi51.group11.lemmings.utils.enums.DigDirection;
@@ -635,5 +636,19 @@ public class Environment
 		addWorldEntity(_ent);
 		for(IEntityCreatedListener listener : m_entityCreatedListener)
 			listener.onEntityCreated(_ent);
+	}
+
+	public WorldEntity getEntity(int x, int y) {
+		RectangleShape rshape = new RectangleShape(x-1, y-1, 3, 3, null);
+		rshape.updateShape();
+		LinkedList<CollisionShape> shapes = m_physicEngine.getCollidingObjects(rshape);
+		if(shapes.size() <= 0)
+			return null;
+		
+		CollisionShape shape = shapes.getFirst();
+		
+		if(shape.getProperty() != null && shape.getProperty().getEntity() != null)
+			return shape.getProperty().getEntity();
+		return null;
 	}
 }

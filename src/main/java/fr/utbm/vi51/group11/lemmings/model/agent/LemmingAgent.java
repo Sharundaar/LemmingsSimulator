@@ -11,6 +11,7 @@ import fr.utbm.vi51.group11.lemmings.model.agent.qlearning.QLearningState;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
 import fr.utbm.vi51.group11.lemmings.utils.enums.InfluenceType;
 import fr.utbm.vi51.group11.lemmings.utils.enums.ShortTermAgentOrder;
+import fr.utbm.vi51.group11.lemmings.utils.interfaces.IControllable;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
 import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
 import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
@@ -38,15 +39,15 @@ public class LemmingAgent extends Agent
 	/**
 	 * Default Constructor. Creates a LemmingAgent from a body.
 	 * 
-	 * @param _lemmingBody
+	 * @param ent
 	 *            Body of the LemmingAgent.
 	 */
-	public LemmingAgent(final LemmingBody _lemmingBody, QLearning _learningAPI)
+	public LemmingAgent(final IControllable ent, QLearning _learningAPI)
 	{
 		s_LOGGER.debug("Creation of the Lemming Agent...");
 
 		m_learningAPI = _learningAPI;
-		m_body = _lemmingBody;
+		m_body = ent;
 		
 		m_shortTermAgent = new ShortTermAgent();
 		m_shortTermAgent.setBody(m_body);

@@ -11,6 +11,7 @@ import fr.utbm.vi51.group11.lemmings.model.agent.KeyboardAgent;
 import fr.utbm.vi51.group11.lemmings.model.agent.LemmingAgent;
 import fr.utbm.vi51.group11.lemmings.model.agent.qlearning.QLearning;
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
+import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.Body;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelProperties;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelPropertiesMap;
@@ -52,6 +53,8 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 	private QLearning m_qlearning;
 	
 	private boolean m_pause = false;
+	
+	private KeyboardAgent m_keyboardAgent;
 
 	/*----------------------------------------------*/
 
@@ -97,8 +100,10 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 			}
 		}
 
-		// m_environment.getGraphicsEngine().addKeyListener(ka);
-		// m_agents.add(ka);
+		m_keyboardAgent = new KeyboardAgent();
+		m_keyboardAgent.enable(true);
+		m_environment.getGraphicsEngine().addKeyListener(m_keyboardAgent);
+		m_agents.add(m_keyboardAgent);
 
 		m_humanActor = new HumanActor(this);
 		m_environment.getGraphicsEngine().addMouseListener(m_humanActor);
@@ -238,6 +243,22 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 			m_agents.remove(ag);
 		}
 	}
+	
+	// Remove the agent that control the body
+	public void removeAgent(IControllable _body)
+	{
+		Agent toRemove = null;
+		for(Agent ag : m_agents)
+		{
+			if(ag.getBody() == _body)
+			{
+				toRemove = ag;
+			}
+		}
+		toRemove.setBody(null);
+		toRemove.enable(false);
+		m_agents.remove(toRemove);
+	}
 
 	@Override
 	public void onEntityCreated(WorldEntity _ent) {
@@ -260,5 +281,21 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 	public boolean isPaused() {
 		// TODO Auto-generated method stub
 		return m_pause;
+	}
+
+	public KeyboardAgent getKeyboardAgent() {
+		// TODO Auto-generated method stub
+		return m_keyboardAgent;
+	}
+
+	public void addAgent(Agent _agent) {
+		// TODO Auto-generated method stub
+		m_agents.add(_agent);
+		_agent.enable(true);
+	}
+
+	public QLearning getLearningAPI() {
+		// TODO Auto-generated method stub
+		return m_qlearning;
 	}
 }
