@@ -11,10 +11,8 @@ import fr.utbm.vi51.group11.lemmings.model.agent.KeyboardAgent;
 import fr.utbm.vi51.group11.lemmings.model.agent.LemmingAgent;
 import fr.utbm.vi51.group11.lemmings.model.agent.qlearning.QLearning;
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
-import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.Body;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
 import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelProperties;
-import fr.utbm.vi51.group11.lemmings.utils.configuration.level.LevelPropertiesMap;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IControllable;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IEntityCreatedListener;
@@ -49,12 +47,12 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 	private float				m_speedMultiplicator	= 1.0f;
 
 	private HumanActor			m_humanActor;
-	
-	private QLearning m_qlearning;
-	
-	private boolean m_pause = false;
-	
-	private KeyboardAgent m_keyboardAgent;
+
+	private final QLearning		m_qlearning;
+
+	private boolean				m_pause					= false;
+
+	private KeyboardAgent		m_keyboardAgent;
 
 	/*----------------------------------------------*/
 
@@ -62,18 +60,15 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 	 * Default Constructor. Creates the list of agents, the environment and
 	 * instantiates its inputController.
 	 */
-	public Simulation(final String _environmentID)
+	public Simulation(final LevelProperties _levelProperties)
 	{
 		s_LOGGER.debug("Creation of the Simulation...");
 
-		/* Creation of the attributes */
-		LevelProperties currentLevelProperties = LevelPropertiesMap.getInstance().get(
-				_environmentID);
 		m_agents = new ArrayList<Agent>();
-		m_environment = new Environment(currentLevelProperties, this);
+		m_environment = new Environment(_levelProperties, this);
 		m_environment.addEntityCreatedListener(this);
 		m_environment.addEntityDestroyedListener(this);
-		
+
 		m_qlearning = new QLearning(m_environment, 0.70, 0.50, 0.0);
 
 		s_LOGGER.debug("Simulation created.");
@@ -94,7 +89,7 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 		{
 			if (ent.getType() == WorldEntityEnum.LEMMING_BODY)
 			{
-				LemmingAgent agent = new LemmingAgent((LemmingBody)ent, m_qlearning);
+				LemmingAgent agent = new LemmingAgent((LemmingBody) ent, m_qlearning);
 				agent.enable(true);
 				m_agents.add(agent);
 			}
@@ -126,7 +121,7 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 		while (m_running)
 		{
 			start = System.currentTimeMillis();
-			if(!m_pause)
+			if (!m_pause)
 				update((long) (m_speedMultiplicator * dt));
 			draw();
 
@@ -222,7 +217,17 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 	public void destroy()
 	{
 		m_agents.clear();
+		m_environment.destroy();
 	}
+
+	/*----------------------------------------------*/
+
+	public void stop()
+	{
+		m_running = false;
+	}
+
+	/*----------------------------------------------*/
 
 	@Override
 	public void onEntityDestroyed(
@@ -244,14 +249,15 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 			m_agents.remove(ag);
 		}
 	}
-	
+
 	// Remove the agent that control the body
-	public void removeAgent(IControllable _body)
+	public void removeAgent(
+			final IControllable _body)
 	{
 		Agent toRemove = null;
-		for(Agent ag : m_agents)
+		for (Agent ag : m_agents)
 		{
-			if(ag.getBody() == _body)
+			if (ag.getBody() == _body)
 			{
 				toRemove = ag;
 			}
@@ -262,40 +268,50 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 	}
 
 	@Override
-	public void onEntityCreated(WorldEntity _ent) {
-		if(_ent.getType() == WorldEntityEnum.LEMMING_BODY)
+	public void onEntityCreated(
+			final WorldEntity _ent)
+	{
+		if (_ent.getType() == WorldEntityEnum.LEMMING_BODY)
 		{
-			LemmingAgent la = new LemmingAgent((LemmingBody)_ent, m_qlearning);
+			LemmingAgent la = new LemmingAgent((LemmingBody) _ent, m_qlearning);
 			la.enable(true);
 			m_agents.add(la);
 		}
 	}
 
-	public void setPause(boolean b) {
+	public void setPause(
+			final boolean b)
+	{
 		m_pause = b;
 	}
 
-	public void togglePause() {
+	public void togglePause()
+	{
 		m_pause = !m_pause;
 	}
 
-	public boolean isPaused() {
+	public boolean isPaused()
+	{
 		// TODO Auto-generated method stub
 		return m_pause;
 	}
 
-	public KeyboardAgent getKeyboardAgent() {
+	public KeyboardAgent getKeyboardAgent()
+	{
 		// TODO Auto-generated method stub
 		return m_keyboardAgent;
 	}
 
-	public void addAgent(Agent _agent) {
+	public void addAgent(
+			final Agent _agent)
+	{
 		// TODO Auto-generated method stub
 		m_agents.add(_agent);
 		_agent.enable(true);
 	}
 
-	public QLearning getLearningAPI() {
+	public QLearning getLearningAPI()
+	{
 		// TODO Auto-generated method stub
 		return m_qlearning;
 	}

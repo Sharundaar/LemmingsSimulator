@@ -38,9 +38,9 @@ public class GraphicsEngine extends JPanel
 	 */
 	private static final long			serialVersionUID	= 1756239984776600738L;
 
-	private final Environment			m_environnement;
+	private Environment					m_environnement;
 
-	private final AffineTransform		m_affineTransform;
+	private AffineTransform				m_affineTransform;
 
 	private final EnumSet<DebugOption>	m_debugOptions;
 
@@ -241,5 +241,12 @@ public class GraphicsEngine extends JPanel
 			final DebugOption _option)
 	{
 		return m_debugOptions.contains(_option);
+	}
+
+	public void destroy()
+	{
+		m_environnement = null;
+		m_affineTransform = null;
+		m_debugOptions.clear();
 	}
 }

@@ -10,8 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import fr.utbm.vi51.group11.lemmings.gui.GraphicsEngine;
 import fr.utbm.vi51.group11.lemmings.gui.MainFrame;
-import fr.utbm.vi51.group11.lemmings.model.agent.Agent;
-import fr.utbm.vi51.group11.lemmings.model.agent.qlearning.QLearningState;
 import fr.utbm.vi51.group11.lemmings.model.entity.WorldEntity;
 import fr.utbm.vi51.group11.lemmings.model.entity.immobile.LevelEnd;
 import fr.utbm.vi51.group11.lemmings.model.entity.immobile.LevelStart;
@@ -19,7 +17,6 @@ import fr.utbm.vi51.group11.lemmings.model.entity.immobile.map.Map;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.Body;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.BodyState;
 import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.BodyStateProperty;
-import fr.utbm.vi51.group11.lemmings.model.entity.mobile.body.LemmingBody;
 import fr.utbm.vi51.group11.lemmings.model.physics.PhysicEngine;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape.PhysicType;
@@ -55,7 +52,7 @@ public class Environment
 	private final Map									m_map;
 
 	/** Graphical User Interface of the simulation */
-	private final MainFrame								m_gui;
+	private MainFrame									m_gui;
 
 	/**
 	 * PhyicsEngine of the environment that handles all matters related to
@@ -70,13 +67,13 @@ public class Environment
 	private final InfluenceSolver						m_influenceSolver;
 
 	private final LinkedList<IEntityDestroyedListener>	m_entityDestroyedListener	= new LinkedList<IEntityDestroyedListener>();
-	private final LinkedList<IEntityCreatedListener> 	m_entityCreatedListener 	= new LinkedList<IEntityCreatedListener>();
+	private final LinkedList<IEntityCreatedListener>	m_entityCreatedListener		= new LinkedList<IEntityCreatedListener>();
 
 	private final LinkedList<BodyStateChangeRequest>	m_changeBodyStateRequest	= new LinkedList<Environment.BodyStateChangeRequest>();
-	
-	private int m_levelSpawnedLemming = 0;
-	
-	private boolean m_gameOver = false;
+
+	private int											m_levelSpawnedLemming		= 0;
+
+	private boolean										m_gameOver					= false;
 
 	class BodyStateChangeRequest
 	{
@@ -91,8 +88,7 @@ public class Environment
 	}
 
 	/*----------------------------------------------*/
-	public Environment(final LevelProperties _currentLevelProperties,
-			final Simulation _simulator)
+	public Environment(final LevelProperties _currentLevelProperties, final Simulation _simulator)
 	{
 		s_LOGGER.debug("Creation of the environment...");
 
@@ -106,7 +102,6 @@ public class Environment
 		m_environmentTime = 0;
 		m_map = new Map(_currentLevelProperties, this);
 		m_physicEngine = new PhysicEngine(width, height);
-		m_gui = new MainFrame(_simulator, this, width, height);
 
 		m_worldEntities = new ArrayList<WorldEntity>();
 
@@ -127,7 +122,7 @@ public class Environment
 				{
 					worldEntity = EntityFactory.getInstance().createLevelEnd(c, this);
 				}
-				
+
 				addWorldEntity(worldEntity);
 			}
 
@@ -143,6 +138,22 @@ public class Environment
 	}
 
 	/*----------------------------------------------*/
+
+	public MainFrame getMainFrame()
+	{
+		return m_gui;
+	}
+
+	/*----------------------------------------------*/
+
+	public void setMainFrame(
+			final MainFrame _frame)
+	{
+		m_gui = _frame;
+	}
+
+	/*----------------------------------------------*/
+
 	public LevelEnd getFirstLevelEnd()
 	{
 		for (WorldEntity ent : m_worldEntities)
@@ -168,7 +179,7 @@ public class Environment
 		if (!m_entityDestroyedListener.contains(_listener))
 			m_entityDestroyedListener.add(_listener);
 	}
-	
+
 	/*----------------------------------------------*/
 	public void addEntityCreatedListener(
 			final IEntityCreatedListener _listener)
@@ -245,9 +256,10 @@ public class Environment
 			final Body _body)
 	{
 		List<IPerceivable> result = new LinkedList<IPerceivable>();
-		for(CollisionShape shape : m_physicEngine.getCollidingObjects(_body.getFrustrum().getShape()))
+		for (CollisionShape shape : m_physicEngine.getCollidingObjects(_body.getFrustrum()
+				.getShape()))
 		{
-			if(shape.getProperty() != null && shape.getProperty().getEntity() != null)
+			if ((shape.getProperty() != null) && (shape.getProperty().getEntity() != null))
 				result.add(shape.getProperty().getEntity());
 		}
 		return result; // TODO
@@ -257,10 +269,10 @@ public class Environment
 	public void update(
 			final long _dt)
 	{
-		
-		if(m_gameOver)
+
+		if (m_gameOver)
 			return;
-		
+
 		m_environmentTime += _dt;
 
 		LinkedList<Body> bodies = new LinkedList<Body>();
@@ -279,54 +291,56 @@ public class Environment
 		// m_physicEngine.updateSpeed(bodies);
 
 		updateBodyStates(bodies);
-		
+
 		updateWorldEntities(_dt);
 
 		checkEndGameCondition();
-		
+
 		updateAnimations(_dt);
 	}
-	
+
 	/*----------------------------------------------*/
 	public void checkEndGameCondition()
 	{
 		int endedLemmingCount = 0;
 		int deadCount = 0;
-		for(WorldEntity ent : m_worldEntities)
+		for (WorldEntity ent : m_worldEntities)
 		{
-			if(ent.getType() == WorldEntityEnum.LEVEL_END)
+			if (ent.getType() == WorldEntityEnum.LEVEL_END)
 			{
-				endedLemmingCount += ((LevelEnd)ent).getLemmingStashCount();
-			}
-			else if(ent.getType() == WorldEntityEnum.LEMMING_BODY)
+				endedLemmingCount += ((LevelEnd) ent).getLemmingStashCount();
+			} else if (ent.getType() == WorldEntityEnum.LEMMING_BODY)
 			{
-				if(((Body)ent).getState() == BodyState.DEAD)
+				if (((Body) ent).getState() == BodyState.DEAD)
 					deadCount++;
 			}
 		}
-		
-		if(endedLemmingCount == LevelStart.s_LEMMINGS_AT_START + m_levelSpawnedLemming)
+
+		if (endedLemmingCount == (LevelStart.s_LEMMINGS_AT_START + m_levelSpawnedLemming))
 		{
 			gameOver(endedLemmingCount, deadCount);
 		}
 	}
-	
-	public void gameOver(int _alive, int _dead)
+
+	public void gameOver(
+			final int _alive,
+			final int _dead)
 	{
 		m_gui.displayEndGameMessage(_alive, _dead);
 		m_gameOver = true;
 	}
-	
+
 	/*----------------------------------------------*/
-	public void updateWorldEntities(long _dt)
+	public void updateWorldEntities(
+			final long _dt)
 	{
 		LinkedList<WorldEntity> concurrentProtect = new LinkedList<WorldEntity>(m_worldEntities);
-		for(WorldEntity ent : concurrentProtect)
+		for (WorldEntity ent : concurrentProtect)
 		{
-			if(ent.getType() == WorldEntityEnum.LEVEL_START)
-				((LevelStart)ent).update(_dt);
-			else if(ent.getType() == WorldEntityEnum.LEVEL_END)
-				((LevelEnd)ent).update(_dt);
+			if (ent.getType() == WorldEntityEnum.LEVEL_START)
+				((LevelStart) ent).update(_dt);
+			else if (ent.getType() == WorldEntityEnum.LEVEL_END)
+				((LevelEnd) ent).update(_dt);
 		}
 	}
 
@@ -614,41 +628,59 @@ public class Environment
 		m_changeBodyStateRequest.add(new BodyStateChangeRequest(_body, _state));
 	}
 
-	public LevelStart getLevelStart() {
-		for(WorldEntity ent : m_worldEntities)
+	public LevelStart getLevelStart()
+	{
+		for (WorldEntity ent : m_worldEntities)
 		{
-			if(ent.getType() == WorldEntityEnum.LEVEL_START)
-				return (LevelStart)ent;
+			if (ent.getType() == WorldEntityEnum.LEVEL_START)
+				return (LevelStart) ent;
 		}
 		return null;
 	}
 
-	public LevelEnd getLevelEnd() {
-		for(WorldEntity ent : m_worldEntities)
+	public LevelEnd getLevelEnd()
+	{
+		for (WorldEntity ent : m_worldEntities)
 		{
-			if(ent.getType() == WorldEntityEnum.LEVEL_END)
-				return (LevelEnd)ent;
+			if (ent.getType() == WorldEntityEnum.LEVEL_END)
+				return (LevelEnd) ent;
 		}
 		return null;
 	}
 
-	public void createWorldEntity(WorldEntity _ent) {
+	public void createWorldEntity(
+			final WorldEntity _ent)
+	{
 		addWorldEntity(_ent);
-		for(IEntityCreatedListener listener : m_entityCreatedListener)
+		for (IEntityCreatedListener listener : m_entityCreatedListener)
 			listener.onEntityCreated(_ent);
 	}
 
-	public WorldEntity getEntity(int x, int y) {
-		RectangleShape rshape = new RectangleShape(x-1, y-1, 3, 3, null);
+	public WorldEntity getEntity(
+			final int x,
+			final int y)
+	{
+		RectangleShape rshape = new RectangleShape(x - 1, y - 1, 3, 3, null);
 		rshape.updateShape();
 		LinkedList<CollisionShape> shapes = m_physicEngine.getCollidingObjects(rshape);
-		if(shapes.size() <= 0)
+		if (shapes.size() <= 0)
 			return null;
-		
+
 		CollisionShape shape = shapes.getFirst();
-		
-		if(shape.getProperty() != null && shape.getProperty().getEntity() != null)
+
+		if ((shape.getProperty() != null) && (shape.getProperty().getEntity() != null))
 			return shape.getProperty().getEntity();
 		return null;
+	}
+
+	/*----------------------------------------------*/
+
+	public void destroy()
+	{
+		m_worldEntities.clear();
+		m_changeBodyStateRequest.clear();
+		m_entityDestroyedListener.clear();
+		m_environmentTime = 0;
+		m_gui.clearFrame();
 	}
 }

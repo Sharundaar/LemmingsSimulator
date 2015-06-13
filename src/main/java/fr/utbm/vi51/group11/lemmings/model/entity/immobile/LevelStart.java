@@ -22,7 +22,7 @@ public class LevelStart extends WorldEntity implements ICollidable, IPerceivable
 	@SuppressWarnings("unused")
 	private final static Logger	s_LOGGER				= LoggerFactory.getLogger(LevelStart.class);
 
-	public final static int		s_LEMMINGS_AT_START		= 150;
+	public final static int		s_LEMMINGS_AT_START		= 50;
 
 	private int					m_stashedLemmingCount	= s_LEMMINGS_AT_START;
 	private long				m_spawnLemmingTimer		= 0;
