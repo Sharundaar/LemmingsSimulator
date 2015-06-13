@@ -20,18 +20,19 @@ public class LevelStart extends WorldEntity implements ICollidable, IPerceivable
 {
 	/** Logger of the class */
 	@SuppressWarnings("unused")
-	private final static Logger	s_LOGGER	= LoggerFactory.getLogger(LevelStart.class);
+	private final static Logger	s_LOGGER				= LoggerFactory.getLogger(LevelStart.class);
 
-	public final static int s_LEMMINGS_AT_START = 10;
-	
-	private int m_stashedLemmingCount = s_LEMMINGS_AT_START;
-	private long m_spawnLemmingTimer = 0;
-	private long m_spawnRate = 5000;
-	private Point2f m_spawnPoint;
-	
-	private Environment m_environment;
-	
-	public LevelStart(final String _textureID, final Point2f _worldCoords, Environment _environment)
+	public final static int		s_LEMMINGS_AT_START		= 150;
+
+	private int					m_stashedLemmingCount	= s_LEMMINGS_AT_START;
+	private long				m_spawnLemmingTimer		= 0;
+	private final long			m_spawnRate				= 1000;
+	private final Point2f		m_spawnPoint;
+
+	private final Environment	m_environment;
+
+	public LevelStart(final String _textureID, final Point2f _worldCoords,
+			final Environment _environment)
 	{
 		m_worldCoords = _worldCoords;
 		m_type = WorldEntityEnum.LEVEL_START;
@@ -44,32 +45,35 @@ public class LevelStart extends WorldEntity implements ICollidable, IPerceivable
 				UtilsLemmings.s_entryDefaultHeight, null));
 		m_collisionMask.setProperty(new CollisionProperty());
 		m_collisionMask.getProperty().setEntity(this);
-		
-		m_spawnPoint = new Point2f(_worldCoords.getX() + UtilsLemmings.s_entryDefaultWidth / 2.0f, _worldCoords.getY());
-		
-		m_stashedLemmingCount = 10;
-		
+
+		m_spawnPoint = new Point2f(
+				_worldCoords.getX() + (UtilsLemmings.s_entryDefaultWidth / 2.0f),
+				_worldCoords.getY());
+
 		m_environment = _environment;
 	}
-	
-	public void update(long _dt)
+
+	public void update(
+			final long _dt)
 	{
 		m_spawnLemmingTimer += _dt;
-		if(m_spawnLemmingTimer >= m_spawnRate && m_stashedLemmingCount > 0)
+		if ((m_spawnLemmingTimer >= m_spawnRate) && (m_stashedLemmingCount > 0))
 		{
 			m_spawnLemmingTimer = 0;
 			spawnLemming();
 		}
 	}
-	
+
 	public void spawnLemming()
 	{
-		LemmingBody lemming = new LemmingBody("entitySpriteSheet", new Point2f(m_spawnPoint), m_environment);
+		LemmingBody lemming = new LemmingBody("entitySpriteSheet", new Point2f(m_spawnPoint),
+				m_environment);
 		m_environment.createWorldEntity(lemming);
 		m_stashedLemmingCount--;
 	}
 
-	public Point2f getSpawnPoint() {
+	public Point2f getSpawnPoint()
+	{
 		// TODO Auto-generated method stub
 		return m_spawnPoint;
 	}

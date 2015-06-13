@@ -46,6 +46,7 @@ public class MainFrame extends GUI implements ActionListener
 	{
 		super();
 
+		setTitle("Lemmings Simulation");
 		createMenuBar();
 		this.setJMenuBar(m_menuBar);
 
@@ -161,15 +162,14 @@ public class MainFrame extends GUI implements ActionListener
 		{
 			m_simulator.setSpeedMultiplicator(2.0f);
 		}
-		if(arg0.getSource() == m_BPauseButton)
+		if (arg0.getSource() == m_BPauseButton)
 		{
 			m_simulator.togglePause();
-			
-			if(m_simulator.isPaused())
+
+			if (m_simulator.isPaused())
 			{
 				m_BPauseButton.setText("Play");
-			}
-			else
+			} else
 			{
 				m_BPauseButton.setText("Pause");
 			}
@@ -178,7 +178,11 @@ public class MainFrame extends GUI implements ActionListener
 		m_graphicsEngine.requestFocus();
 	}
 
-	public void displayEndGameMessage(int _alive, int _dead) {
-		JOptionPane.showMessageDialog(this, "GAME OVER. You saved "+_alive+" lemmings and "+_dead+" are dead !");
+	public void displayEndGameMessage(
+			final int _alive,
+			final int _dead)
+	{
+		JOptionPane.showMessageDialog(this, "GAME OVER. You saved " + _alive + " lemmings and "
+				+ _dead + " are dead !");
 	}
 }
