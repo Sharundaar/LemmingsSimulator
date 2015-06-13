@@ -3,9 +3,12 @@ package fr.utbm.vi51.group11.lemmings.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.utbm.vi51.group11.lemmings.gui.MainFrame;
 import fr.utbm.vi51.group11.lemmings.model.agent.Agent;
 import fr.utbm.vi51.group11.lemmings.model.agent.KeyboardAgent;
 import fr.utbm.vi51.group11.lemmings.model.agent.LemmingAgent;
@@ -17,6 +20,7 @@ import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IControllable;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IEntityCreatedListener;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IEntityDestroyedListener;
+import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 
 /**
  * Class designed to be the simulation of the project. Contains the list of
@@ -44,6 +48,8 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 
 	private boolean				m_running				= false;
 
+	private boolean				m_simulating			= true;
+
 	private float				m_speedMultiplicator	= 1.0f;
 
 	private HumanActor			m_humanActor;
@@ -53,6 +59,8 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 	private boolean				m_pause					= false;
 
 	private KeyboardAgent		m_keyboardAgent;
+
+	private LevelProperties		m_currentLevelProperties;
 
 	/*----------------------------------------------*/
 
@@ -65,11 +73,10 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 		s_LOGGER.debug("Creation of the Simulation...");
 
 		m_agents = new ArrayList<Agent>();
+		m_currentLevelProperties = _levelProperties;
 		m_environment = new Environment(_levelProperties, this);
 		m_environment.addEntityCreatedListener(this);
 		m_environment.addEntityDestroyedListener(this);
-
-		m_qlearning = new QLearning(m_environment, 0.70, 0.50, 0.0);
 
 		s_LOGGER.debug("Simulation created.");
 	}
@@ -85,6 +92,9 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 	/*----------------------------------------------*/
 	public void initialize()
 	{
+
+		m_qlearning = new QLearning(m_environment, 0.70, 0.50, 0.0);
+
 		for (WorldEntity ent : m_environment.m_worldEntities)
 		{
 			if (ent.getType() == WorldEntityEnum.LEMMING_BODY)
@@ -109,42 +119,49 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 	{
 		s_LOGGER.debug("Loop start.");
 
-		initialize();
-
-		m_running = true;
-
-		long start = 0;
-		long end = System.currentTimeMillis();
-		long dt = 0;
-		long fps_timer = 0;
-		short fps_count = 0;
-		while (m_running)
+		while (m_simulating)
 		{
-			start = System.currentTimeMillis();
-			if (!m_pause)
-				update((long) (m_speedMultiplicator * dt));
-			draw();
+			initialize();
 
-			try
+			m_running = true;
+
+			long start = 0;
+			long end = System.currentTimeMillis();
+			long dt = 0;
+			long fps_timer = 0;
+			short fps_count = 0;
+			while (m_running)
 			{
-				if ((System.currentTimeMillis() - start) < 17)
-					Thread.sleep(17 - (System.currentTimeMillis() - start));
-			} catch (InterruptedException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				start = System.currentTimeMillis();
+				if (!m_pause)
+					update((long) (m_speedMultiplicator * dt));
+				draw();
+
+				try
+				{
+					if ((System.currentTimeMillis() - start) < 17)
+						Thread.sleep(17 - (System.currentTimeMillis() - start));
+				} catch (InterruptedException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				end = System.currentTimeMillis();
+
+				dt = end - start;
+
+				fps_timer += dt;
+				fps_count++;
+				if (fps_timer >= 1000)
+				{
+					s_LOGGER.debug("FPS: {}.", fps_count);
+					fps_timer = 0;
+					fps_count = 0;
+				}
 			}
-			end = System.currentTimeMillis();
-
-			dt = end - start;
-
-			fps_timer += dt;
-			fps_count++;
-			if (fps_timer >= 1000)
+			if (m_simulating)
 			{
-				s_LOGGER.debug("FPS: {}.", fps_count);
-				fps_timer = 0;
-				fps_count = 0;
+				changeLevel();
 			}
 		}
 	}
@@ -222,9 +239,24 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 
 	/*----------------------------------------------*/
 
-	public void stop()
+	public void stopSimulating()
+	{
+		m_simulating = false;
+	}
+
+	/*----------------------------------------------*/
+
+	public void stopRunning()
 	{
 		m_running = false;
+	}
+
+	/*----------------------------------------------*/
+
+	public void setLevelProperties(
+			final LevelProperties _newLevelProperties)
+	{
+		m_currentLevelProperties = _newLevelProperties;
 	}
 
 	/*----------------------------------------------*/
@@ -316,14 +348,23 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 		return m_qlearning;
 	}
 
-	public void restart(
-			final LevelProperties _levelProperties)
+	public void changeLevel()
 	{
-		m_environment = null;
-		m_environment = new Environment(_levelProperties, this);
-		m_qlearning = null;
-		m_qlearning = new QLearning(m_environment, 0.70, 0.50, 0.0);
+		s_LOGGER.debug("Simulation restarting...");
 
-		s_LOGGER.debug("Simulation created.");
+		MainFrame gui = (MainFrame) SwingUtilities.getWindowAncestor(m_environment
+				.getGraphicsEngine());
+
+		gui.clearFrame();
+
+		m_environment.destroy();
+		m_environment = new Environment(m_currentLevelProperties, this);
+		m_environment.setMainFrame(gui);
+		gui.initialize(this, UtilsLemmings.s_tileWidth * m_currentLevelProperties.getNbCol(),
+				UtilsLemmings.s_tileHeight * m_currentLevelProperties.getNbRow());
+
+		m_agents.clear();
+
+		s_LOGGER.debug("Simulation restarted.");
 	}
 }

@@ -29,6 +29,8 @@ public class Application implements Observer
 
 	private final List<String>	m_simulationIDs;
 
+	private MainFrame			m_gui;
+
 	public Application() throws JoranException, IOException
 	{
 		/* Initializes the logger and the logfile */
@@ -44,10 +46,10 @@ public class Application implements Observer
 		m_simulationIDs.addAll(LevelPropertiesMap.getInstance().keySet());
 		String currentSimulationID = m_simulationIDs.get(0);
 
-		MainFrame gui = new MainFrame("Lemmings Simulator");
+		m_gui = new MainFrame("Lemmings Simulator");
 
 		/* Make the Frame listen to the application */
-		gui.setApplicationObserver(this);
+		m_gui.setApplicationObserver(this);
 
 		/* Creation of the attributes */
 		LevelProperties currentLevelProperties = LevelPropertiesMap.getInstance().get(
@@ -56,16 +58,17 @@ public class Application implements Observer
 		/* Creates the simulation */
 		m_simulation = new Simulation(currentLevelProperties);
 
-		gui.initialize(m_simulation, UtilsLemmings.s_tileWidth * currentLevelProperties.getNbCol(),
+		m_gui.initialize(m_simulation,
+				UtilsLemmings.s_tileWidth * currentLevelProperties.getNbCol(),
 				UtilsLemmings.s_tileHeight * currentLevelProperties.getNbRow());
 
-		m_simulation.getEnvironment().setMainFrame(gui);
+		m_simulation.getEnvironment().setMainFrame(m_gui);
 
 		m_simulation.loop();
 
 		m_simulation.destroy();
 
-		gui.dispose();
+		m_gui.dispose();
 		destroyApplication();
 		s_LOGGER.info("Application destroyed.");
 	}
@@ -87,12 +90,16 @@ public class Application implements Observer
 		{
 			String currentSimulationID = (String) _arg;
 
-			m_simulation.restart(LevelPropertiesMap.getInstance().get(currentSimulationID));
+			LevelProperties newLevelProperties = LevelPropertiesMap.getInstance().get(
+					currentSimulationID);
+			m_simulation.setLevelProperties(newLevelProperties);
+			m_simulation.stopRunning();
 
 			/* Stopping the simulation. */
 		} else
 		{
-			m_simulation.stop();
+			m_simulation.stopRunning();
+			m_simulation.stopSimulating();
 		}
 	}
 }
