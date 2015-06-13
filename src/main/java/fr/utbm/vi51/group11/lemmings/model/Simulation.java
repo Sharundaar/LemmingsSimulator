@@ -40,7 +40,7 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 	private final List<Agent>	m_agents;
 
 	/** Reference to the environment of the simulation */
-	private final Environment	m_environment;
+	private Environment			m_environment;
 
 	private boolean				m_running				= false;
 
@@ -48,7 +48,7 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 
 	private HumanActor			m_humanActor;
 
-	private final QLearning		m_qlearning;
+	private QLearning			m_qlearning;
 
 	private boolean				m_pause					= false;
 
@@ -314,5 +314,16 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 	{
 		// TODO Auto-generated method stub
 		return m_qlearning;
+	}
+
+	public void restart(
+			final LevelProperties _levelProperties)
+	{
+		m_environment = null;
+		m_environment = new Environment(_levelProperties, this);
+		m_qlearning = null;
+		m_qlearning = new QLearning(m_environment, 0.70, 0.50, 0.0);
+
+		s_LOGGER.debug("Simulation created.");
 	}
 }

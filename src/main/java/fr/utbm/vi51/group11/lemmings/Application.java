@@ -25,12 +25,9 @@ public class Application implements Observer
 	/** Logger of the class */
 	private final static Logger	s_LOGGER	= LoggerFactory.getLogger(Application.class);
 
-	private String				m_currentSimulationID;
 	private Simulation			m_simulation;
 
 	private final List<String>	m_simulationIDs;
-
-	private boolean				m_simulating;
 
 	public Application() throws JoranException, IOException
 	{
@@ -38,40 +35,36 @@ public class Application implements Observer
 		UtilsFile.initLogger();
 
 		m_simulationIDs = new ArrayList<String>();
-		m_simulating = true;
 	}
 
 	public void go()
 	{
 		s_LOGGER.info("Application launched.");
-		LevelProperties currentLevelProperties;
 
 		m_simulationIDs.addAll(LevelPropertiesMap.getInstance().keySet());
-		m_currentSimulationID = m_simulationIDs.get(0);
+		String currentSimulationID = m_simulationIDs.get(0);
 
 		MainFrame gui = new MainFrame("Lemmings Simulator");
 
 		/* Make the Frame listen to the application */
 		gui.setApplicationObserver(this);
 
-		while (m_simulating)
-		{
-			/* Creation of the attributes */
-			currentLevelProperties = LevelPropertiesMap.getInstance().get(m_currentSimulationID);
+		/* Creation of the attributes */
+		LevelProperties currentLevelProperties = LevelPropertiesMap.getInstance().get(
+				currentSimulationID);
 
-			/* Creates the simulation */
-			m_simulation = new Simulation(currentLevelProperties);
+		/* Creates the simulation */
+		m_simulation = new Simulation(currentLevelProperties);
 
-			gui.initialize(m_simulation,
-					UtilsLemmings.s_tileWidth * currentLevelProperties.getNbCol(),
-					UtilsLemmings.s_tileHeight * currentLevelProperties.getNbRow());
+		gui.initialize(m_simulation, UtilsLemmings.s_tileWidth * currentLevelProperties.getNbCol(),
+				UtilsLemmings.s_tileHeight * currentLevelProperties.getNbRow());
 
-			m_simulation.getEnvironment().setMainFrame(gui);
+		m_simulation.getEnvironment().setMainFrame(gui);
 
-			m_simulation.loop();
+		m_simulation.loop();
 
-			m_simulation.destroy();
-		}
+		m_simulation.destroy();
+
 		gui.dispose();
 		destroyApplication();
 		s_LOGGER.info("Application destroyed.");
@@ -89,13 +82,16 @@ public class Application implements Observer
 			final Observable _observable,
 			final Object _arg)
 	{
+		/* Changing the environment */
 		if (_observable instanceof LevelObservable)
 		{
-			m_simulation.stop();
-			m_currentSimulationID = (String) _arg;
+			String currentSimulationID = (String) _arg;
+
+			m_simulation.restart(LevelPropertiesMap.getInstance().get(currentSimulationID));
+
+			/* Stopping the simulation. */
 		} else
 		{
-			m_simulating = false;
 			m_simulation.stop();
 		}
 	}
