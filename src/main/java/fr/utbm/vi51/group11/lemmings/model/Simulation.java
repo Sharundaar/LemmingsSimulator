@@ -52,7 +52,7 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 
 	private float				m_speedMultiplicator	= 1.0f;
 
-	private HumanActor			m_humanActor;
+	private final HumanActor	m_humanActor;
 
 	private QLearning			m_qlearning;
 
@@ -77,6 +77,7 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 		m_environment = new Environment(_levelProperties, this);
 		m_environment.addEntityCreatedListener(this);
 		m_environment.addEntityDestroyedListener(this);
+		m_humanActor = new HumanActor(this);
 
 		s_LOGGER.debug("Simulation created.");
 	}
@@ -107,10 +108,9 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 
 		m_keyboardAgent = new KeyboardAgent();
 		m_keyboardAgent.enable(true);
-		m_environment.getGraphicsEngine().addKeyListener(m_keyboardAgent);
 		m_agents.add(m_keyboardAgent);
 
-		m_humanActor = new HumanActor(this);
+		m_environment.getGraphicsEngine().addKeyListener(m_keyboardAgent);
 		m_environment.getGraphicsEngine().addMouseListener(m_humanActor);
 	}
 
