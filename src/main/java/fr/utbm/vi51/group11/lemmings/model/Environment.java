@@ -243,7 +243,13 @@ public class Environment
 	public List<IPerceivable> getPerceptions(
 			final Body _body)
 	{
-		return null; // TODO
+		List<IPerceivable> result = new LinkedList<IPerceivable>();
+		for(CollisionShape shape : m_physicEngine.getCollidingObjects(_body.getFrustrum().getShape()))
+		{
+			if(shape.getProperty() != null && shape.getProperty().getEntity() != null)
+				result.add(shape.getProperty().getEntity());
+		}
+		return result; // TODO
 	}
 
 	/*----------------------------------------------*/

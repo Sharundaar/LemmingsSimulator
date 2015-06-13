@@ -72,7 +72,6 @@ public class PhysicEngine
 			final CollisionMask _m1,
 			final CollisionMask _m2)
 	{
-		/** TODO */
 		return _m1.collide(_m2);
 	}
 
@@ -113,11 +112,9 @@ public class PhysicEngine
 
 	/* --------------------------------------------------- */
 
-	public LinkedList<CollisionShape> getCollidingEntities()
+	public CollidingObjectsSet getCollidingEntities()
 	{
-		LinkedList<CollisionShape> result = new LinkedList<CollisionShape>();
-
-		return result;
+		return m_quadTree.getCollidingObjects(null);
 	}
 
 	/* --------------------------------------------------- */
@@ -176,6 +173,14 @@ public class PhysicEngine
 			_ent.getSpeed().setY(UtilsLemmings.s_maximumFallingSpeed);
 		if (_ent.getSpeed().getY() < -UtilsLemmings.s_maximumFallingSpeed)
 			_ent.getSpeed().setY(-UtilsLemmings.s_maximumFallingSpeed);
+	}
+	
+	public LinkedList<CollisionShape> getCollidingObjects(CollisionShape _shape)
+	{
+		if(_shape == null)
+			return new LinkedList<CollisionShape>();
+		else
+			return m_quadTree.getCollidingObjects(_shape, null);
 	}
 
 	/* --------------------------------------------------- */

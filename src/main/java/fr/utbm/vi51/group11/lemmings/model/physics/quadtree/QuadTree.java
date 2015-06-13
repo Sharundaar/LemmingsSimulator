@@ -244,6 +244,36 @@ public class QuadTree
 		// TODO Auto-generated method stub
 		return m_rootNode;
 	}
+	
+	public LinkedList<CollisionShape> getCollidingObjects(CollisionShape _shape, LinkedList<CollisionShape> _out)
+	{
+		if(_out == null)
+			_out = new LinkedList<>();
+		getCollidingObjects(_shape, getRootNode(), _out);
+		return _out;
+	}
+	
+	private void getCollidingObjects(CollisionShape _shape, QuadTreeNode _n, LinkedList<CollisionShape> _out)
+	{
+		if(!_n.getShape().collide(_shape))
+			return;
+		
+		if(_n.isLeaf())
+		{			
+			for(CollisionShape shape : _n.getElements())
+			{
+				if(_shape.collide(shape))
+					_out.add(shape);
+			}
+		}
+		else
+		{
+			getCollidingObjects(_shape, _n.getNE(), _out);
+			getCollidingObjects(_shape, _n.getNW(), _out);
+			getCollidingObjects(_shape, _n.getSE(), _out);
+			getCollidingObjects(_shape, _n.getSW(), _out);
+		}
+	}
 
 	public CollidingObjectsSet getCollidingObjects(
 			CollidingObjectsSet _out)

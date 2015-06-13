@@ -36,6 +36,16 @@ public abstract class WorldEntity implements IPerceivable
 	{
 		return m_type;
 	}
+	
+	/*----------------------------------------------*/
+
+	/**
+	 * @return copy of the coordinates.
+	 */
+	public Point2f getWorldCoordinates()
+	{
+		return new Point2f(m_worldCoords);
+	}
 
 	/*----------------------------------------------*/
 

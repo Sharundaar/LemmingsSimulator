@@ -4,6 +4,7 @@ import java.awt.geom.Point2D;
 import java.util.Iterator;
 
 import fr.utbm.vi51.group11.lemmings.model.Environment;
+import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionShape;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
 
 /**
@@ -20,20 +21,10 @@ import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
  */
 public abstract class Frustrum
 {
-
-	/**
-	 * Abstract method that allows the user to get a certain iterator that
-	 * allows to get perceived objects inside the environment and its defined
-	 * frustrum.
-	 * 
-	 * @param _position
-	 *            Position of the body requesting an iterator.
-	 * @param _environment
-	 *            Environment containing all the bodies.
-	 * @return List of perceivable objects by the body linked with his
-	 *         frustrum.
-	 */
-	public abstract Iterator<IPerceivable> iterator(
-			Point2D _position,
-			Environment _environment);
+	protected CollisionShape m_shape;
+	
+	public CollisionShape getShape()
+	{
+		return m_shape;
+	}
 }

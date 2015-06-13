@@ -12,13 +12,16 @@ import fr.utbm.vi51.group11.lemmings.gui.texture.Animation;
 import fr.utbm.vi51.group11.lemmings.gui.texture.Sprite;
 import fr.utbm.vi51.group11.lemmings.model.Environment;
 import fr.utbm.vi51.group11.lemmings.model.physics.properties.CollisionProperty;
+import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CircleShape;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.CollisionMask;
 import fr.utbm.vi51.group11.lemmings.model.physics.shapes.RectangleShape;
 import fr.utbm.vi51.group11.lemmings.utils.enums.AnimationState;
 import fr.utbm.vi51.group11.lemmings.utils.enums.WorldEntityEnum;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.ICollidable;
 import fr.utbm.vi51.group11.lemmings.utils.interfaces.IPerceivable;
+import fr.utbm.vi51.group11.lemmings.utils.misc.Frustrum;
 import fr.utbm.vi51.group11.lemmings.utils.misc.Influence;
+import fr.utbm.vi51.group11.lemmings.utils.misc.LemmingFrustrum;
 import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 
 public class LemmingBody extends Body implements ICollidable
@@ -70,6 +73,8 @@ public class LemmingBody extends Body implements ICollidable
 		m_influences = new LinkedList<Influence>();
 
 		m_mass = UtilsLemmings.s_lemmingMass;
+		
+		m_frustrum = new LemmingFrustrum(new CircleShape(UtilsLemmings.s_tileWidth*3, null));
 
 		s_LOGGER.debug("Lemming Body created.");
 	}
