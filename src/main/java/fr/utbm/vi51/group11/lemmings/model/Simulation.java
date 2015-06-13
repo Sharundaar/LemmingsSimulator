@@ -178,6 +178,7 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 	public void update(
 			long _dt)
 	{
+		m_humanActor.update();
 		if (_dt > MAXIMUM_DELTA_TIME)
 		{
 			s_LOGGER.debug("Maximum delta reach (dt: {}) safety clamping delta.", _dt);
