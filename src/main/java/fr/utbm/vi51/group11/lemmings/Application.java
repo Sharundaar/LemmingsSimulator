@@ -64,9 +64,9 @@ public class Application implements Observer
 
 		m_simulation.getEnvironment().setMainFrame(m_gui);
 
-		m_simulation.loop();
+		m_simulation.start();
 
-		m_simulation.destroy();
+		m_simulation.clear();
 
 		m_gui.dispose();
 		destroyApplication();
@@ -98,8 +98,8 @@ public class Application implements Observer
 			/* Stopping the simulation. */
 		} else
 		{
-			m_simulation.stopRunning();
 			m_simulation.stopSimulating();
+			m_simulation.stopRunning();
 		}
 	}
 }

@@ -115,53 +115,61 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 	}
 
 	/*----------------------------------------------*/
+
+	public void start()
+	{
+		s_LOGGER.debug("Simulation starting...");
+
+		while (m_simulating)
+		{
+			loop();
+
+			/* if still simulating, it indicates a level changing request. */
+			if (m_simulating)
+				changeLevel();
+		}
+	}
+
 	public void loop()
 	{
 		s_LOGGER.debug("Loop start.");
 
-		while (m_simulating)
+		initialize();
+
+		m_running = true;
+
+		long start = 0;
+		long end = System.currentTimeMillis();
+		long dt = 0;
+		long fps_timer = 0;
+		short fps_count = 0;
+		while (m_running)
 		{
-			initialize();
+			start = System.currentTimeMillis();
+			if (!m_pause)
+				update((long) (m_speedMultiplicator * dt));
+			draw();
 
-			m_running = true;
-
-			long start = 0;
-			long end = System.currentTimeMillis();
-			long dt = 0;
-			long fps_timer = 0;
-			short fps_count = 0;
-			while (m_running)
+			try
 			{
-				start = System.currentTimeMillis();
-				if (!m_pause)
-					update((long) (m_speedMultiplicator * dt));
-				draw();
-
-				try
-				{
-					if ((System.currentTimeMillis() - start) < 17)
-						Thread.sleep(17 - (System.currentTimeMillis() - start));
-				} catch (InterruptedException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				end = System.currentTimeMillis();
-
-				dt = end - start;
-
-				fps_timer += dt;
-				fps_count++;
-				if (fps_timer >= 1000)
-				{
-					s_LOGGER.debug("FPS: {}.", fps_count);
-					fps_timer = 0;
-					fps_count = 0;
-				}
+				if ((System.currentTimeMillis() - start) < 17)
+					Thread.sleep(17 - (System.currentTimeMillis() - start));
+			} catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			if (m_simulating)
+			end = System.currentTimeMillis();
+
+			dt = end - start;
+
+			fps_timer += dt;
+			fps_count++;
+			if (fps_timer >= 1000)
 			{
-				changeLevel();
+				s_LOGGER.debug("FPS: {}.", fps_count);
+				fps_timer = 0;
+				fps_count = 0;
 			}
 		}
 	}
@@ -231,7 +239,7 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 	/**
 	 * Method used to destroy the simulation and all of its content.
 	 */
-	public void destroy()
+	public void clear()
 	{
 		m_agents.clear();
 		m_environment.destroy();
@@ -356,14 +364,12 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 				.getGraphicsEngine());
 
 		gui.clearFrame();
+		clear();
 
-		m_environment.destroy();
 		m_environment = new Environment(m_currentLevelProperties, this);
 		m_environment.setMainFrame(gui);
 		gui.initialize(this, UtilsLemmings.s_tileWidth * m_currentLevelProperties.getNbCol(),
 				UtilsLemmings.s_tileHeight * m_currentLevelProperties.getNbRow());
-
-		m_agents.clear();
 
 		s_LOGGER.debug("Simulation restarted.");
 	}
