@@ -50,6 +50,8 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 	private HumanActor			m_humanActor;
 	
 	private QLearning m_qlearning;
+	
+	private boolean m_pause = false;
 
 	/*----------------------------------------------*/
 
@@ -119,7 +121,8 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 		while (m_running)
 		{
 			start = System.currentTimeMillis();
-			update((long) (m_speedMultiplicator * dt));
+			if(!m_pause)
+				update((long) (m_speedMultiplicator * dt));
 			draw();
 
 			try
@@ -244,5 +247,18 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 			la.enable(true);
 			m_agents.add(la);
 		}
+	}
+
+	public void setPause(boolean b) {
+		m_pause = b;
+	}
+
+	public void togglePause() {
+		m_pause = !m_pause;
+	}
+
+	public boolean isPaused() {
+		// TODO Auto-generated method stub
+		return m_pause;
 	}
 }

@@ -37,6 +37,7 @@ public class MainFrame extends GUI implements ActionListener
 	private JButton					m_BHalfSpeed;
 	private JButton					m_BNormalSpeed;
 	private JButton					m_BDoubleSpeed;
+	private JButton					m_BPauseButton;
 
 	private final BorderLayout		m_mainLayout;
 
@@ -84,14 +85,17 @@ public class MainFrame extends GUI implements ActionListener
 		m_BHalfSpeed = new JButton("* 0.5");
 		m_BNormalSpeed = new JButton("* 1.0");
 		m_BDoubleSpeed = new JButton("* 2.0");
+		m_BPauseButton = new JButton("Pause");
 
 		m_BHalfSpeed.addActionListener(this);
 		m_BNormalSpeed.addActionListener(this);
 		m_BDoubleSpeed.addActionListener(this);
+		m_BPauseButton.addActionListener(this);
 
 		m_PSpeedButtonPanel.add(m_BHalfSpeed);
 		m_PSpeedButtonPanel.add(m_BNormalSpeed);
 		m_PSpeedButtonPanel.add(m_BDoubleSpeed);
+		m_PSpeedButtonPanel.add(m_BPauseButton);
 		((FlowLayout) m_PSpeedButtonPanel.getLayout()).setAlignment(FlowLayout.LEADING);
 	}
 
@@ -156,6 +160,19 @@ public class MainFrame extends GUI implements ActionListener
 		if (arg0.getSource() == m_BDoubleSpeed)
 		{
 			m_simulator.setSpeedMultiplicator(2.0f);
+		}
+		if(arg0.getSource() == m_BPauseButton)
+		{
+			m_simulator.togglePause();
+			
+			if(m_simulator.isPaused())
+			{
+				m_BPauseButton.setText("Play");
+			}
+			else
+			{
+				m_BPauseButton.setText("Pause");
+			}
 		}
 
 		m_graphicsEngine.requestFocus();
