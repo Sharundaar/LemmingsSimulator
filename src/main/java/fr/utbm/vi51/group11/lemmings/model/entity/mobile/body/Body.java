@@ -277,7 +277,7 @@ public abstract class Body extends DynamicEntity implements IControllable
 		switch (m_state)
 		{
 			case CLIMBING:
-				if ((signX == -1))
+				if (signX == -1)
 				{
 					if (signY != 0)
 						return getAnimationFromState(animationList, AnimationState.CLIMBING_LEFT);

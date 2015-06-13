@@ -62,8 +62,7 @@ public class Map extends WorldEntity implements ITextureHandler
 
 		this.m_worldCoords = new Point2f(0, 0);
 
-		TextureBank.getInstance().getTexture(_levelProperties.getTileSpriteSheet(), this);
-
+		TextureBank.getInstance().getTexture("levelSpriteSheet", this);
 		m_image = new BufferedImage(_levelProperties.getNbCol() * UtilsLemmings.s_tileWidth,
 				_levelProperties.getNbRow() * UtilsLemmings.s_tileHeight, TYPE_ARGB);
 		m_imageGraphics = m_image.createGraphics();

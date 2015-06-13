@@ -58,7 +58,7 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 
 	private boolean				m_pause					= false;
 
-	private KeyboardAgent		m_keyboardAgent;
+	private final KeyboardAgent	m_keyboardAgent;
 
 	private LevelProperties		m_currentLevelProperties;
 
@@ -72,12 +72,12 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 	{
 		s_LOGGER.debug("Creation of the Simulation...");
 
-		m_agents = new ArrayList<Agent>();
 		m_currentLevelProperties = _levelProperties;
 		m_environment = new Environment(_levelProperties, this);
-		m_environment.addEntityCreatedListener(this);
-		m_environment.addEntityDestroyedListener(this);
+
 		m_humanActor = new HumanActor(this);
+		m_keyboardAgent = new KeyboardAgent();
+		m_agents = new ArrayList<Agent>();
 
 		s_LOGGER.debug("Simulation created.");
 	}
@@ -93,6 +93,8 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 	/*----------------------------------------------*/
 	public void initialize()
 	{
+		m_environment.addEntityCreatedListener(this);
+		m_environment.addEntityDestroyedListener(this);
 
 		m_qlearning = new QLearning(m_environment, 0.70, 0.50, 0.0);
 
@@ -106,7 +108,6 @@ public class Simulation implements IEntityDestroyedListener, IEntityCreatedListe
 			}
 		}
 
-		m_keyboardAgent = new KeyboardAgent();
 		m_keyboardAgent.enable(true);
 		m_agents.add(m_keyboardAgent);
 

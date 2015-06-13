@@ -1,8 +1,8 @@
 package fr.utbm.vi51.group11.lemmings.model;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.slf4j.Logger;
@@ -42,8 +42,8 @@ import fr.utbm.vi51.group11.lemmings.utils.statics.UtilsLemmings;
 public class Environment
 {
 	/** Logger of the class */
-	private final static Logger							s_LOGGER					= LoggerFactory
-																							.getLogger(Environment.class);
+	private final static Logger							s_LOGGER				= LoggerFactory
+																						.getLogger(Environment.class);
 
 	/** Time of the environment in milliseconds */
 	private long										m_environmentTime;
@@ -61,19 +61,19 @@ public class Environment
 	private final PhysicEngine							m_physicEngine;
 
 	/** List containing all of the world entities of the simulation */
-	public ArrayList<WorldEntity>						m_worldEntities;
+	public List<WorldEntity>							m_worldEntities;
 
 	/** Influence solver */
 	private final InfluenceSolver						m_influenceSolver;
 
-	private final LinkedList<IEntityDestroyedListener>	m_entityDestroyedListener	= new LinkedList<IEntityDestroyedListener>();
-	private final LinkedList<IEntityCreatedListener>	m_entityCreatedListener		= new LinkedList<IEntityCreatedListener>();
+	private final LinkedList<IEntityDestroyedListener>	m_entityDestroyedListener;
+	private final LinkedList<IEntityCreatedListener>	m_entityCreatedListener;
 
-	private final LinkedList<BodyStateChangeRequest>	m_changeBodyStateRequest	= new LinkedList<Environment.BodyStateChangeRequest>();
+	private final LinkedList<BodyStateChangeRequest>	m_changeBodyStateRequest;
 
-	private int											m_levelSpawnedLemming		= 0;
+	private int											m_levelSpawnedLemming	= 0;
 
-	private boolean										m_gameOver					= false;
+	private boolean										m_gameOver				= false;
 
 	class BodyStateChangeRequest
 	{
@@ -99,11 +99,15 @@ public class Environment
 		int height = UtilsLemmings.s_tileHeight * rowNb;
 
 		/* Instantiates attributes */
+		m_entityDestroyedListener = new LinkedList<IEntityDestroyedListener>();
+		m_entityCreatedListener = new LinkedList<IEntityCreatedListener>();
+		m_changeBodyStateRequest = new LinkedList<Environment.BodyStateChangeRequest>();
+
 		m_environmentTime = 0;
 		m_map = new Map(_currentLevelProperties, this);
 		m_physicEngine = new PhysicEngine(width, height);
 
-		m_worldEntities = new ArrayList<WorldEntity>();
+		m_worldEntities = new CopyOnWriteArrayList<WorldEntity>();
 
 		WorldEntity worldEntity = null;
 		/* Creates the world entities from the configuration file. */
@@ -288,7 +292,7 @@ public class Environment
 		m_physicEngine.computeMovements(_dt);
 		m_physicEngine.updateQuadTree();
 		m_physicEngine.solveCollisions();
-		// m_physicEngine.updateSpeed(bodies);
+		m_physicEngine.updateSpeed(bodies);
 
 		updateBodyStates(bodies);
 

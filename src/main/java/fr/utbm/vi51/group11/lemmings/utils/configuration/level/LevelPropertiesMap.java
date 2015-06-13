@@ -51,9 +51,11 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 
 		NodeList nodeList;
 		NodeList levelList;
+		NodeList spriteSheetList;
 		String tempString = "";
 		String tileSpriteSheet = "";
 		String id;
+		String tempTextureID = "";
 		int nbRow, nbCol;
 		int[][] tileGrid;
 		Set<String> textureIDs = new HashSet<String>();
@@ -76,6 +78,16 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 
 			XPath xpath = XPathFactory.newInstance().newXPath();
 
+			spriteSheetList = (NodeList) xpath.compile("levels/spriteSheets/spriteSheet").evaluate(
+					document, XPathConstants.NODESET);
+
+			/* Retrieves the spritesheets. */
+			for (int i = 0; i < spriteSheetList.getLength(); ++i)
+			{
+				/* Retrieves and add the spriteSheet. */
+				textureIDs.add(spriteSheetList.item(i).getTextContent());
+			}
+
 			levelList = (NodeList) xpath.compile("levels/level").evaluate(document,
 					XPathConstants.NODESET);
 
@@ -89,12 +101,6 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 				worldEntitiesConfiguration = new MultivaluedMapImpl<String, WorldEntityConfiguration>();
 				/* Gets the ID of the level. */
 				id = levelList.item(index).getAttributes().item(0).getTextContent();
-
-				/* Retrieves the tilespriteSheet. */
-				tileSpriteSheet = (String) xpath.compile(
-						"levels/level[@id='" + id + "']/tileSpriteSheet").evaluate(document,
-						XPathConstants.STRING);
-				textureIDs.add(tileSpriteSheet);
 
 				/* Retrieves the Texture tile grid of the map */
 				tempString = StringUtils.removePattern(
@@ -148,10 +154,11 @@ public class LevelPropertiesMap extends HashMap<String, LevelProperties>
 
 						/*
 						 * Adds the textureID to the list given afterwards to
-						 * the
-						 * textureBank
+						 * the textureBank if it does not already exist.
 						 */
-						textureIDs.add(nodeList.item(i).getChildNodes().item(5).getTextContent());
+						tempTextureID = nodeList.item(i).getChildNodes().item(5).getTextContent();
+						if (!textureIDs.contains(tempTextureID))
+							textureIDs.add(tempTextureID);
 					}
 				}
 

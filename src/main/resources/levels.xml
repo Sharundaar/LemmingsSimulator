@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <levels>
+	<spriteSheets>
+		<spriteSheet>levelSpriteSheet</spriteSheet>
+		<spriteSheet>entitySpriteSheet</spriteSheet>
+		<spriteSheet>worldEntitySpriteSheet</spriteSheet>
+	</spriteSheets>
 	<level id="levelTest">
-
-		<tileSpriteSheet>levelSpriteSheet</tileSpriteSheet>
 
 		<!-- List of tiles Texture for the grid -->
 		<tileGrid>
@@ -107,11 +110,11 @@
 				<y>608</y>
 				<textureID>worldEntitySpriteSheet</textureID>
 			</worldEntity>
-			<worldEntity id="LEMMING_BODY">
-				<x>56</x>
-				<y>70</y>
-				<textureID>entitySpriteSheet</textureID>
-			</worldEntity>
+<!-- 			<worldEntity id="LEMMING_BODY"> -->
+<!-- 				<x>56</x> -->
+<!-- 				<y>70</y> -->
+<!-- 				<textureID>entitySpriteSheet</textureID> -->
+<!-- 			</worldEntity> -->
 <!-- 			<worldEntity id="LEMMING_BODY"> -->
 <!-- 				<x>352</x> -->
 <!-- 				<y>84</y> -->
